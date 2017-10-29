@@ -1,7 +1,8 @@
 {% extends "app/layout.html" %} {% block content %} {% load staticfiles %}
 <!-- <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
     <link rel="stylesheet" href="assets/css/styles.css"> -->
-<link rel="stylesheet" type="text/css" href="{% static 'app/css/login.css' %}" /> {% if user.is_authenticated %}
+<link rel="stylesheet" type="text/css" href="{% static 'app/css/login.css' %}" /> 
+{% if user.is_authenticated %}
 <form id="logoutForm" action="/logout" method="post" class="navbar-right">
     {% csrf_token %}
     <ul class="nav navbar-nav navbar-right">
