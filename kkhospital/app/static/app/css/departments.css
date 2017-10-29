@@ -1,0 +1,124 @@
+div#head {
+	background-color: #c0dfd9;
+	font-size: 20px;
+	text-align: center;
+	width: 300px;
+}
+
+span#head {
+	font-size: 20px;
+	height: 30px;
+}
+
+div#crossline {
+	background-color: #8dd9ca;
+	height: 5px;
+	border-radius: 5px;
+}
+div#allpage{
+	margin-top: 40px;
+	margin-bottom: 40px;
+}
+
+div#box {
+	border: solid #c0dfd9;
+	font-size: 16px;
+	border-width: 1px;
+	padding-bottom: 15px;
+}
+
+ul.department-ul {
+	margin: 0.75em 0;
+	padding: 0 1em;
+	list-style: none;
+}
+
+li.department-li:before {
+	content: "";
+	border-color: transparent #4A4646;
+	border-style: solid;
+	border-width: 0.35em 0 0.35em 0.45em;
+	display: block;
+	height: 0;
+	width: 0;
+<<<<<<< HEAD
+	left: 2em;
+	top: 1em;
+	position: relative;
+}
+
+span2 {
+=======
+	left: -1em;
+	top: 0.9em;
+	position: relative;
+}
+
+div#span1 {
+	background-color: #c0dfd9;
+	font-size: 20px;
+	/*text-align: center;*/
+	width: 300px;
+	height: 40px;
+	padding: 7px 0 0 20px;
+	border-top-left-radius: 5px;
+	border-top-right-radius: 5px;
+}
+
+div#span2 {
+>>>>>>> 685983407efc8303290c6ec53d65a0eac90a92a7
+	font-size: 18px;
+}
+
+div.div1 {
+	border: solid;
+	border-color: #8dd9ca;
+	text-align: left;
+}
+
+div.div2 {
+	height: 5px;
+	width: 800px;
+	border: solid;
+}
+
+div.div3 {
+	border: solid;
+}
+
+.department-span {
+	margin-left: 20px;
+	text-decoration: none;
+	color: #3b3a36;
+}
+
+@media (max-width: 767px) {
+	div#span1{
+		width: 100%;
+	}
+}
+
+div.img-top-slider{
+  height:400px;
+  background:#fff url("http://i0.wp.com/static.turbosquid.com/Preview/2015/07/30__09_09_33/01.jpg3e3244be-caa3-4644-aa4c-790cf7d365ccOriginal.jpg?quality=80&strip=all") no-repeat center center;
+  width:100%;
+	text-align: center;
+	padding-top: 200px;
+}
+
+.div-button-middle{
+	margin: auto;
+	border: #3b3a36 1px solid;
+	width: 150px;
+	font-size: 16px;
+	height: 30px;
+	padding-top: 2px;
+	border-radius: 5px;
+	color: #3b3a36;
+	background-color: rgba(255, 255, 255, 0.7);
+}
+
+.div-button-middle:hover{
+	background-color: #fff;
+	cursor: pointer;
+}

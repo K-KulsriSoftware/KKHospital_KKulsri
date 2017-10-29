@@ -1,0 +1,73 @@
+div.body-big{
+  width:94%;
+  margin-left:3%;
+  margin-top:20px;
+  height:100%;
+}
+
+div.img-top-slider{
+  height:400px;
+  background:#7ec5ca url("http://i0.wp.com/static.turbosquid.com/Preview/2015/07/30__09_09_33/01.jpg3e3244be-caa3-4644-aa4c-790cf7d365ccOriginal.jpg?quality=80&strip=all") no-repeat center center;
+  width:100%;
+}
+
+div.tab-title-addons{
+  height:35px;
+  background-color:#8dd9ca;
+  text-align:center;
+}
+
+div.row-data{
+  height:50px;
+  border-bottom-color:#ddd;
+  border-bottom-style:solid;
+  border-bottom-width:1px;
+}
+
+div.detail-conditions{
+  height:100%;
+  background-color:#fff;
+  margin-top:30px;
+  margin-bottom:50px;
+  font-size:16px;
+}
+
+div.row-data-name{
+  width:89%;
+  display:inline-block;
+  float:left;
+  margin-top:12px;
+  padding-left:10px;
+}
+
+div.row-data-button{
+  float:left;
+  display:inline-block;
+  width:10%;
+  margin-top:7px;
+  text-align:center;
+}
+
+button.btn.btn-default{
+  width:100%;
+}
+
+span.row-data-name-span{
+  font-size:16px;
+}
+
+div.table-data-row{
+  background-color:#fff;
+}
+
+@media (max-width:700px){
+  .choosebtn{
+    display:none;
+  }
+}
+
+@media (min-width:700px){
+  .icon-choobtn {
+    display:none;
+  }
+}

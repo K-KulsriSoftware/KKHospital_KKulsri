@@ -1,0 +1,50 @@
+{% extends "app/layout.html" %}
+
+{% block content %}
+    {% load staticfiles %}
+    <link rel="stylesheet" type="text/css" href="{% static 'app/css/doctor.css' %}" />
+    <div class="container">
+    {% for department in departments %}
+        <div>
+            <div class="row" id="depart">
+                <div class="col-lg-3 col-md-4 col-sm-5 col-xs-12 div-title-department" id="department">
+                    <span class="doc-page">{{ department.department_name }}</span></div>
+            </div>
+        </div>
+        <div class="div-detail-department">
+            <div class="row" id="con_dep">
+                <div class="col-md-12">
+                    <p class="doc-page">{{ department.department_description }}</p>
+                </div>
+            </div>
+            <div class="row" style="width: 100%; margin-left:0px;">
+                {% for doctor in department.doctors %}
+                <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12 person">
+                    <div class="row">
+                        <div class="col-md-12 doc_info">
+                            <img id="doc-img" src="{{ doctor.doctor_img }}">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12 doc_info">
+                            <p class="doc-page">{{ doctor.doctor_name_title }}{{ doctor.doctor_name }} {{ doctor.doctor_name_surname }} </p>
+                            <p class="doc-page">แพทย์ผู้เชื่ยวชาญพิเศษ </p>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12 doc_info" id="button">
+                            <form action="." method="POST">
+                                {% csrf_token %}
+                                <input type="hidden" name="doctor_id" value="{{ doctor.doctor_id }}">
+                                <input type="hidden" name="package_id" value="{{ department.package_id }}">
+                                <button class="btn btn-default my-btn" type="submit" id="de_doc">ดูรายละเอียดเพิ่มเติม</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+      {% endfor %}
+    </div>
+{% endblock %}

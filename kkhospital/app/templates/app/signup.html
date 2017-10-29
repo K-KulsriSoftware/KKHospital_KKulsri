@@ -1,0 +1,60 @@
+{% extends 'app/layout.html' %}
+
+{% load staticfiles %}
+
+{% block content %}
+
+<h1>ลงทะเบียนใช้งาน</h1>
+
+<p>มีบัญชีแล้วหรือเปล่า ? กรุณา
+    <a href="{% url 'login' %}">ลงชื่อเข้าใช้</a>.</p>
+
+<form id="signup_form" method="post" action=".">
+    {% csrf_token %}
+    <div class="form-group">
+        <label class="control-label  " for="id_username">Username</label>
+        <div class=" ">
+            <input type="text" name="username" maxlength="150" autofocus="" class=" form-control" required="" id="id_username">
+            <p class="help-block">
+                ตัวอักษรภาษาอังกฤษเท่านั้น
+            </p>
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label  " for="id_password1">Password</label>
+        <div class=" ">
+            <input type="password" name="password1" class=" form-control" required="" id="id_password1">
+            <p class="help-block">
+            </p>
+            <!-- <ul>
+                <li>Your password can't be too similar to your other personal information.</li>
+                <li>Your password must contain at least 8 characters.</li>
+                <li>Your password can't be a commonly used password.</li>
+                <li>Your password can't be entirely numeric.</li>
+            </ul> -->
+            <p></p>
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label  " for="id_password2">Password confirmation</label>
+        <div class=" ">
+            <input type="password" name="password2" class=" form-control" required="" id="id_password2">
+            <!-- <p class="help-block">
+                Enter the same password as before, for verification.
+            </p> -->
+        </div>
+    </div>
+    <div class="form-actions">
+        <button class="btn btn-primary" type="submit">Sign Up</button>
+    </div>
+</form>
+{% endblock %}
+
+{% block scripts %}
+<script src="{% static 'app/scripts/signup.js' %}"></script>
+{% if alert %}
+    <script>
+        alert('{{ alert }}')
+    </script>
+{% endif %}
+{% endblock %}

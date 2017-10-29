@@ -1,0 +1,175 @@
+{% extends "app/layout.html" %}
+
+{% block content %}
+{% load staticfiles %}
+    <!-- <link rel="stylesheet" href="assets/css/styles.css">
+    <link rel="stylesheet" href="assets/css/untitled.css"> -->
+    <link rel="stylesheet" type="text/css" href="{% static 'app/css/register-styles.css' %}" />
+    <div class="title-register">
+        <h1 class="text-muted title-registerm">ระบบสมัครสมาชิก </h1></div>
+    <form action="." method="POST">
+        {% csrf_token %}
+        <div class="edge-top">
+            <div class="tab-top"></div>
+            <div class="box-content">
+                <!-- <div class="col1">
+                    <div class="box-username"><span>username</span></div>
+
+                    <div class="us">
+                        <input type="text" id="iUsername" class="inuser" name="username">
+                    </div>
+                </div>
+                <div class="col1">
+                        <div class="box-password"><span>password </span></div>
+                        <div class="us">
+                            <input type="password" id="iPassword" class="inuser">
+                        </div>
+                </div>
+                <div class="col1">
+                        <div class="box-confirm-password"><span>confirm password </span></div>
+
+                        <div class="us">
+                            <input type="password" id="iConfirmPassword" class="inuser">
+                        </div>
+                    </div> -->
+                <div class="col1">
+                    <div class="box-id-card-number"><span>เลขประจำตัวประชาชน </span></div>
+
+                    <div class="id">
+                        <input type="text" id="iIDCard" class="inid" name="id_card_number">
+                    </div>
+                </div>
+                <div class="col1">
+                    <div class="box-patient-name-title"><span>คำนำหน้า </span></div>
+                    <div class="mr">
+                        <input type="text" id="iMr" class="inmr" name="patient_name_title">
+                    </div>
+                    <div class="box-patient-name"><span>ชื่อ </span>
+                        <input type="text" id="iName" class="inname" name="patient_name">
+                    </div>
+                    <div class="box-patient-surname"><span>นามสกุล </span>
+                        <input type="text" id="iSurname" class="insurname" name="patient_surname">
+                    </div>
+                </div>
+                <div class="col1">
+                    <div class="box-patient-name-title"><span>วันเกิด </span></div>
+                    <!--div class="box-birthday">
+                        <input type="date" id="iBirthday" class="inbirth" name="">
+                    </div-->
+                    <div class="box-birthday">
+                        <input type="text" id="iMonth" class="inbirth" name="birthday_month" placeholder="วว">
+                        <input type="text" id="iDay" class="inbirth" name="birthday_day" placeholder="ดด">
+                        <input type="text" id="iYear" class="inyear" name="birthday_year" placeholder="คศ">
+                    </div>
+                    <!-- <div class="box-age"><span>อายุ</span>
+                        <input type="number" id="iAge" class="inold" name="">
+                    </div> -->
+                    <div class="box-gender"><span>เพศ</span>
+                        <input type="text" id="iSex" class="insex" name="gender">
+                    </div>
+                    <div class="box-blood"><span>หมู่เลือด </span>
+                        <input type="text" id="iBlood" class="inblood" name="blood_group_abo" placeholder="O/A/B/AB">
+                    </div>
+                    <div class="box-rh"><span>Rh </span>
+                        <input type="text" id="iRh" class="inrh" name="blood_group_rh" placeholder="+/-">
+                    </div>
+                </div>
+                <div class="col1">
+                    <div class="box-patient-name-title"><span>เชื้อชาติ </span></div>
+                    <div class="dnational">
+                        <input type="text" id="iRace" class="innational" name="race">
+                    </div>
+                    <div class="box-nationality"><span>สัญชาติ </span>
+                        <input type="text" id="iNationality" class="innationn" name="nationallity">
+                    </div>
+                    <div class="box-religion"><span>ศาสนา </span>
+                        <input type="text" id="iReligious" class="inregion" name="religion">
+                    </div>
+                    <div class="box-status"><span>สถานภาพ</span>
+                        <select id="iNow" class="innow" name="Status">
+                            <optgroup label="สถานภาพปัจจุบัน">
+                                <option value="12" selected="">โสด</option>
+                                <option value="13">สมรส</option>
+                                <option value="14">หม้าย</option>
+                                <option value="">หย่า</option>
+                                <option value="">แยกกันอยู่</option>
+                            </optgroup>
+                        </select>
+                    </div>
+                </div>
+                <div class="col1">
+                    <div class="box-patient-name-title"><span>อาชีพ </span></div>
+                    <div class="dcareer">
+                        <input type="text" id="iCareer" class="incareer" name="occupy">
+                    </div>
+                    <div class="box-occupy"><span>ที่อยู่ </span>
+                        <input type="text" id="iLive" class="inlive" name="pateint_address">
+                    </div>
+                </div>
+                <!-- <div class="col1">
+                    <div class="box-occupy-continue">
+                        <input type="text" id="iLive2" class="inlive2" name="pateint_address">
+                    </div>
+                </div> -->
+                <div class="col1">
+                    <div class="box-congenital-disease"><span>โรคประจำตัว </span>
+                        <input type="text" id="iLok" class="inlok" name="congenital_disease">
+                    </div>
+                    <div class="box-email"><span>E-mail </span>
+                        <input type="email" id="iEmail" class="inemail" name="email">
+                    </div>
+                </div>
+                <div class="col1">
+                    <div class="box-telphone-number"><span>เบอร์โทร </span>
+                        <input type="tel" id="iTel" class="intel" name="telphone_number">
+                    </div>
+                </div>
+                <div class="col1">
+                    <div class="box-father-name"><span>ชื่อ-นามสกุลของบิดา </span>
+                        <input type="text" id="iFather" class="infather" name="father_name">
+                    </div>
+                </div>
+                <div class="col1">
+                    <div class="dmother"><span>ชื่อ-นามสกุลของมารดา </span>
+                        <input type="text" id="iMother" class="inmother" name="mother_name">
+                    </div>
+                </div>
+                <div class="col1">
+                    <div class="demername"><span>ชื่อผู้ที่ติดต่อได้ฉุกเฉิน </span>
+                        <input type="text" id="iEmerName" class="inemername" name="emergency_name">
+                    </div>
+                    <div class="dtelmer"><span>เบอร์โทรศัพท์ </span>
+                        <input type="tel" id="iEmerTel" class="intelmer" name="emergency_phone">
+                    </div>
+                </div>
+                <div class="col1">
+                    <div class="demerlive"><span>ที่อยู่ของผู้ที่สามารถติดต่อได้ฉุกเฉิน </span>
+                        <input type="text" id="iEmerLive" class="inemerlive" name="emergency_addr">
+                        <div class="col1"></div>
+                    </div>
+                </div>
+                <div class="col1">
+                    <div class="demerlive">
+                        <div class="col1"></div>
+                    </div>
+                </div>
+                <div class="col1 confirmcheckbox">
+                    <div class="daccept">
+                        <input type="checkbox" class="inputplamplamplam" id="confirm-form"><span class="plamplamplam">ข้าพเจ้ายินยอมเปิดเผยข้อมูลการตรวจรักษาของข้าพเจ้าให้แก่ คณะแพทย์ และพยาบาล </span></div>
+                </div>
+                <div class="col1 confirmcheckbox">
+                    <div class="daccept"><span class="plamplamplam">เจ้าหน้าที่และบุคลากรของโรงพยาบาลที่เกี่ยวข้อง ซึ่งมีความจำเป็นในการเข้าถึงข้อมูลของข้าพเจ้า </span></div>
+                </div>
+                <div class="col1">
+                    <button class="btn btn-default button" type="submit">ลงทะเบียน </button>
+                </div>
+                <div class="col1"></div>
+                <div class="col1"></div>
+            </div>
+        </div>
+    </form>
+{% endblock %}
+
+{% block scripts %}
+<script src="{% static 'app/scripts/register.js' %}"></script>
+{% endblock %}

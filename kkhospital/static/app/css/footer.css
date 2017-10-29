@@ -1,0 +1,16 @@
+footer {
+    color: white;
+    background-color: #3b3a36;
+    font-size: 12px;
+    height: 30px;
+    width: 100%;
+    position: absolute;
+    bottom: 0px;
+}
+
+footer > p {
+    line-height: 30px;
+    vertical-align: middle;
+    margin-bottom: 0px;
+    padding: 0px 10px 0px 10px;
+}

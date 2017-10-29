@@ -1,0 +1,65 @@
+{% extends "app/layout.html" %}
+
+{% block content %}
+{% load staticfiles %}
+    <link rel="stylesheet" type="text/css" href="{% static 'app/css/member.css' %}" />
+    <div class="row member">
+        <div class="col-sm-4 member-image-wrapper"><img class="member-image" src="{% if member_detail.patient_img %}{{ member_detail.patient_img }}{% else %}{% static 'app/images/user.jpg' %}{% endif %}"></div>
+        <div class="col-sm-8 member-content">
+            <h3>{{ member_detail.patient_name_title }}{{ member_detail.patient_name }} {{ member_detail.patient_surname }}</h3>
+            <div class="member-content">
+                <div class="row">
+                    <div class="col-xs-4"><span>เลขประจำตัวประชาชน </span></div>
+                    <div class="col-xs-8"><span>{{ member_detail.id_card_number }}</span></div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-4"><span>หมู่เลือด </span></div>
+                    <div class="col-xs-8"><span>{{ member_detail.blood_group_abo }}, {{ member_detail.blood_group_rh }}</span></div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-4"><span>เบอร์โทรศัพท์ </span></div>
+                    <div class="col-xs-8"><span>{{ member_detail.telephone_number }}</span></div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-4"><span>อีเมล </span></div>
+                    <div class="col-xs-8"><span>{{ member_detail.email }}</span></div>
+                </div>
+            </div>
+            <div class="change-info-wrapper">
+                <a href="/member/edit/" style="color: inherit"></ar><button class="btn change-info-btn" type="button">แก้ไขข้อมูลส่วนตัว</button></a>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <h3>รายการแพ็กเกจของฉัน </h3></div>
+    </div>
+    <div class="row schedule-container round-border row-top-margin">
+        <div class="col-xs-12">
+            <div class="table-responsive">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>ชื่อแพ็กเกจ </th>
+                            <th>แพทย์ที่เข้าพบ </th>
+                            <th>วันที่ชำระเงิน </th>
+                            <th>วันนัดหมาย </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% if orders %}
+                            {% for order in orders %}
+                                <tr>
+                                    <td>{{ order.package_name }}</td>
+                                    <td>{{ order.doctor_name_title }}{{ order.doctor_name }} {{ order.doctor_surname }}</td>
+                                    <td>{{ order.bought_time|date:"d/m/Y, H:i" }}</td>
+                                    <td>{{ order.start_time|date:"d/m/Y, H:i" }} - {{ order.finish_time|date:"H:i" }}</td>
+                                </tr>
+                            {% endfor %}
+                        {% endif %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+{% endblock %}
