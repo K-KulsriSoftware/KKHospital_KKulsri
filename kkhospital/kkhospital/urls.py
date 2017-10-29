@@ -19,7 +19,9 @@ from django.contrib import admin
 import app.views
 
 urlpatterns = [
-    url(r'^$', app.views.departments, name='departments'),
+    url(r'^$', app.views.home, name='home'),
+    url(r'^departments/', app.views.departments, name='departments'),
     url(r'^about', app.views.about, name='about'),
     url(r'^admin/', admin.site.urls),
+    url(r'^accounts/', include('allauth.urls')),
 ]

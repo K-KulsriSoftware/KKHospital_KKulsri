@@ -1,10 +1,18 @@
 from django.shortcuts import render
 from django.http import HttpRequest
+from django.shortcuts import redirect
 from django.contrib.auth.decorators import login_required
 from datetime import datetime
 # Create your views here.
 from .API.API import API
 api = API()
+
+
+def home(request):
+    """Renders the home page."""
+    assert isinstance(request, HttpRequest)
+    return redirect('/departments')
+
 
 def departments(request):
     """Renders the about page."""
@@ -23,7 +31,7 @@ def departments(request):
     )
 
 
-@login_required(login_url='/login')
+@login_required(login_url='/accounts/login')
 def about(request):
     """Renders the about page."""
     assert isinstance(request, HttpRequest)

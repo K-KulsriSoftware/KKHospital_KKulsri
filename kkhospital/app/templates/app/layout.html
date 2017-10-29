@@ -28,11 +28,11 @@
                     <li role="presentation"><a href="/departments">แพ็กเกจ</a></li>
                     <li role="presentation"><a href="/doctor">แพทย์</a></li>
                     {% if not logged_user.is_authenticated %}
-                        <li role="presentation"><a href="/signup">สมัครสมาชิก</a></li>
-                        <li role="presentation"><a href="/login">เข้าสู่ระบบ</a></li>
+                        <li role="presentation"><a href="/accounts/signup">สมัครสมาชิก</a></li>
+                        <li role="presentation"><a href="/accounts/login">เข้าสู่ระบบ</a></li>
                     {% else %}
-                        <li role="presentation"><a href="/member">ข้อมูลสมาชิก</a></li>
-                        <li role="presentation"><a href="/logout">ออกจากระบบ</a></li>
+                        <li role="presentation"><a href="/accounts/member">ข้อมูลสมาชิก</a></li>
+                        <li role="presentation"><a href="/accounts/logout">ออกจากระบบ</a></li>
                     {% endif %}
                 </ul>
             </div>
