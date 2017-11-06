@@ -3,9 +3,18 @@
 {% block content %}
     {% load staticfiles %}
     <link rel="stylesheet" type="text/css" href="{% static 'app/css/admin-mongo.css' %}" />
-    <div class="row">
-        <div class="col-md-12">
-            <div class="collection-header-wrapper"><span class="collection-header">Collection: {{ collection_name }}</span></div>
+    {% if collection_name and fields %}
+        <div class="row">
+            <div class="col-md-12">
+                <div class="collection-header-wrapper"><span class="collection-header">Collection: {{ collection_name }}</span></div>
+            </div>
         </div>
-    </div>
+        <br>
+        {% for field in fields %}
+            <div class="form-group">
+                <label for="{{ field.field_name }}">{{ field.field_name }}</label>
+                <input type="{{ type_map|get_item:field.field_type }}" class="form-control" id="{{ field.field_name }}">
+            </div>
+        {% endfor %}
+    {% endif %}
 {% endblock %}
