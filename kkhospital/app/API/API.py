@@ -492,7 +492,9 @@ class API :
 
 #############
 	def get_all_collections_name(self) :
-		return True, self.db.collection_names()
+		collection_names = self.db.collection_names()
+		collection_names.remove('users')
+		return True, collection_names
 
 	def get_collection_pattern(self, collection_name=None) :
 		check, result = self.incomplete_input(locals())
