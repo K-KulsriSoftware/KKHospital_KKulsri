@@ -1,6 +1,8 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
 from pprint import pprint
+from datetime import datetime
+from bson.objectid import ObjectId
 class doctor_query_api :
 
 	def __init__(self, db) :
@@ -23,7 +25,7 @@ class doctor_query_api :
 			{
             	'$match' : 
             		{
-            			'username' : doctor_id
+            			'_id' : ObjectId(doctor_id)
             		}
         	}
 		])
@@ -39,7 +41,7 @@ class doctor_query_api :
         	},
         	{
         		'$project' : {
-        			'doctor_id' : '$username',
+        			'username' : '$username',
         			'doctor_name_title' : '$doctor_name_title',
         			'doctor_first_name' : '$doctor_name',
         			'doctor_surname' : '$doctor_surname'
@@ -52,21 +54,21 @@ class doctor_query_api :
 			doctors.append(doctor)
 		return True, doctors
 
-	def update_doctor(self, doctor_id, doctor_name_title, doctor_name, doctor_surname, gender, birthday, 
-		              office_phone_number, email, department_id, doctor_img, position, expertises, 
-		              educations, language, working_time, order_ids) :
+	def update_doctor(self, doctor_id, username, doctor_name_title, doctor_name, doctor_surname, gender, birthday, 
+		office_phone_number, email, department_id, doctor_img, position, expertises, educations, working_time) :
 		self.db.doctors.update_one(
 			{
-        		'username': doctor_id
+        		'_id': ObjectId(doctor_id)
     		},
     		{
         		'$set': 
         		{
+        			'username' : username
         			'doctor_name_title' : doctor_name_title,
         			'doctor_name' : doctor_name,
         			'doctor_surname' : doctor_surname,
         			'gender' : gender,
-        			'birthday' : birthday,
+        			'birthday' : datetime(birthday['year'], birthday['month'], birthday['day']),
         			'office_phone_number' : office_phone_number,
 	               	'email': email,
 	               	'department_id' : department_id,
@@ -74,9 +76,7 @@ class doctor_query_api :
 	               	'position' : position,
 	               	'expertises' : expertises,
 	               	'educations' : educations,
-	               	'language' : language,
 	               	'working_time' : working_time,
-	               	'order_ids' : order_ids
         		}
     		}
 		)
@@ -85,7 +85,7 @@ class doctor_query_api :
 	def delete_doctor(self, doctor_id) :
 		self.db.doctors.delete_one(
 			{
-				"username": doctor_id
+				"_id": ObjectId(doctor_id)
 			}
 		)
 		return True, 'Successfully Removed'
@@ -115,17 +115,16 @@ class doctor_query_api :
 				return 'd' + str(i)
 		return 'd000'
 
-	def insert_doctor(self, doctor_name_title, doctor_name, doctor_surname, gender, birthday, 
-					  office_phone_number, email, department_id, doctor_img, position, expertises, 
-		              educations, language, working_time) :
+	def insert_doctor(self, username, doctor_name_title, doctor_name, doctor_surname, gender, birthday, 
+		office_phone_number, email, department_id, doctor_img, position, expertises, educations, working_time) :
 		self.db.doctors.insert(
 			{
-				'username' : self.get_new_doctor_id(),
+				'username' : username,
 				'doctor_name_title' : doctor_name_title, 
 				'doctor_name' : doctor_name,
 				'doctor_surname' : doctor_surname,
 				'gender' : gender, 
-				'birthday' : birthday, 
+				'birthday' : datetime(birthday['year'], birthday['month'], birthday['day']),
 				'office_phone_number' : office_phone_number, 
 				'email' : email, 
 				'department_id' : department_id, 
@@ -133,9 +132,7 @@ class doctor_query_api :
 				'position' : position, 
 				'expertises' : expertises, 
 		        'educations' : educations, 
-		        'language' : language, 
 		        'working_time' : working_time,
-		        'order_ids' : []
 			}
 		)
 		return True, 'Successfully Inserted'

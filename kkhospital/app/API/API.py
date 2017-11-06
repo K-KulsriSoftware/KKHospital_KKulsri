@@ -183,29 +183,24 @@ class API :
 	def get_all_doctors_name(self) :
 		return self.doctor_query_api.get_all_doctors_name()
 
-	def update_doctor_profile(self, doctor_id=None, doctor_name_title=None, doctor_name=None,
-							  doctor_surname=None, gender=None, birthday=None, office_phone_number=None,
-							  email=None, department_id=None, doctor_img=None, position=None,
-		                      expertises=None, educations=None, language=None, working_time=None, order_ids=None) :
+	def update_doctor(self, doctor_id=None, data=None) :
 		check, result = self.incomplete_input(locals())
 		if check : return True, result
-		return self.doctor_query_api.update_doctor_profile(doctor_id, doctor_name_title, doctor_name,
-							  doctor_surname, gender, birthday, office_phone_number, email, department_id,
-							  doctor_img, position, expertises, educations, language, working_time, order_ids)
+		return self.doctor_query_api.update_doctor(doctor_id, data['username'], data['doctor_name_title'], data['doctor_name'],
+			data['doctor_surname'], data['gender'], data['birthday'], data['office_phone_number'], data['email'], 
+			data['department_id'], data['doctor_img'], data['position'], data['expertises'], data['educations'], data['working_time'])
 
 	def delete_doctor(self, doctor_id=None) :
 		check, result = self.incomplete_input(locals())
 		if check : return True, result
 		return self.delete_doctor(self, doctor_id)
 
-	def insert_doctor(self, doctor_name_title=None, doctor_name=None, doctor_surname=None, gender=None,
-		   birthday=None, office_phone_number=None, email=None, department_id=None, doctor_img=None,
-		   position=None, expertises=None, educations=None, language=None, working_time=None) :
+	def insert_doctor(self, data=None) :
 		check, result = self.incomplete_input(locals())
 		if check : return True, result
-		return self.doctor_query_api.insert_doctor(doctor_name_title, doctor_name, doctor_surname, gender,
-		   birthday, office_phone_number, email, department_id, doctor_img,
-		   position, expertises, educations, language, working_time)
+		return self.doctor_query_api.insert_doctor(data['username'], data['doctor_name_title'], data['doctor_name'],
+			data['doctor_surname'], data['gender'], data['birthday'], data['office_phone_number'], data['email'], 
+			data['department_id'], data['doctor_img'], data['position'], data['expertises'], data['educations'], data['working_time'])
 
 ###############
 
@@ -220,20 +215,20 @@ class API :
 	def get_all_departments_name(self) :
 		return self.department_query_api.get_all_departments()
 
-	def update_department_profile(self, department_id=None, department_name=None, department_description=None) :
+	def update_department_profile(self, department_id=None, data=None) :
 		check, result = self.incomplete_input(locals())
 		if check : return True, result
-		return self.department_query_api.update_department_profile(department_id, department_name, department_description)
+		return self.department_query_api.update_department_profile(department_id, data['department_name'], data['department_description'])
 
 	def delete_department(self, department_id=None) :
 		check, result = self.incomplete_input(locals())
 		if check : return True, result
 		return self.department_query_api.delete_department(department_id)
 
-	def insert_department(self, department_name=None, department_description=None) :
+	def insert_department(self, data=None) :
 		check, result = self.incomplete_input(locals())
 		if check : return True, result
-		return self.department_query_api.insert_department(department_name,department_description)
+		return self.department_query_api.insert_department(data['department_name'], data['department_description'])
 
 ###############
 
@@ -269,20 +264,20 @@ class API :
 	def get_all_buildings_name(self) :
 		return self.building_query_api.get_all_buildings()
 
-	def update_building_profile(self, building_id=None, building_name=None) :
+	def update_building_profile(self, building_id=None, data=None) :
 		check, result = self.incomplete_input(locals())
 		if check : return True, result
-		return self.building_query_api.update_building_profile(building_id, building_name)
+		return self.building_query_api.update_building_profile(building_id, data['building_name'])
 
 	def delete_building(self, building_id=None) :
 		check, result = self.incomplete_input(locals())
 		if check : return True, result
 		return self.building_query_api.delete_building(building_id)
 
-	def insert_building(self, building_name=None) :
+	def insert_building(self, data=None) :
 		check, result = self.incomplete_input(locals())
 		if check : return True, result
-		return self.building_query_api.insert_building(building_name)
+		return self.building_query_api.insert_building(data['building_name'])
 
 #############
 

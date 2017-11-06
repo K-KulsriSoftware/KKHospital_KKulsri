@@ -1,6 +1,7 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
 from pprint import pprint
+from bson.objectid import ObjectId
 class building_query_api :
 
 	def __init__(self, db) :
@@ -22,7 +23,7 @@ class building_query_api :
 			{
             	'$match' : 
             		{
-            			'_id' : building_id
+            			'_id' : ObjectId(building_id)
             		}
         	}
 		])
@@ -50,7 +51,7 @@ class building_query_api :
 	def update_building_profile(self, building_id, building_name) :
 		self.db.buildings.update_one(
 			{
-        		'_id': building_id
+        		'_id': ObjectId(building_id)
     		},
     		{
         		'$set': 
@@ -64,7 +65,7 @@ class building_query_api :
 	def delete_building(self, building_id) :
 		self.db.buildings.delete_one(
 			{
-				'_id': building_id
+				'_id': ObjectId(building_id)
 			}
 		)
 		return True, 'Successfully Removed'

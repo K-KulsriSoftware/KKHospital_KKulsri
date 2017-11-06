@@ -2,6 +2,7 @@
 # -*- coding: utf-8 -*-
 from pprint import pprint
 from datetime import datetime
+from bson.objectid import ObjectId
 class patients_query_api :
 
 	def __init__(self, db) :
@@ -23,7 +24,7 @@ class patients_query_api :
 			{
             	'$match' :
             		{
-            			'_id' : patient_id
+            			'_id' : ObjectId(patient_id)
             		}
         	}
 		])
@@ -59,7 +60,7 @@ class patients_query_api :
 		emergency_address, email, congenital_disease) :
 		self.db.patients.update_one(
     		{
-        		'_id': patient_id
+        		'_id': ObjectId(patient_id)
     		},
     		{
         		'$set':
@@ -96,7 +97,7 @@ class patients_query_api :
 	def delete_patient(self, patient_id) :
 		self.db.patients.delete_one(
             {
-                "_id": patient_id
+                "_id": ObjectId(patient_id)
             }
         )
 		return True, 'Successfully Removed'
