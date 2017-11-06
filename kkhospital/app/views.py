@@ -342,7 +342,7 @@ def admin_mongo(request):
     result.sort()
     return render(
         request,
-        'app/admin-mongo.html',
+        'app/admin_mongo.html',
         {
             'title': 'mongoDB Admin',
             'header_title': 'mongoDB Admin',
@@ -368,7 +368,7 @@ def admin_mongo_collection(request, collection_name):
     }.get(collection_name)
     return render(
         request,
-        'app/admin-mongo.html',
+        'app/admin_mongo.html',
         {
             'title': 'mongoDB Admin',
             'header_title': 'mongoDB Admin',
@@ -378,6 +378,17 @@ def admin_mongo_collection(request, collection_name):
             'toolbar': True,
             'logo_link': '/admin-mongo',
             'logged_user': request.session.get('user')
+        }
+    )
+
+def admin_mongo_add(request, collection_name):
+    return render(
+        request,
+        'app/admin_mongo-add.html',
+        {
+            'title': 'mongoDB Admin',
+            'header_title': 'mongoDB Admin',
+            'collection_name': collection_name,
         }
     )
 
