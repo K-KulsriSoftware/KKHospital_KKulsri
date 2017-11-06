@@ -67,8 +67,8 @@ class get_collection_pattern_api :
 	def get_buildings_pattern(self) :
 		return [
 			{
-				'field_name' : 'building_id',
-				'field_type' : 'int'
+				'field_name' : '_id',
+				'field_type' : 'objectId'
 			},
 			{
 				'field_name' : 'building_name',
@@ -79,8 +79,8 @@ class get_collection_pattern_api :
 	def get_departments_pattern(self) :
 		return [
 			{
-				'field_name' : 'department_id',
-				'field_type' : 'int'
+				'field_name' : '_id',
+				'field_type' : 'objectId'
 			},
 			{
 				'field_name' : 'department_name',
@@ -92,8 +92,12 @@ class get_collection_pattern_api :
 			}
 		]
 
-	def get_departments_pattern(self) :
+	def get_doctors_pattern(self) :
 		return [
+			{
+				'field_name' : '_id',
+				'field_type' : 'objectId'
+			},
 			{
 				'field_name' : 'username',
 				'field_type' : 'string'
@@ -128,7 +132,7 @@ class get_collection_pattern_api :
 			},
 			{
 				'field_name' : 'department_id',
-				'field_type' : 'int'
+				'field_type' : 'objectId'
 			},
 			{
 				'field_name' : 'doctor_img',
@@ -145,11 +149,6 @@ class get_collection_pattern_api :
 			},
 			{
 				'field_name' : 'educations',
-				'field_type' : 'list',
-				'value' : 'string'
-			},
-			{
-				'field_name' : 'language',
 				'field_type' : 'list',
 				'value' : 'string'
 			},
@@ -271,16 +270,15 @@ class get_collection_pattern_api :
 						]
 					},
 				]
-			},
-			{
-				'field_name' : 'order_ids',
-				'field_type' : 'list',
-				'value' : 'string'
 			}
 		]
 
 	def get_patients_pattern(self) :
 		return [
+			{
+				'field_name' : '_id',
+				'field_type' : 'objectId'
+			},
 			{
 				'field_name' : 'username',
 				'field_type' : 'string'
@@ -299,20 +297,15 @@ class get_collection_pattern_api :
 			},
 			{
 				'field_name' : 'patient_img',
-				'field_type' : 'bool'
+				'field_type' : 'string'
 			},
 			{
 				'field_name' : 'id_card_number',
-				'field_type' : 'date'
+				'field_type' : 'string'
 			},
 			{
 				'field_name' : 'gender',
 				'field_type' : 'bool'
-			},
-			{
-				'field_name' : 'order_ids',
-				'field_type' : 'list',
-				'value' : 'string'
 			},
 			{
 				'field_name' : 'birthday',
@@ -335,11 +328,11 @@ class get_collection_pattern_api :
 				'field_type' : 'string'
 			},
 			{
-				'field_name' : 'Religion',
+				'field_name' : 'religion',
 				'field_type' : 'string'
 			},
 			{
-				'field_name' : 'Status',
+				'field_name' : 'status',
 				'field_type' : 'int'
 			},
 			{
@@ -367,6 +360,10 @@ class get_collection_pattern_api :
 				'field_type' : 'string'
 			},
 			{
+				'field_name' : 'emergency_phone',
+				'field_type' : 'string'
+			},
+			{
 				'field_name' : 'emergency_address',
 				'field_type' : 'string'
 			},
@@ -384,28 +381,24 @@ class get_collection_pattern_api :
 	def get_orders_pattern(self) :
 		return [
 			{
-				'field_name' : 'order_id',
-				'field_type' : 'string'
+				'field_name' : '_id',
+				'field_type' : 'objectId'
 			},
 			{
 				'field_name' : 'package_id',
-				'field_type' : 'string'
+				'field_type' : 'objectId'
 			},
 			{
 				'field_name' : 'doctor_id',
-				'field_type' : 'string'
+				'field_type' : 'objectId'
 			},
 			{
-				'field_name' : 'user_id',
-				'field_type' : 'string'
+				'field_name' : 'patient_id',
+				'field_type' : 'objectId'
 			},
 			{
 				'field_name' : 'cost',
 				'field_type' : 'double'
-			},
-			{
-				'field_name' : 'notice',
-				'field_type' : 'string'
 			},
 			{
 				'field_name' : 'time',
@@ -421,14 +414,22 @@ class get_collection_pattern_api :
 						'field_type' : 'date'
 					}
 				]
+			},
+			{
+				'field_name' : 'bought_time',
+				'field_type' : 'date'
+			},
+			{
+				'field_name' : 'notice',
+				'field_type' : 'string'
 			}
 		]
 
 	def get_packages_pattern(self) :
 		return [
 			{
-				'field_name' : 'package_id',
-				'field_type' : 'string'
+				'field_name' : '_id',
+				'field_type' : 'objectId'
 			},
 			{
 				'field_name' : 'package_name',
@@ -440,7 +441,7 @@ class get_collection_pattern_api :
 			},
 			{
 				'field_name' : 'department_id',
-				'field_type' : 'int'
+				'field_type' : 'objectId'
 			},
 			{
 				'field_name' : 'description',
@@ -457,7 +458,7 @@ class get_collection_pattern_api :
 			},
 			{
 				'field_name' : 'building_id',
-				'field_type' : 'int'
+				'field_type' : 'objectId'
 			}
 		]
 
