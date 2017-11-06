@@ -335,7 +335,7 @@ def payment(request):
     )
 
 
-@staff_member_required(login_url='accounts/login')
+# @staff_member_required(login_url='/accounts/login')
 def admin_mongo(request):
     assert isinstance(request, HttpRequest)
     status, result = api.get_all_collections_name()
@@ -354,7 +354,7 @@ def admin_mongo(request):
     )
 
 
-@staff_member_required(login_url='accounts/login')
+# @staff_member_required(login_url='/accounts/login')
 def admin_mongo_collection(request, collection_name):
     assert isinstance(request, HttpRequest)
     status, result = {
