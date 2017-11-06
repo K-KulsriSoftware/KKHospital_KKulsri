@@ -5,6 +5,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.admin.views.decorators import staff_member_required
 from datetime import datetime
 from django.template.defaulttags import register
+from html_json_forms import parse_json_form
 import json
 # Create your views here.
 from .API.API import API
@@ -381,9 +382,44 @@ def admin_mongo_collection(request, collection_name):
         }
     )
 
+def clean_field(org, res, name=''):
+    for field in org:
+        tmp = field['field_name']
+        if name != '':
+            tmp = '[' + tmp + ']'
+        if field['field_type'] == 'dict':
+            clean_field(field['dict'], res, name + tmp)
+        elif field['field_type'] == 'list' and field['value'] == 'dict':
+            clean_field(field['dict'], res, name + tmp + '[0]')
+        else:
+            this_field = {'field_name': name + tmp, 'field_type': field['field_type']}
+            if 'value' in field:
+                this_field['value'] = field['value']
+            res.append(this_field)
+            
+
+
 def admin_mongo_add(request, collection_name):
+    if request.method == 'POST':
+        tmp = dict(request.POST)
+        for key in tmp:
+            tmp[key] = tmp[key][0]
+        del tmp['csrfmiddlewaretoken']
+        print(parse_json_form(tmp))
+        return
     status, result = api.get_collection_pattern(collection_name)
+    found_id = False
+    for i in range(len(result)):
+        if result[i]['field_name'] == '_id':
+            found_id = True
+            index = i
+            break
+    if found_id:
+        del result[index]
     print(result)
+    fields = []
+    clean_field(result, fields)
+    print(fields)
     type_map = {'int': 'number', 'double': 'number', 'string': 'text', 'date': 'date'}
     return render(
         request,
@@ -392,8 +428,9 @@ def admin_mongo_add(request, collection_name):
             'title': 'mongoDB Admin',
             'header_title': 'mongoDB Admin',
             'collection_name': collection_name,
-            'fields': result,
-            'type_map': type_map
+            'fields': fields,
+            'type_map': type_map,
+            'logo_link': '/admin-mongo',
         }
     )
 
