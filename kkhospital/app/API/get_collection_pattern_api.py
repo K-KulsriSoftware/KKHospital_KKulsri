@@ -72,7 +72,7 @@ class get_collection_pattern_api :
 			},
 			{
 				'field_name' : 'building_name',
-				'field_type' : 'int'
+				'field_type' : 'string'
 			}
 		]
 	
