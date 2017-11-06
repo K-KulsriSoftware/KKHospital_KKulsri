@@ -369,7 +369,7 @@ class API :
 	def get_all_orders(self) :
 		return self.orders_query_api.get_all_orders()
 
-	def get_order_detail(self,order_id=None) :
+	def get_order_detail(self, order_id=None) :
 		check, result = self.incomplete_input(locals())
 		if check : return True, result
 		return self.orders_query_api.get_order_detail(order_id)
@@ -394,6 +394,103 @@ class API :
 
 #############
 
+	def admin_get_all_documents(self, collection_name=None) :
+		functions = 
+		{
+			'buildings' : self.get_all_buildings,
+			'departments' : self.get_all_departments,
+			'doctors' : self.get_all_doctors,
+			'orders' : self.get_all_orders,
+			'packages' : self.get_all_packages,
+			'patients' : self.get_all_patients,
+			'users' : self.get_all_users
+		}
+		if collection_name in functions :
+			return functions[collection_name]()
+		else :
+			return False, 'Collection Name Error'
+
+	def admin_get_all_document_names(self, collection_name=None) :
+		functions = 
+		{
+			'buildings' : self.get_all_buildings_name,
+			'departments' : self.get_all_departments_name,
+			'doctors' : self.get_all_doctors_name,
+			'orders' : self.get_all_orders_name,
+			'packages' : self.get_all_packages_name,
+			'patients' : self.get_all_patients_name,
+			'users' : self.get_all_users_name
+		}
+		if collection_name in functions :
+			return functions[collection_name]()
+		else :
+			return False, 'Collection Name Error'
+
+	def admin_get_detail(self, collection_name=None, oid=None) :
+		functions = 
+		{
+			'buildings' : self.get_building_detail,
+			'departments' : self.get_department_detail,
+			'doctors' : self.get_doctor_detail,
+			'orders' : self.get_order_detail,
+			'packages' : self.get_package_detail,
+			'patients' : self.get_patient_detail,
+			'users' : self.get_user_detail
+		}
+		if collection_name in functions :
+			return functions[collection_name](oid)
+		else :
+			return False, 'Collection Name Error'
+
+	def admin_delete_document(self, collection_name=None, oid=None) :
+		functions = 
+		{
+			'buildings' : self.delete_building,
+			'departments' : self.delete_department,
+			'doctors' : self.delete_doctor,
+			'orders' : self.delete_order,
+			'packages' : self.delete_package,
+			'patients' : self.delete_patient,
+			'users' : self.delete_user
+		}
+		if collection_name in functions :
+			return functions[collection_name](oid)
+		else :
+			return False, 'Collection Name Error'
+
+	def admin_update_document(self, collection_name=None, oid=None, data_dict=None) :
+		functions = 
+		{
+			'buildings' : self.update_building,
+			'departments' : self.update_department,
+			'doctors' : self.update_doctor,
+			'orders' : self.update_order,
+			'packages' : self.update_package,
+			'patients' : self.update_patient,
+			'users' : self.update_user
+		}
+		if collection_name in functions :
+			return functions[collection_name](oid, data_dict)
+		else :
+			return False, 'Collection Name Error'
+
+	def admin_insert_document(self, collection_name=None, data_dict=None) :
+		functions = 
+		{
+			'buildings' : self.insert_building,
+			'departments' : self.insert_department,
+			'doctors' : self.insert_doctor,
+			'orders' : self.insert_order,
+			'packages' : self.insert_package,
+			'patients' : self.insert_patient,
+			'users' : self.insert_user
+		}
+		if collection_name in functions :
+			return functions[collection_name](data_dict)
+		else :
+			return False, 'Collection Name Error'
+
+#############
 	def get_all_collections_name(self) :
 		return True, self.db.collection_names()
 
