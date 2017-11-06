@@ -395,8 +395,7 @@ class API :
 #############
 
 	def admin_get_all_documents(self, collection_name=None) :
-		functions = 
-		{
+		functions = {
 			'buildings' : self.get_all_buildings,
 			'departments' : self.get_all_departments,
 			'doctors' : self.get_all_doctors,
@@ -411,8 +410,7 @@ class API :
 			return False, 'Collection Name Error'
 
 	def admin_get_all_document_names(self, collection_name=None) :
-		functions = 
-		{
+		functions = {
 			'buildings' : self.get_all_buildings_name,
 			'departments' : self.get_all_departments_name,
 			'doctors' : self.get_all_doctors_name,
@@ -427,8 +425,7 @@ class API :
 			return False, 'Collection Name Error'
 
 	def admin_get_detail(self, collection_name=None, oid=None) :
-		functions = 
-		{
+		functions = {
 			'buildings' : self.get_building_detail,
 			'departments' : self.get_department_detail,
 			'doctors' : self.get_doctor_detail,
@@ -443,8 +440,7 @@ class API :
 			return False, 'Collection Name Error'
 
 	def admin_delete_document(self, collection_name=None, oid=None) :
-		functions = 
-		{
+		functions = {
 			'buildings' : self.delete_building,
 			'departments' : self.delete_department,
 			'doctors' : self.delete_doctor,
@@ -459,8 +455,7 @@ class API :
 			return False, 'Collection Name Error'
 
 	def admin_update_document(self, collection_name=None, oid=None, data_dict=None) :
-		functions = 
-		{
+		functions = {
 			'buildings' : self.update_building,
 			'departments' : self.update_department,
 			'doctors' : self.update_doctor,
@@ -475,8 +470,7 @@ class API :
 			return False, 'Collection Name Error'
 
 	def admin_insert_document(self, collection_name=None, data_dict=None) :
-		functions = 
-		{
+		functions = {
 			'buildings' : self.insert_building,
 			'departments' : self.insert_department,
 			'doctors' : self.insert_doctor,
