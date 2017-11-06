@@ -369,6 +369,9 @@ class API :
 	def get_all_orders(self) :
 		return self.orders_query_api.get_all_orders()
 
+	def get_all_orders_name(self) :
+		return self.orders_query_api.get_all_orders_name()
+
 	def get_order_detail(self, order_id=None) :
 		check, result = self.incomplete_input(locals())
 		if check : return True, result
@@ -377,20 +380,18 @@ class API :
 	def get_all_orders_with_package_and_user(self) :
 		return self.orders_query_api.get_all_orders_with_package_and_user()
 
-	def update_order(self, order_id=None, package_id=None, doctor_id=None, username=None, notice=None, cost=None, 
-		             time=None) :
+	def update_order(self, order_id=None, data=None) :
 		check, result = self.incomplete_input(locals())
 		if check : return True, result
-		return self.orders_query_api.update_order(order_id, package_id, doctor_id, username, notice, cost, time)
+		return self.orders_query_api.update_order(order_id, data['package_id'], data['doctor_id'], data['patient_id'], data['cost'], data['time'], data['bought_time'], data['notice'])
 
 	def delete_order(self, order_id=None) :
 		check, result = self.incomplete_input(locals())
 		if check : return True, result
 		return self.orders_query_api.delete_order(order_id)
 
-	#input: order_id(str), package_id(str), doctor_id(str), username(str), notice,(str) cost(double), time(object)
-	# def create_order(self, order_id = None, package_id = None, doctor_id = None, username = None, notice = None, cost = None, time = None) :
-	# 	return self.orders_query_api.create_order(order_id, package_id, doctor_id, username, notice, cost, time)
+	def insert_order(self, data=None) :
+	 	return self.orders_query_api.create_order(data['package_id'], data['doctor_id'], data['patient_id'], data['cost'], data['time'], data['bought_time'], data['notice'])
 
 #############
 

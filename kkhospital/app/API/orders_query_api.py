@@ -7,6 +7,7 @@ class orders_query_api :
 	def __init__(self, db) :
 		self.db = db
 
+
 	def get_all_orders(self) :
 		cursor = self.db.orders.aggregate([
 			{
@@ -17,8 +18,6 @@ class orders_query_api :
 		for order in cursor :
 			orders.append(order)
 		return True, orders
-
-
 
 
 	def get_order_detail(self,order_id) :
@@ -33,6 +32,23 @@ class orders_query_api :
 		for order in cursor :
 			return True, order
 		return False, "No match order"
+
+
+    def get_all_orders_name(self) :
+        cursor = self.db.orders.aggregate([
+            {
+                '$match' : {}
+            },
+            {
+                '$project' : {
+                    'order_id' : '$_id'
+                }
+            }
+        ])
+        orders = []
+        for order in cursor :
+            orders.append(order)
+        return True, orders
 
 
 	def get_all_orders_with_package_and_user(self) :
@@ -55,7 +71,7 @@ class orders_query_api :
 		return True, orders
 
 
-	def update_order(self, order_id, package_id, doctor_id, patient_id, notice, cost, time) :
+	def update_order(self, order_id, package_id, doctor_id, patient_id, cost, time, bought_time, notice) :
 		self.db.orders.update_one(
     		{
         		'_id': order_id
@@ -79,6 +95,7 @@ class orders_query_api :
 		)
 		return True, 'Successfully Updated'
 
+
 	def delete_order(self, order_id) :
 		self.db.orders.delete_one(
             {
@@ -88,10 +105,9 @@ class orders_query_api :
 		return True, 'Successfully Removed'
 
 
-	def create_order(self, order_id, package_id, doctor_id, patient_id, notice, cost, time) :
+	def insert_order(self, package_id, doctor_id, patient_id, cost, time, bought_time, notice) :
 		self.db.orders.insert(
 			{
-                'order_id' : order_id,
                 'package_id' : package_id,
                 'doctor_id' : doctor_id,
                 'patient_id' : patient_id,
