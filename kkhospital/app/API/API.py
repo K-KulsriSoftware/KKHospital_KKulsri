@@ -289,46 +289,38 @@ class API :
 	def get_all_patients(self) :
 		return self.patients_query_api.get_all_patients()
 
-	def get_patients_detail(self,username=None) :
+	def get_patients_detail(self,patient_id=None) :
 		check, result = self.incomplete_input(locals())
 		if check : return True, result
-		return self.patients_query_api.get_patients_detail(username)
+		return self.patients_query_api.get_patients_detail(patient_id)
 
 	def get_all_patients_name(self) :
 		return self.patients_query_api.get_all_patients_name()
 
-	def update_patient_profile(self, username=None, patient_name_title=None, patient_name=None, 
-		                       patient_surname=None, patient_img=None, id_card_number=None, gender=None,
-                 		       birthday_year=None, birthday_month=None, birthday_day=None, 
-                 		       blood_group_abo=None, blood_group_rh=None, race=None, nationallity=None,
-				 		       religion=None, status=None, patient_address=None, occupy=None, telephone_number=None, 
-				 		       father_name=None, mother_name=None, emergency_name=None,
-				 		       emergency_phone=None, emergency_address=None, email=None, congenital_disease=None) :
+	def update_patient(self, patient_id, data=None) :
 		check, result = self.incomplete_input(locals())
 		if check : return True, result
-		return self.patients_query_api.update_patient_profile(username, patient_name_title, patient_name, 
-			   patient_surname, patient_img, id_card_number, gender, birthday_year, birthday_month, 
-			   birthday_day, blood_group_abo, blood_group_rh, race, nationallity, religion, status, 
-			   patient_address, occupy, telephone_number, father_name, mother_name, emergency_name, 
-			   emergency_phone, emergency_address, email, congenital_disease)
+		return self.patients_query_api.update_patient(patient_id, data['username'], data['patient_name_title'], 
+			data['patient_name'], data['patient_surname'], data['patient_img'], data['id_card_number'], data['gender'], 
+			data['birthday'], data['blood_group_abo'], data['blood_group_rh'], data['race'], data['nationallity'], 
+			data['religion'], data['status'], data['patient_address'], data['occupy'], data['telephone_number'], 
+			data['father_name'], data['mother_name'], data['emergency_name'], data['emergency_phone'], 
+			data['emergency_address'], data['email'], data['congenital_disease'])
 
-	def delete_patient(self, username=None) :
+	def delete_patient(self, patient_id=None) :
 		check, result = self.incomplete_input(locals())
 		if check : return True, result
-		return self.patients_query_api.delete_patient(username)
+		return self.patients_query_api.delete_patient(patient_id)
 
-	def insert_patient(self, username=None, patient_name_title=None, patient_name=None, patient_surname=None, 
-		               patient_img=None, id_card_number=None, gender=None, order_ids=None, birthday_year=None, 
-		               birthday_month=None, birthday_day=None, blood_group_abo=None, blood_group_rh=None, race=None, 
-		               nationallity=None, religion=None, status=None, patient_address=None, occupy=None, 
-		               telphone_number=None, father_name=None, mother_name=None, emergency_name=None,
-				 	   emergency_phone=None, emergency_address=None, email=None, congenital_disease=None) :
+	def insert_patient(self, data=None) :
 		check, result = self.incomplete_input(locals())
 		if check : return True, result
-		return self.patients_query_api.insert_patient(username, patient_name_title, patient_name, patient_surname, patient_img,
-			   id_card_number, gender, order_ids, birthday_year, birthday_month, birthday_day, blood_group_abo,
-			   blood_group_rh, race, nationallity, religion, status, patient_address, occupy, telphone_number,
-			   father_name, mother_name, emergency_name, emergency_phone, emergency_address, email, congenital_disease)
+		return self.patients_query_api.insert_patient(data['username'], data['patient_name_title'], 
+			data['patient_name'], data['patient_surname'], data['patient_img'], data['id_card_number'], data['gender'], 
+			data['birthday'], data['blood_group_abo'], data['blood_group_rh'], data['race'], data['nationallity'], 
+			data['religion'], data['status'], data['patient_address'], data['occupy'], data['telephone_number'], 
+			data['father_name'], data['mother_name'], data['emergency_name'], data['emergency_phone'], 
+			data['emergency_address'], data['email'], data['congenital_disease'])
 
 	def check_already_used_this_username(self, username=None) :
 		check, result = self.incomplete_input(locals())
@@ -350,7 +342,8 @@ class API :
 	def update_package(self, package_id=None, data=None) :
 		check, result = self.incomplete_input(locals())
 		if check : return True, result
-		return self.packages_query_api.update_package(package_id, data['package_name'], data['package_cost'], data['department_id'], data['description'], data['conditions'], data['package_notice'], data['building_id'])
+		return self.packages_query_api.update_package(package_id, data['package_name'], data['package_cost'], 
+			data['department_id'], data['description'], data['conditions'], data['package_notice'], data['building_id'])
 
 	def delete_package(self, package_id=None) :
 		check, result = self.incomplete_input(locals())
@@ -360,7 +353,8 @@ class API :
 	def insert_package(self,data=None) :
 		check, result = self.incomplete_input(locals())
 		if check : return True, result
-		return self.packages_query_api.insert_package(data['package_name'], data['package_cost'], data['department_id'], data['description'], data['conditions'], data['package_notice'], data['building_id'])
+		return self.packages_query_api.insert_package(data['package_name'], data['package_cost'], data['department_id'], 
+			data['description'], data['conditions'], data['package_notice'], data['building_id'])
 
 #############
 
@@ -381,7 +375,8 @@ class API :
 	def update_order(self, order_id=None, data=None) :
 		check, result = self.incomplete_input(locals())
 		if check : return True, result
-		return self.orders_query_api.update_order(order_id, data['package_id'], data['doctor_id'], data['patient_id'], data['cost'], data['time'], data['bought_time'], data['notice'])
+		return self.orders_query_api.update_order(order_id, data['package_id'], data['doctor_id'], data['patient_id'], 
+			data['cost'], data['time'], data['bought_time'], data['notice'])
 
 	def delete_order(self, order_id=None) :
 		check, result = self.incomplete_input(locals())
@@ -389,7 +384,8 @@ class API :
 		return self.orders_query_api.delete_order(order_id)
 
 	def insert_order(self, data=None) :
-	 	return self.orders_query_api.create_order(data['package_id'], data['doctor_id'], data['patient_id'], data['cost'], data['time'], data['bought_time'], data['notice'])
+	 	return self.orders_query_api.create_order(data['package_id'], data['doctor_id'], data['patient_id'], 
+	 		data['cost'], data['time'], data['bought_time'], data['notice'])
 
 #############
 

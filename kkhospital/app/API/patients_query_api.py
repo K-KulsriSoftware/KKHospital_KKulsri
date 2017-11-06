@@ -15,22 +15,19 @@ class patients_query_api :
 		])
 		patients = []
 		for patient in cursor :
-			patient.pop('_id', None)
 			patients.append(patient)
 		return True, patients
 
-
-	def get_patients_detail(self,username) :
+	def get_patients_detail(self,patient_id) :
 		cursor = self.db.patients.aggregate([
 			{
             	'$match' :
             		{
-            			'username' : username
+            			'_id' : patient_id
             		}
         	}
 		])
 		for patient in cursor :
-			patient.pop('_id', None)
 			return True, patient
 		return False, "No match profile"
 
@@ -56,24 +53,25 @@ class patients_query_api :
 		return True, patients
 
 
-	def update_patient_profile(self, username, patient_name_title, patient_name, patient_surname, patient_img, id_card_number, gender,
-				                birthday_year, birthday_month, birthday_day, blood_group_abo, blood_group_rh, race, nationallity,
-				                religion, status, patient_address, occupy, telephone_number, father_name, mother_name, emergency_name,
-				                emergency_phone, emergency_address, email, congenital_disease) :
+	def update_patient(self, patient_id, username, patient_name_title, patient_name, patient_surname, patient_img, 
+		id_card_number, gender, birthday, blood_group_abo, blood_group_rh, race, nationallity, religion, status, 
+		patient_address, occupy, telephone_number, father_name, mother_name, emergency_name, emergency_phone, 
+		emergency_address, email, congenital_disease) :
 		self.db.patients.update_one(
     		{
-        		'username': username
+        		'_id': patient_id
     		},
     		{
         		'$set':
         		{
+        			'username' : username,
         			'patient_name_title' : patient_name_title,
         			'patient_name' : patient_name,
         			'patient_surname' : patient_surname,
         			'patient_img' : patient_img,
         			'id_card_number' : id_card_number,
         			'gender' : gender,
-    				'birthday' : datetime(birthday_year, birthday_month, birthday_day),
+    				'birthday' : datetime(birthday['year'], birthday['month'], birthday['day']),
     				'blood_group_abo' : blood_group_abo,
     				'blood_group_rh' : blood_group_rh,
     				'race' : race,
@@ -95,19 +93,19 @@ class patients_query_api :
 		)
 		return True, 'Successfully Updated'
 
-	def delete_patient(self, username) :
+	def delete_patient(self, patient_id) :
 		self.db.patients.delete_one(
             {
-                "username": username
+                "_id": patient_id
             }
         )
 		return True, 'Successfully Removed'
 
-	def insert_patient(self, username, patient_name_title, patient_name, patient_surname, patient_img, id_card_number, gender,
-                 birthday_year, birthday_month, birthday_day, blood_group_abo, blood_group_rh, race, nationallity,
-				 religion, status, patient_address, occupy, telphone_number, father_name, mother_name, emergency_name,
-				 emergency_phone, emergency_address, email, congenital_disease) :
-		self.db.patients.insert(
+	def insert_patient(self, username, patient_name_title, patient_name, patient_surname, patient_img, 
+		id_card_number, gender, birthday, blood_group_abo, blood_group_rh, race, nationallity, religion, status, 
+		patient_address, occupy, telephone_number, father_name, mother_name, emergency_name, emergency_phone, 
+		emergency_address, email, congenital_disease) :
+			self.db.patients.insert(
 			{
     			'username' : username,
     			'patient_name_title' : patient_name_title,
@@ -116,7 +114,7 @@ class patients_query_api :
     			'patient_img' : patient_img,
     			'id_card_number' : id_card_number,
     			'gender' : gender,
-				'birthday' : datetime(birthday_year, birthday_month, birthday_day),
+				'birthday' : datetime(birthday['year'], birthday['month'], birthday['day']),
 				'blood_group_abo' : blood_group_abo,
 				'blood_group_rh' : blood_group_rh,
 				'race' : race,
