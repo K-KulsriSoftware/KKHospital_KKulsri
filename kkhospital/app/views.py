@@ -382,6 +382,7 @@ def admin_mongo_collection(request, collection_name):
     )
 
 def admin_mongo_add(request, collection_name):
+    status, result = api.get_collection_pattern(collection_name)
     return render(
         request,
         'app/admin_mongo-add.html',
@@ -389,6 +390,7 @@ def admin_mongo_add(request, collection_name):
             'title': 'mongoDB Admin',
             'header_title': 'mongoDB Admin',
             'collection_name': collection_name,
+            'fields': result
         }
     )
 
