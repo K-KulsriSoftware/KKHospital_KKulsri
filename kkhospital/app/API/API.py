@@ -347,22 +347,20 @@ class API :
 	def get_all_packages_name(self) :
 		return self.packages_query_api.get_all_packages_name()
 
-	def update_package(self, package_id=None, package_name=None, package_cost=None, department_id=None, 
-		               description=None, conditions=None, package_notice=None, building_id=None) :
+	def update_package(self, package_id=None, data=None) :
 		check, result = self.incomplete_input(locals())
 		if check : return True, result
-		return self.packages_query_api.update_package(package_id, package_name, package_cost, department_id, description, conditions, package_notice, building_id)
+		return self.packages_query_api.update_package(package_id, data['package_name'], data['package_cost'], data['department_id'], data['description'], data['conditions'], data['package_notice'], data['building_id'])
 
 	def delete_package(self, package_id=None) :
 		check, result = self.incomplete_input(locals())
 		if check : return True, result
 		return self.packages_query_api.delete_package(package_id)
 
-	def insert_package(self,package_id=None, package_name=None,  package_cost=None, department_id=None, 
-		               description=None, conditions=None, package_notice=None, building_id=None) :
+	def insert_package(self,data=None) :
 		check, result = self.incomplete_input(locals())
 		if check : return True, result
-		return self.packages_query_api.insert_package(package_id, package_name,  package_cost, department_id, description, conditions, package_notice, building_id)
+		return self.packages_query_api.insert_package(data['package_name'], data['package_cost'], data['department_id'], data['description'], data['conditions'], data['package_notice'], data['building_id'])
 
 #############
 

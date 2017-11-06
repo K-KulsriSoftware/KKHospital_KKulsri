@@ -2,6 +2,7 @@
 # -*- coding: utf-8 -*-
 from pprint import pprint
 from datetime import datetime
+from bson.objectid import ObjectId
 class packages_query_api :
 
 	def __init__(self, db) :
@@ -26,7 +27,7 @@ class packages_query_api :
 			{
             	'$match' :
             		{
-            			'package_id' : package_id
+            			'_id' : ObjectId(package_id)
             		}
         	}
 		])
@@ -43,7 +44,7 @@ class packages_query_api :
         	},
         	{
         		'$project' : {
-        			'package_id' : '$package_id',
+        			'package_id' : '$_id',
         			'package_name' : '$package_name'
         		}
         	}
@@ -55,10 +56,10 @@ class packages_query_api :
 		return True, packages
 
 
-	def update_package(self,package_id, package_name,  package_cost, department_id, description, conditions, package_notice, building_id) :
+	def update_package(self, package_id, package_name, package_cost, department_id, description, conditions, package_notice, building_id) :
 		self.db.packages.update_one(
     		{
-        		'package_id': package_id
+        		'_id': ObjectId(package_id)
     		},
     		{
         		'$set':
@@ -79,16 +80,15 @@ class packages_query_api :
 	def delete_package(self, package_id) :
 		self.db.packages.delete_one(
             {
-                "package_id": package_id
+                "_id": ObjectId(package_id)
             }
         )
 		return True, 'Successfully Removed'
 
 
-	def insert_package(self, package_id, package_name,  package_cost, department_id, description, conditions, package_notice, building_id) :
+	def insert_package(self, package_name, package_cost, department_id, description, conditions, package_notice, building_id) :
 		self.db.packages.insert(
 			{
-                'package_id': package_id ,
     			'package_name' : package_name,
                 'package_cost' : package_cost,
                 'department_id' : department_id,
