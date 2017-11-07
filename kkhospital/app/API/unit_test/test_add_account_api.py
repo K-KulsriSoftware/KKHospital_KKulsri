@@ -12,21 +12,28 @@ from datetime import datetime
 api = API()
 
 #test add_account()
-status, result = api.add_account('mindy', 'jirateepy')
 
-
-def multiply (a, b) :
-    return a*b
 
 class TestUM(unittest.TestCase) :
 
     def setUp(self) :
         pass
 
-    def test_numbers_3_4(self) :
-        self.assertEqual( multiply(3,4), 12)
-        print ('test_numbers_3_4 : success')
+    #### if username already_used this test_case will fail. Be sure that add new_user ##
+    def test_add_new_user_with_username_passwd(self) :
+        status, result = api.add_account('mindy', 'jirateepy')
+        self.assertEqual( status, True)
+        print ('test_add_new_user_with_username_passwd : success')
 
+    '''
+    def test_add_new_user_with_only_username(self) :
+       try :
+           status, result = api.add_account('mindddd')
+       except TypeError:
+           status = False
+           result = 'error parameter
+    '''
+    '''
     def test_strings_a_3(self) :
         self.assertEqual( multiply('a',3), 'aaa')
         print ('test_numbers_a_3 : success')
@@ -37,7 +44,7 @@ class TestUM(unittest.TestCase) :
         for k in dict_test : list_key.append(k)
         self.assertEqual( sorted(list_key) , sorted(['b','a']))
         print ('test_json : success')
-
+    '''
 if __name__ == '__main__' :
     unittest.main()
 
