@@ -1,5 +1,6 @@
-#!/usr/bin/python
+
 # -*- coding: utf-8 -*-
+
 from API import API
 from pprint import pprint
 from datetime import datetime
@@ -28,9 +29,9 @@ api = API()
 #status, result = api.get_doctor_detail('d001')
 #status, result = api.get_doctor_detail('d007')
 
-#test  update_doctor_profile
+#test  update_doctor
 '''
-status, result = api.update_doctor_profile('d001', 'นายแพทย์', 'กนกพล', 'กุลศรี', 'True', datetime(1997,2,8,0,0),
+status, result = api.update_doctor('d001', 'นายแพทย์', 'กนกพล', 'กุลศรี', 'True', datetime(1997,2,8,0,0),
 										   '0856789012', 'palmpalm@gmail.com', 1, 'https://scontent.fbkk10-1.fna.fbcdn.net/v/t1.0-9/13907130_10205456063434894_2847443788461698332_n.jpg?oh=913be734de97d590b0db87f3ca219342&oe=5A83D820',
 							 			   'แพทย์เชี่ยวชาญทางด้านดวงตาง', ['aaa', 'bbb'], ['กขค'], ['ไทย', 'เกาหลี'],
 							  			   {"mon" : [{"start" : 9, "finish" : 10}, {"start" : 14, "finish" : 18}], "tue" : [{"start" : 9, "finish" : 10}]},
@@ -66,18 +67,24 @@ status, result = api.insert_doctor('นายแพทย์', 'นิติ', '
 #test get_all_patients_name
 #status, result = api.get_all_patients_name()
 
-#test  update_patients_profile
+#test  update_patients
 
 '''
-status, result = api.update_patient_profile("watermelon", "นาง", "สมหญิง", "ชำนาญคอม", "img.html", "1309905889674", True, [], 1996,
+status, result = api.update_patient("watermelon", "นาง", "สมหญิง", "ชำนาญคอม", "img.html", "1309905889674", True, [], 1996,
 							  1, 1, 1, 2, "ไทย", "ไทย", "พุทธ", 1, "37/16 สุขุมวิทย์ กทม", "โปรแกรมเมอร์", "0818453265",
 							  "วิศรุต ชำนาญคอม", "วริศรา หล่อเภรี", "มหาอินทร์ การช่างเยี่ยม", "0845263254", "98/14 ทองหล่อ กทม",
 							  "st@gmail.com", [])
 '''
-status, result = api.update_patient_profile("booktay", "นาย", "องเนียล", "คัง", "https://scontent.fbkk10-1.fna.fbcdn.net/v/t1.0-9/15726866_1370353863009540_4965290848458318950_n.jpg?oh=c044e7f534bde74389423b1f508fe367&oe=5A3B122E", "11002233004506", True, 1989,
+<<<<<<< HEAD
+####have problem
+'''
+=======
+>>>>>>> 9f8a773f5113eb9d6f9d7fef2bd58417f2808ec5
+status, result = api.update_patient("booktay", "นาย", "องเนียล", "คัง", "https://scontent.fbkk10-1.fna.fbcdn.net/v/t1.0-9/15726866_1370353863009540_4965290848458318950_n.jpg?oh=c044e7f534bde74389423b1f508fe367&oe=5A3B122E", "11002233004506", True, 1989,
 							  12, 31, 1, 2, "ไทย", "ไทย", "พุทธ", 1, "37/16 สุขุมวิทย์ กทม", "นักศึกษา", "0881020304",
 							  "คังแดเชียล", "อง ซองอู", "คิม แจฮวาน", "0845263254", "98/14 ทองหล่อ กทม",
 							  "jaehwan@wannaone.th", [])
+'''
 #test delete_patient
 #status, result = api.delete_patient(username='eiei')
 

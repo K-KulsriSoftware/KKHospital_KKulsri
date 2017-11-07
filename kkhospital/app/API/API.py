@@ -1,6 +1,15 @@
+<<<<<<< HEAD
+=======
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
+import sys
+sys.path.append('../..')
+>>>>>>> 9f8a773f5113eb9d6f9d7fef2bd58417f2808ec5
 
+# -*- coding: utf-8 -*-
+import sys
+sys.path.append('../..')
+sys.path.append('.')
 try:
    from config import MONGO_PATH
 except ImportError:
@@ -9,7 +18,7 @@ except ImportError:
 import urllib.parse
 from pymongo import MongoClient
 import json
-
+'''
 #for website
 from .find_doctors_api import find_doctors_api
 from .show_profile_api import show_profile_api
@@ -35,6 +44,7 @@ from .get_doctor_orders_api import get_doctor_orders_api
 from .add_account_api import add_account_api
 from .verify_password_api import verify_password_api
 '''
+
 #for test api
 from find_doctors_api import find_doctors_api
 from show_profile_api import show_profile_api
@@ -59,18 +69,10 @@ from get_patient_orders_api import get_patient_orders_api
 from get_doctor_orders_api import get_doctor_orders_api
 from add_account_api import add_account_api
 from verify_password_api import verify_password_api
-'''
+
 class API :
 
 	def __init__(self) :
-		#for test api
-		# with open('./config.json', 'r') as json_file :
-		#for website
-		# with open('./app/API/config.json', 'r') as json_file :
-		# 	data = json.load(json_file)
-		# 	username = urllib.parse.quote_plus(data['username'])
-		# 	password = urllib.parse.quote_plus(data['password'])
-		# 	db = data['db']
 		self.client = MongoClient(MONGO_PATH)
 		self.db = self.client.kk_db
 		self.find_doctors_api = find_doctors_api(self.db)
@@ -133,11 +135,11 @@ class API :
 		if check : return True, result
 		return self.edit_profile_api.edit_profile(username,email,telphone_number,emergency_phone,submit)
 
-	def register(self, username=None, patient_name_title=None, patient_name=None, patient_surname=None, 
-		         patient_img=None, id_card_number=None, gender=None, birthday_year=None, 
-		         birthday_month=None, birthday_day=None, blood_group_abo=None, blood_group_rh=None, race=None, 
-		         nationallity=None, religion=None, status=None, patient_address=None, occupy=None, 
-		         telephone_number=None, father_name=None, mother_name=None, emergency_name=None, 
+	def register(self, username=None, patient_name_title=None, patient_name=None, patient_surname=None,
+		         patient_img=None, id_card_number=None, gender=None, birthday_year=None,
+		         birthday_month=None, birthday_day=None, blood_group_abo=None, blood_group_rh=None, race=None,
+		         nationallity=None, religion=None, status=None, patient_address=None, occupy=None,
+		         telephone_number=None, father_name=None, mother_name=None, emergency_name=None,
 		         emergency_phone=None, emergency_address=None, email=None, congenital_disease=None, submit=False) :
 		check, result = self.incomplete_input(locals())
 		if check : return True, result
@@ -187,7 +189,7 @@ class API :
 		check, result = self.incomplete_input(locals())
 		if check : return True, result
 		return self.doctor_query_api.update_doctor(doctor_id, data['username'], data['doctor_name_title'], data['doctor_name'],
-			data['doctor_surname'], data['gender'], data['birthday'], data['office_phone_number'], data['email'], 
+			data['doctor_surname'], data['gender'], data['birthday'], data['office_phone_number'], data['email'],
 			data['department_id'], data['doctor_img'], data['position'], data['expertises'], data['educations'], data['working_time'])
 
 	def delete_doctor(self, doctor_id=None) :
@@ -199,7 +201,7 @@ class API :
 		check, result = self.incomplete_input(locals())
 		if check : return True, result
 		return self.doctor_query_api.insert_doctor(data['username'], data['doctor_name_title'], data['doctor_name'],
-			data['doctor_surname'], data['gender'], data['birthday'], data['office_phone_number'], data['email'], 
+			data['doctor_surname'], data['gender'], data['birthday'], data['office_phone_number'], data['email'],
 			data['department_id'], data['doctor_img'], data['position'], data['expertises'], data['educations'], data['working_time'])
 
 ###############
@@ -295,11 +297,11 @@ class API :
 	def update_patient(self, patient_id, data=None) :
 		check, result = self.incomplete_input(locals())
 		if check : return True, result
-		return self.patients_query_api.update_patient(patient_id, data['username'], data['patient_name_title'], 
-			data['patient_name'], data['patient_surname'], data['patient_img'], data['id_card_number'], data['gender'], 
-			data['birthday'], data['blood_group_abo'], data['blood_group_rh'], data['race'], data['nationallity'], 
-			data['religion'], data['status'], data['patient_address'], data['occupy'], data['telephone_number'], 
-			data['father_name'], data['mother_name'], data['emergency_name'], data['emergency_phone'], 
+		return self.patients_query_api.update_patient(patient_id, data['username'], data['patient_name_title'],
+			data['patient_name'], data['patient_surname'], data['patient_img'], data['id_card_number'], data['gender'],
+			data['birthday'], data['blood_group_abo'], data['blood_group_rh'], data['race'], data['nationallity'],
+			data['religion'], data['status'], data['patient_address'], data['occupy'], data['telephone_number'],
+			data['father_name'], data['mother_name'], data['emergency_name'], data['emergency_phone'],
 			data['emergency_address'], data['email'], data['congenital_disease'])
 
 	def delete_patient(self, patient_id=None) :
@@ -310,11 +312,11 @@ class API :
 	def insert_patient(self, data=None) :
 		check, result = self.incomplete_input(locals())
 		if check : return True, result
-		return self.patients_query_api.insert_patient(data['username'], data['patient_name_title'], 
-			data['patient_name'], data['patient_surname'], data['patient_img'], data['id_card_number'], data['gender'], 
-			data['birthday'], data['blood_group_abo'], data['blood_group_rh'], data['race'], data['nationallity'], 
-			data['religion'], data['status'], data['patient_address'], data['occupy'], data['telephone_number'], 
-			data['father_name'], data['mother_name'], data['emergency_name'], data['emergency_phone'], 
+		return self.patients_query_api.insert_patient(data['username'], data['patient_name_title'],
+			data['patient_name'], data['patient_surname'], data['patient_img'], data['id_card_number'], data['gender'],
+			data['birthday'], data['blood_group_abo'], data['blood_group_rh'], data['race'], data['nationallity'],
+			data['religion'], data['status'], data['patient_address'], data['occupy'], data['telephone_number'],
+			data['father_name'], data['mother_name'], data['emergency_name'], data['emergency_phone'],
 			data['emergency_address'], data['email'], data['congenital_disease'])
 
 	def check_already_used_this_username(self, username=None) :
@@ -337,7 +339,7 @@ class API :
 	def update_package(self, package_id=None, data=None) :
 		check, result = self.incomplete_input(locals())
 		if check : return True, result
-		return self.packages_query_api.update_package(package_id, data['package_name'], data['package_cost'], 
+		return self.packages_query_api.update_package(package_id, data['package_name'], data['package_cost'],
 			data['department_id'], data['description'], data['conditions'], data['package_notice'], data['building_id'])
 
 	def delete_package(self, package_id=None) :
@@ -348,7 +350,7 @@ class API :
 	def insert_package(self,data=None) :
 		check, result = self.incomplete_input(locals())
 		if check : return True, result
-		return self.packages_query_api.insert_package(data['package_name'], data['package_cost'], data['department_id'], 
+		return self.packages_query_api.insert_package(data['package_name'], data['package_cost'], data['department_id'],
 			data['description'], data['conditions'], data['package_notice'], data['building_id'])
 
 #############
@@ -370,7 +372,7 @@ class API :
 	def update_order(self, order_id=None, data=None) :
 		check, result = self.incomplete_input(locals())
 		if check : return True, result
-		return self.orders_query_api.update_order(order_id, data['package_id'], data['doctor_id'], data['patient_id'], 
+		return self.orders_query_api.update_order(order_id, data['package_id'], data['doctor_id'], data['patient_id'],
 			data['cost'], data['time'], data['bought_time'], data['notice'])
 
 	def delete_order(self, order_id=None) :
@@ -379,7 +381,7 @@ class API :
 		return self.orders_query_api.delete_order(order_id)
 
 	def insert_order(self, data=None) :
-	 	return self.orders_query_api.create_order(data['package_id'], data['doctor_id'], data['patient_id'], 
+	 	return self.orders_query_api.create_order(data['package_id'], data['doctor_id'], data['patient_id'],
 	 		data['cost'], data['time'], data['bought_time'], data['notice'])
 
 #############
