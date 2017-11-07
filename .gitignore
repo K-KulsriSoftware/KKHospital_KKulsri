@@ -58,3 +58,4 @@ docs/_build/
 target/
 kkhospital/config.py
 KKulsri_Hospital/
+*.pyc
