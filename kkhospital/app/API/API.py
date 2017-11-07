@@ -1,5 +1,7 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
+import sys
+sys.path.append('../..')
 
 try:
    from config import MONGO_PATH
@@ -63,14 +65,6 @@ from verify_password_api import verify_password_api
 class API :
 
 	def __init__(self) :
-		#for test api
-		# with open('./config.json', 'r') as json_file :
-		#for website
-		# with open('./app/API/config.json', 'r') as json_file :
-		# 	data = json.load(json_file)
-		# 	username = urllib.parse.quote_plus(data['username'])
-		# 	password = urllib.parse.quote_plus(data['password'])
-		# 	db = data['db']
 		self.client = MongoClient(MONGO_PATH)
 		self.db = self.client.kk_db
 		self.find_doctors_api = find_doctors_api(self.db)
