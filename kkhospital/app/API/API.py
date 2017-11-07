@@ -1,11 +1,4 @@
-<<<<<<< HEAD
-=======
 #!/usr/bin/python
-# -*- coding: utf-8 -*-
-import sys
-sys.path.append('../..')
->>>>>>> 9f8a773f5113eb9d6f9d7fef2bd58417f2808ec5
-
 # -*- coding: utf-8 -*-
 import sys
 sys.path.append('../..')
