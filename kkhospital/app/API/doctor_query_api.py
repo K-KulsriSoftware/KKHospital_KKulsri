@@ -63,7 +63,7 @@ class doctor_query_api :
     		{
         		'$set': 
         		{
-        			'username' : username
+        			'username' : username,
         			'doctor_name_title' : doctor_name_title,
         			'doctor_name' : doctor_name,
         			'doctor_surname' : doctor_surname,
