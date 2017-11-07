@@ -16,7 +16,6 @@ class doctor_query_api :
 		])
 		doctors = []
 		for doctor in cursor :
-			doctor.pop('_id', None)
 			doctors.append(doctor)
 		return True, doctors
 

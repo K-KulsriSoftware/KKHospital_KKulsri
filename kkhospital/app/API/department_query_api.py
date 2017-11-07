@@ -14,7 +14,6 @@ class department_query_api :
 		])
 		departments = []
 		for department in cursor :
-			department.pop('_id', None)
 			departments.append(department)
 		return True, departments
 
