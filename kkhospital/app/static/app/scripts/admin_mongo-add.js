@@ -1,4 +1,5 @@
 var listCount = {};
+var fieldInfo = {};
 var type_map = {'int': 'number', 'double': 'number', 'string': 'text', 'date': 'date'};
 
 function extractFields($input, parent, fields) {
@@ -38,10 +39,7 @@ if (fields) {
             extractFields($input, fields[i].field_name, fields[i].dict);
         } else if (fields[i].field_type === 'list') {
             listCount[fields[i].field_name] = 0;
-            if (fields[i].value === 'dict') {
-
-            } else {
-                $input = $(`
+            $input = $(`
                 <div class="panel panel-default">
                     <div class="panel-heading">` + fields[i].field_name + `</div>
                     <div class="panel-body">
@@ -50,7 +48,7 @@ if (fields) {
                     </div>
                 </div>
             `);
-            }
+            fieldInfo[fields[i].field_name] = fields[i]
         } else {
             $input = $(`
                 <div class="form-group">
@@ -67,17 +65,28 @@ $('.add_list_item').click(function() {
     var field_name = $(this).attr('field_name');
     var field_type = $(this).attr('item_type');
     var $panelBody = $(this).parent();
-    var $item = $(`
-        <div class="list_item" field_name="` + field_name + `">
-            <input type="` + field_type + `" class="form-control" id="` + field_name + '[' + listCount[field_name] + `]" name="` + field_name + '[' + listCount[field_name] + `]">
-            <button class="btn btn-danger delete_list_item" type="button" generate="">-</button>
-        </div>
-    `);
-    listCount[field_name]++;
-    if($panelBody.find('.list_item').length > 0) {
-        $item.insertAfter($panelBody.find('.list_item:last'));
+    if (field_type === 'dict') {
+        $input = $(`
+            <div class="panel panel-default">
+                <div class="panel-heading">` + field_name + `</div>
+                <div class="panel-body">
+                </div>
+            </div>
+        `);
+        extractFields($input, field_name + '[' + listCount[field_name] + ']', fields[i].dict);
     } else {
-        $panelBody.prepend($item);
+        var $item = $(`
+            <div class="list_item" field_name="` + field_name + `">
+                <input type="` + field_type + `" class="form-control" id="` + field_name + '[' + listCount[field_name] + `]" name="` + field_name + '[' + listCount[field_name] + `]">
+                <button class="btn btn-danger delete_list_item" type="button" generate="">-</button>
+            </div>
+        `);
+        listCount[field_name]++;
+        if($panelBody.find('.list_item').length > 0) {
+            $item.insertAfter($panelBody.find('.list_item:last'));
+        } else {
+            $panelBody.prepend($item);
+        }
     }
     bindDeleteItemButton();
 });
