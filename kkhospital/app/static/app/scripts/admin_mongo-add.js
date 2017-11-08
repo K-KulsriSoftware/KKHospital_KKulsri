@@ -1,13 +1,13 @@
 var listCount = {};
 var type_map = {'int': 'number', 'double': 'number', 'string': 'text', 'date': 'date'};
 
-function extractFields($input, fields) {
+function extractFields($input, parent, fields) {
     for(i in fields) {
         if(fields[i].type !== 'dict') {
             $input.find('.panel-body:last').append(`
                 <div class="form-group">
                     <label for="` + fields[i].field_name + `">` + fields[i].field_name + `</label>
-                    <input type="` + type_map[fields[i].field_type] + `" class="form-control" id="` + fields[i].field_name + `" name="` + fields[i].field_name + `">
+                    <input type="` + type_map[fields[i].field_type] + `" class="form-control" id="` + parent + '[' + fields[i].field_name + `]" name="` + parent + '[' + fields[i].field_name + `]">
                 </div>
             `);
         } else {
@@ -18,7 +18,7 @@ function extractFields($input, fields) {
                     </div>
                 </div>
             `);
-            extractFields($input, fields[i].dict);
+            extractFields($input, parent + '[' + fields[i].field_name + ']', fields[i].dict);
         };
     }
 }
@@ -35,7 +35,7 @@ if (fields) {
                     </div>
                 </div>
             `);
-            extractFields($input, fields[i].dict);
+            extractFields($input, fields[i].field_name, fields[i].dict);
         } else if (fields[i].field_type === 'list') {
             listCount[fields[i].field_name] = 0;
             if (fields[i].value === 'dict') {
