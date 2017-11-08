@@ -411,20 +411,16 @@ def admin_mongo_add(request, collection_name):
             return redirect('..')
         else:
             return redirect('.')
-    status, result = api.get_collection_pattern(collection_name)
+    status, fields = api.get_collection_pattern(collection_name)
     found_id = False
-    for i in range(len(result)):
-        if result[i]['field_name'] == '_id':
+    for i in range(len(fields)):
+        if fields[i]['field_name'] == '_id':
             found_id = True
             index = i
             break
     if found_id:
-        del result[index]
-    print(result)
-    fields = []
-    clean_field(result, fields)
+        del fields[index]
     print(fields)
-    type_map = {'int': 'number', 'double': 'number', 'string': 'text', 'date': 'date'}
     return render(
         request,
         'app/admin_mongo-add.html',
@@ -432,8 +428,7 @@ def admin_mongo_add(request, collection_name):
             'title': 'mongoDB Admin',
             'header_title': 'mongoDB Admin',
             'collection_name': collection_name,
-            'fields': fields,
-            'type_map': type_map,
+            'fields': json.dumps(fields),
             'logo_link': '/admin-mongo',
         }
     )
