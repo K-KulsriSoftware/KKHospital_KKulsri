@@ -23,3 +23,7 @@ div.toolbar button{
 div.list_item > * {
   display: inline-block;
 }
+
+.data-table-wrapper {
+  overflow: auto;
+}
