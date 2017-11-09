@@ -13,7 +13,8 @@
         <form action="" method="POST" enctype='application/json'>
             {% csrf_token %}
             <input type="hidden" name="collection" value="{{ collection_name }}">
-            <!-- <input type="submit" class="btn btn-default"> -->
+            <div class="input-wrapper"></div>
+            <input type="submit" class="btn btn-default">
         </form>
         <br>
     {% endif %}

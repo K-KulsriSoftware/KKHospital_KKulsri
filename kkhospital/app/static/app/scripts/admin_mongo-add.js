@@ -69,7 +69,7 @@ if (fields) {
                 </div>
             `);
         }
-        $form.append($input);
+        $form.find('.input-wrapper').append($input);
     }
 }
 
