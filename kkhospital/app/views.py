@@ -382,35 +382,19 @@ def admin_mongo_collection(request, collection_name):
         }
     )
 
-def clean_field(org, res, name=''):
-    for field in org:
-        tmp = field['field_name']
-        if name != '':
-            tmp = '[' + tmp + ']'
-        if field['field_type'] == 'dict':
-            clean_field(field['dict'], res, name + tmp)
-        elif field['field_type'] == 'list' and field['value'] == 'dict':
-            clean_field(field['dict'], res, name + tmp + '[0]')
-        else:
-            this_field = {'field_name': name + tmp, 'field_type': field['field_type']}
-            if 'value' in field:
-                this_field['value'] = field['value']
-            res.append(this_field)
-            
-
-
 def admin_mongo_add(request, collection_name):
     if request.method == 'POST':
         tmp = dict(request.POST)
         for key in tmp:
             tmp[key] = tmp[key][0]
         del tmp['csrfmiddlewaretoken']
+        return JsonResponse(parse_json_form(tmp))
         # print(parse_json_form(tmp))
-        status, result = api.admin_insert_document(collection_name, parse_json_form(tmp))
-        if status:
-            return redirect('..')
-        else:
-            return redirect('.')
+        # status, result = api.admin_insert_document(collection_name, parse_json_form(tmp))
+        # if status:
+        #     return redirect('..')
+        # else:
+        #     return redirect('.')
     status, fields = api.get_collection_pattern(collection_name)
     found_id = False
     for i in range(len(fields)):

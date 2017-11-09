@@ -96,8 +96,10 @@ $('.add_list_item').click(function() {
         `);
     }
     listCount[field_name]++;
-    if($panelBody.find('.list_item').length > 0) {
+    if($panelBody.children('.list_item').length > 0) {
         $item.insertAfter($panelBody.find('.list_item:last'));
+    } else if ($panelBody.children('.panel').length > 0) {
+        $item.insertAfter($panelBody.children('.panel:last'));
     } else {
         $panelBody.prepend($item);
     }
