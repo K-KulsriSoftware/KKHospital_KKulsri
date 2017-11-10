@@ -358,15 +358,15 @@ def admin_mongo(request):
 # @staff_member_required(login_url='/accounts/login')
 def admin_mongo_collection(request, collection_name):
     assert isinstance(request, HttpRequest)
-    status, result = {
-        'buildings': api.get_all_buildings_name(),
-        'departments': api.get_all_departments_name(),
-        'doctors': api.get_all_doctors_name(),
-        'orders': api.get_all_orders(),
-        'patients': api.get_all_patients_name(),
-        'users': api.get_all_users_name(),
-        'packages': api.get_all_packages_name()
-    }.get(collection_name)
+    status, data = api.admin_get_all_document_names(collection_name)
+    result = []
+    for doc in data:
+        tmp = {}
+        for k, v in doc.items():
+            if k == '_id':
+                k = 'object_id'
+            tmp[k] = v
+        result.append(tmp)
     return render(
         request,
         'app/admin_mongo.html',

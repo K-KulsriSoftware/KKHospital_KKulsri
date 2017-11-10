@@ -48,7 +48,7 @@
                         </thead>
                         <tbody>
                             {% for doc in data %}
-                                <tr>
+                                <tr object_id="{{ doc.object_id }}">
                                     <td><input type="checkbox"></td>
                                     {% for field in data.0 %}
                                         <td>{{ doc|get_item:field }}</td>
@@ -65,5 +65,8 @@
 {% endblock %}
 
 {% block scripts %}
-<script src="{% static 'app/scripts/admin-mongo.js' %}"></script>
+    <script src="{% static 'app/scripts/admin-mongo.js' %}"></script>
+    {% if COLLECTION  %}
+        <script src="{% static 'app/scripts/admin_mongo-collection.js' %}"></script>
+    {% endif %}
 {% endblock %}
