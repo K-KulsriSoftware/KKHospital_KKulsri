@@ -16,7 +16,6 @@ class packages_query_api :
 		])
 		packages = []
 		for package in cursor :
-			package.pop('_id', None)
 			packages.append(package)
 		return True, packages
 
@@ -32,7 +31,6 @@ class packages_query_api :
         	}
 		])
 		for package in cursor :
-			package.pop('_id', None)
 			return True, package
 		return False, "No match package"
 
@@ -44,14 +42,13 @@ class packages_query_api :
         	},
         	{
         		'$project' : {
-        			'package_id' : '$_id',
-        			'package_name' : '$package_name'
+        			'_id' : 1,
+        			'package_name' : 1
         		}
         	}
 		])
 		packages = []
 		for package in cursor :
-			package.pop('_id', None)
 			packages.append(package)
 		return True, packages
 

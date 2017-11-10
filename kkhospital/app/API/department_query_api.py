@@ -38,14 +38,13 @@ class department_query_api :
         	},
         	{
         		'$project' : {
-        			'department_id' : '$department_id',
-        			'department_name' : '$department_name',
+        			'_id' : 1,
+        			'department_name' : 1,
         		}
         	}
 		])
 		departments = []
 		for department in cursor :
-			department.pop('_id', None)
 			departments.append(department)
 		return True, departments
 

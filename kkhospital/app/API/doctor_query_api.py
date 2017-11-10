@@ -40,16 +40,16 @@ class doctor_query_api :
         	},
         	{
         		'$project' : {
-        			'username' : '$username',
-        			'doctor_name_title' : '$doctor_name_title',
-        			'doctor_first_name' : '$doctor_name',
-        			'doctor_surname' : '$doctor_surname'
+        			'_id' : 1,
+        			'username' : 1,
+        			'doctor_name_title' : 1,
+        			'doctor_name' : 1,
+        			'doctor_surname' : 1
         		}
         	}
 		])
 		doctors = []
 		for doctor in cursor :
-			doctor.pop('_id', None)
 			doctors.append(doctor)
 		return True, doctors
 
