@@ -40,16 +40,16 @@ class patients_query_api :
         	},
         	{
         		'$project' : {
-        			'username' : '$username',
-        			'patient_name_title' : '$patient_name_title',
-        			'patient_first_name' : '$patient_name',
-        			'patient_surname' : '$patient_surname'
+        			'_id' : 1,
+        			'username' : 1,
+        			'patient_name_title' : 1,
+        			'patient_first_name' : 1,
+        			'patient_surname' : 1
         		}
         	}
 		])
 		patients = []
 		for patient in cursor :
-			patient.pop('_id', None)
 			patients.append(patient)
 		return True, patients
 

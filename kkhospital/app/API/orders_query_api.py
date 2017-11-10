@@ -39,7 +39,10 @@ class orders_query_api :
             },
             {
                 '$project' : {
-                    'order_id' : '$_id'
+                    '_id' : 1,
+                    'package_id' : 1,
+                    'doctor_id' : 1,
+                    'patient_id' : 1
                 }
             }
         ])
