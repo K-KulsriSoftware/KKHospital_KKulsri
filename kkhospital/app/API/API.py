@@ -207,7 +207,7 @@ class API :
 		return self.department_query_api.get_department_detail(department_id)
 
 	def get_all_departments_name(self) :
-		return self.department_query_api.get_all_departments()
+		return self.department_query_api.get_all_departments_name()
 
 	def update_department_profile(self, department_id=None, data=None) :
 		check, result = self.incomplete_input(locals())
@@ -256,7 +256,7 @@ class API :
 		return self.building_query_api.get_building_detail()
 
 	def get_all_buildings_name(self) :
-		return self.building_query_api.get_all_buildings()
+		return self.building_query_api.get_all_buildings_name()
 
 	def update_building_profile(self, building_id=None, data=None) :
 		check, result = self.incomplete_input(locals())
