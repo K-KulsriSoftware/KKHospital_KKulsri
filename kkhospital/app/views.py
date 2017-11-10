@@ -388,13 +388,13 @@ def admin_mongo_add(request, collection_name):
         for key in tmp:
             tmp[key] = tmp[key][0]
         del tmp['csrfmiddlewaretoken']
-        return JsonResponse(parse_json_form(tmp))
+        # return JsonResponse(parse_json_form(tmp))
         # print(parse_json_form(tmp))
-        # status, result = api.admin_insert_document(collection_name, parse_json_form(tmp))
-        # if status:
-        #     return redirect('..')
-        # else:
-        #     return redirect('.')
+        status, result = api.admin_insert_document(collection_name, parse_json_form(tmp))
+        if status:
+            return redirect('..')
+        else:
+            return redirect('.')
     status, fields = api.get_collection_pattern(collection_name)
     found_id = False
     for i in range(len(fields)):
@@ -404,7 +404,7 @@ def admin_mongo_add(request, collection_name):
             break
     if found_id:
         del fields[index]
-    print(fields)
+    # print(fields)
     return render(
         request,
         'app/admin_mongo-add.html',
