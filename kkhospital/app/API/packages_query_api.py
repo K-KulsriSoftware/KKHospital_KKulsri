@@ -62,12 +62,12 @@ class packages_query_api :
         		'$set':
         		{
         			'package_name' : package_name,
-        			'package_cost' : package_cost,
-        			'department_id' : department_id,
+        			'package_cost' : float(package_cost),
+        			'department_id' : ObjectId(department_id),
         			'description' : description,
         			'conditions' : conditions,
         			'package_notice' : package_notice,
-    				'building_id' : building_id
+    				'building_id' : ObjectId(building_id)
 
         		}
     		}
@@ -87,12 +87,12 @@ class packages_query_api :
 		self.db.packages.insert(
 			{
     			'package_name' : package_name,
-                'package_cost' : package_cost,
-                'department_id' : department_id,
-                'description' : description,
-                'conditions' : conditions,
-                'package_notice' : package_notice,
-                'building_id' : building_id
+        		'package_cost' : float(package_cost),
+        		'department_id' : ObjectId(department_id),
+        		'description' : description,
+        		'conditions' : conditions,
+        		'package_notice' : package_notice,
+    			'building_id' : ObjectId(building_id)
 			}
 	    )
 		return True,'Successfully Added'
