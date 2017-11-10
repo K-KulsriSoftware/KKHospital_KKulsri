@@ -460,8 +460,8 @@ class API :
 			'doctors' : self.insert_doctor,
 			'orders' : self.insert_order,
 			'packages' : self.insert_package,
-			'patients' : self.insert_patient,
-			'users' : self.insert_user
+			'patients' : self.insert_patient
+			#'users' : self.insert_user
 		}
 		if collection_name in functions :
 			return functions[collection_name](data_dict)
