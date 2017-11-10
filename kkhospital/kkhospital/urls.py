@@ -35,6 +35,8 @@ urlpatterns = [
         app.views.admin_mongo_collection, name='admin_mongo-collection'),
     url(r'^admin-mongo/collection/(?P<collection_name>\w{0,50})/add/$',
         app.views.admin_mongo_add, name='admin_mongo-add'),
+    url(r'^admin-mongo/collection/(?P<collection_name>\w{0,50})/edit/(?P<object_id>\w{0,50})$',
+        app.views.admin_mongo_edit, name='admin_mongo-edit'),
     url(r'^doctor_search_api/', app.views.doctor_search_api,
         name='doctor_search_api'),
     url(r'^doctor_auto_search_api/', app.views.doctor_auto_search_api,

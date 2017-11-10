@@ -417,6 +417,28 @@ def admin_mongo_add(request, collection_name):
         }
     )
 
+def admin_mongo_edit(request, collection_name, object_id):
+    status, fields = api.get_collection_pattern(collection_name)
+    found_id = False
+    for i in range(len(fields)):
+        if fields[i]['field_name'] == '_id':
+            found_id = True
+            index = i
+            break
+    if found_id:
+        del fields[index]
+    return render(
+        request,
+        'app/admin_mongo-add.html',
+        {
+            'title': 'mongoDB Admin',
+            'header_title': 'mongoDB Admin',
+            'collection_name': collection_name,
+            'fields': json.dumps(fields),
+            'logo_link': '/admin-mongo',
+        }
+    )
+
 
 def login(request):
     assert isinstance(request, HttpRequest)
