@@ -1,3 +1,7 @@
 $('.btn.delete').click(function() {
-    alert('hello')
+    var $rows = $('tbody input:checked').parent().parent();
+    $rows.each(function() {
+        $(this).remove();
+    });
+    $(this).addClass('hide');
 })
