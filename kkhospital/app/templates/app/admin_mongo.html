@@ -3,6 +3,9 @@
 {% block content %}
     {% load staticfiles %}
     <link rel="stylesheet" type="text/css" href="{% static 'app/css/admin-mongo.css' %}" />
+    {% if COLLECTION %}
+        <link rel="stylesheet" type="text/css" href="{% static 'app/css/admin_mongo-collection.css' %}" />
+    {% endif %}
     {% if toolbar %}
         <div class="row">
             <div class="col-md-12">
@@ -48,7 +51,7 @@
                         </thead>
                         <tbody>
                             {% for doc in data %}
-                                <tr object_id="{{ doc.object_id }}">
+                                <tr goto="edit/{{ doc.object_id }}">
                                     <td><input type="checkbox"></td>
                                     {% for field in data.0 %}
                                         <td>{{ doc|get_item:field }}</td>
