@@ -94,7 +94,6 @@ class department_query_api :
 	def insert_department(self, department_name, department_description) :
 		self.db.departments.insert(
 			{
-				'department_id' : get_new_department_id(),
 				'department_name' : department_name,
 				'department_description' : department_description
 			}
