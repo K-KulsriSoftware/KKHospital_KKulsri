@@ -415,8 +415,8 @@ class API :
 			'doctors' : self.get_doctor_detail,
 			'orders' : self.get_order_detail,
 			'packages' : self.get_package_detail,
-			'patients' : self.get_patient_detail,
-			'users' : self.get_user_detail
+			'patients' : self.get_patient_detail
+			#'users' : self.get_user_detail
 		}
 		if collection_name in functions :
 			return functions[collection_name](oid)
@@ -430,8 +430,8 @@ class API :
 			'doctors' : self.delete_doctor,
 			'orders' : self.delete_order,
 			'packages' : self.delete_package,
-			'patients' : self.delete_patient,
-			'users' : self.delete_user
+			'patients' : self.delete_patient
+			#'users' : self.delete_user
 		}
 		if collection_name in functions :
 			return functions[collection_name](oid)
@@ -445,8 +445,8 @@ class API :
 			'doctors' : self.update_doctor,
 			'orders' : self.update_order,
 			'packages' : self.update_package,
-			'patients' : self.update_patient,
-			'users' : self.update_user
+			'patients' : self.update_patient
+			#'users' : self.update_user
 		}
 		if collection_name in functions :
 			return functions[collection_name](oid, data_dict)
