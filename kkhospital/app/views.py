@@ -439,6 +439,13 @@ def admin_mongo_edit(request, collection_name, object_id):
         }
     )
 
+def admin_mongo_delete(request, collection_name, object_id):
+    if request.method == 'POST':
+        status, result = api.admin_delete_document(collection_name, object_id)
+        respose = {'ok': 1 if status else 0}
+        return JsonResponse(respose)
+    else:
+        pass
 
 def login(request):
     assert isinstance(request, HttpRequest)

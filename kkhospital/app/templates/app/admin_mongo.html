@@ -31,6 +31,7 @@
         {% endfor %}
     {% endif %}
     {% if COLLECTION and data %}
+        {% csrf_token %}
         <div class="row">
             <div class="col-md-12">
                 <div class="collection-header-wrapper"><span class="collection-header">Collection: {{ collection_name }}</span></div>
@@ -51,7 +52,7 @@
                         </thead>
                         <tbody>
                             {% for doc in data %}
-                                <tr goto="edit/{{ doc.object_id }}">
+                                <tr _id="{{ doc.object_id }}">
                                     <td><input type="checkbox"></td>
                                     {% for field in data.0 %}
                                         <td>{{ doc|get_item:field }}</td>
