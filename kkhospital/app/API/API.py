@@ -187,7 +187,7 @@ class API :
 	def delete_doctor(self, doctor_id=None) :
 		check, result = self.incomplete_input(locals())
 		if check : return True, result
-		return self.delete_doctor(self, doctor_id)
+		return self.doctor_query_api.delete_doctor(doctor_id)
 
 	def insert_doctor(self, data=None) :
 		check, result = self.incomplete_input(locals())

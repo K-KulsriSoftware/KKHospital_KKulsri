@@ -56,7 +56,7 @@ class building_query_api :
     		{
         		'$set': 
         		{
-        			'building_name' : building_name,
+        			'building_name' : building_name
         		}
     		}
 		)
