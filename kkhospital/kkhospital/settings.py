@@ -31,8 +31,6 @@ SECRET_KEY = 'y#p2efh3_3b9e!mioi97elz5cgx-u6v@&6d!0+4d3pt_=fw-w9'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
-
 
 # Application definition
 
@@ -50,6 +48,8 @@ INSTALLED_APPS = [
     'allauth',
     'allauth.account',
 ]
+
+SITE_ID = 1
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
