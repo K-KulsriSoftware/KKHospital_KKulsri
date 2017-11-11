@@ -385,8 +385,8 @@ class API :
 			'doctors' : self.get_all_doctors,
 			'orders' : self.get_all_orders,
 			'packages' : self.get_all_packages,
-			'patients' : self.get_all_patients,
-			'users' : self.get_all_users
+			'patients' : self.get_all_patients
+			#'users' : self.get_all_users
 		}
 		if collection_name in functions :
 			return functions[collection_name]()
@@ -400,8 +400,8 @@ class API :
 			'doctors' : self.get_all_doctors_name,
 			'orders' : self.get_all_orders_name,
 			'packages' : self.get_all_packages_name,
-			'patients' : self.get_all_patients_name,
-			'users' : self.get_all_users_name
+			'patients' : self.get_all_patients_name
+			#'users' : self.get_all_users_name
 		}
 		if collection_name in functions :
 			return functions[collection_name]()
