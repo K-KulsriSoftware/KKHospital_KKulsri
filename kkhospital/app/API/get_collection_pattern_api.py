@@ -437,17 +437,20 @@ class get_collection_pattern_api :
 				[
 					{
 						'field_name' : 'start',
-						'field_type' : 'date'
+						'field_type' : 'date',
+						'note' : 'with hour'
 					},
 					{
 						'field_name' : 'finish',
-						'field_type' : 'date'
+						'field_type' : 'date',
+						'note' : 'with hour'
 					}
 				]
 			},
 			{
 				'field_name' : 'bought_time',
-				'field_type' : 'date'
+				'field_type' : 'date',
+				'note' : 'with hour,min'
 			},
 			{
 				'field_name' : 'notice',
