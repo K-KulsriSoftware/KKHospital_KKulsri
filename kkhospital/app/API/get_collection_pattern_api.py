@@ -12,6 +12,7 @@ class get_collection_pattern_api :
 		self.hour_list = list(range(7, 23))
 		self.blood_abo_list = ['A', 'B', 'O', 'AB']
 		self.blood_group_rh = ['+', '-', 'positive', 'negative']
+		self.status_list = ['โสด', 'แต่งงาน', 'หม้าย']
 	'''
 	def str_type_name(self, field_type) :
 		#print(field_type)
@@ -334,7 +335,8 @@ class get_collection_pattern_api :
 			},
 			{
 				'field_name' : 'birthday',
-				'field_type' : 'date'
+				'field_type' : 'date',
+				'note' : 'without hour'
 			},
 			{
 				'field_name' : 'blood_group_abo',
@@ -360,7 +362,8 @@ class get_collection_pattern_api :
 			},
 			{
 				'field_name' : 'status',
-				'field_type' : 'int'
+				'field_type' : 'int',
+				'note' : self.status_list
 			},
 			{
 				'field_name' : 'patient_address',
