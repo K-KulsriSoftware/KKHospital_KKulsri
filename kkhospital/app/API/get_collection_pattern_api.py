@@ -3,9 +3,15 @@
 from datetime import datetime
 
 class get_collection_pattern_api :
-
+	
 	def __init__(self, db) :
 		self.db = db
+		self.name_title_list = ['นาย', 'นาง', 'นางสาว']
+		self.doctor_title_list = ['นายแพทย์', 'นายแพทย์หญิง']
+		self.gender_list = ['ชาย', 'หญิง', True, False]
+		self.hour_list = list(range(7, 23))
+		self.blood_abo_list = ['A', 'B', 'O', 'AB']
+		self.blood_group_rh = ['+', '-', 'positive', 'negative']
 	'''
 	def str_type_name(self, field_type) :
 		#print(field_type)
@@ -104,7 +110,8 @@ class get_collection_pattern_api :
 			},
 			{
 				'field_name' : 'doctor_name_title',
-				'field_type' : 'string'
+				'field_type' : 'string',
+				'note' : self.doctor_title_list
 			},
 			{
 				'field_name' : 'doctor_name',
@@ -116,11 +123,13 @@ class get_collection_pattern_api :
 			},
 			{
 				'field_name' : 'gender',
-				'field_type' : 'bool'
+				'field_type' : 'bool',
+				'note' : self.gender_list
 			},
 			{
 				'field_name' : 'birthday',
-				'field_type' : 'date'
+				'field_type' : 'date',
+				'note' : 'without hour'
 			},
 			{
 				'field_name' : 'office_phone_number',
@@ -165,11 +174,13 @@ class get_collection_pattern_api :
 						[
 							{
 								'field_name' : 'start',
-								'field_type' : 'string'
+								'field_type' : 'int',
+								'note' : self.hour_list
 							},
 							{
 								'field_name' : 'finish',
-								'field_type' : 'string'
+								'field_type' : 'int',
+								'note' : self.hour_list
 							}
 						]
 					},
@@ -181,11 +192,13 @@ class get_collection_pattern_api :
 						[
 							{
 								'field_name' : 'start',
-								'field_type' : 'string'
+								'field_type' : 'int',
+								'note' : self.hour_list
 							},
 							{
 								'field_name' : 'finish',
-								'field_type' : 'string'
+								'field_type' : 'int',
+								'note' : self.hour_list
 							}
 						]
 					},
@@ -197,11 +210,13 @@ class get_collection_pattern_api :
 						[
 							{
 								'field_name' : 'start',
-								'field_type' : 'string'
+								'field_type' : 'int',
+								'note' : self.hour_list
 							},
 							{
 								'field_name' : 'finish',
-								'field_type' : 'string'
+								'field_type' : 'int',
+								'note' : self.hour_list
 							}
 						]
 					},
@@ -213,11 +228,13 @@ class get_collection_pattern_api :
 						[
 							{
 								'field_name' : 'start',
-								'field_type' : 'string'
+								'field_type' : 'int',
+								'note' : self.hour_list
 							},
 							{
 								'field_name' : 'finish',
-								'field_type' : 'string'
+								'field_type' : 'int',
+								'note' : self.hour_list
 							}
 						]
 					},
@@ -229,11 +246,13 @@ class get_collection_pattern_api :
 						[
 							{
 								'field_name' : 'start',
-								'field_type' : 'string'
+								'field_type' : 'int',
+								'note' : self.hour_list
 							},
 							{
 								'field_name' : 'finish',
-								'field_type' : 'string'
+								'field_type' : 'int',
+								'note' : self.hour_list
 							}
 						]
 					},
@@ -245,11 +264,13 @@ class get_collection_pattern_api :
 						[
 							{
 								'field_name' : 'start',
-								'field_type' : 'string'
+								'field_type' : 'int',
+								'note' : self.hour_list
 							},
 							{
 								'field_name' : 'finish',
-								'field_type' : 'string'
+								'field_type' : 'int',
+								'note' : self.hour_list
 							}
 						]
 					},
@@ -261,11 +282,13 @@ class get_collection_pattern_api :
 						[
 							{
 								'field_name' : 'start',
-								'field_type' : 'string'
+								'field_type' : 'int',
+								'note' : self.hour_list
 							},
 							{
 								'field_name' : 'finish',
-								'field_type' : 'string'
+								'field_type' : 'int',
+								'note' : self.hour_list
 							}
 						]
 					},
@@ -285,7 +308,8 @@ class get_collection_pattern_api :
 			},
 			{
 				'field_name' : 'patient_name_title',
-				'field_type' : 'string'
+				'field_type' : 'string',
+				'note' : self.name_title_list
 			},
 			{
 				'field_name' : 'patient_name',
@@ -305,7 +329,8 @@ class get_collection_pattern_api :
 			},
 			{
 				'field_name' : 'gender',
-				'field_type' : 'bool'
+				'field_type' : 'bool',
+				'note' : self.gender_list
 			},
 			{
 				'field_name' : 'birthday',
@@ -313,11 +338,13 @@ class get_collection_pattern_api :
 			},
 			{
 				'field_name' : 'blood_group_abo',
-				'field_type' : 'int'
+				'field_type' : 'int',
+				'note' : self.blood_abo_list
 			},
 			{
 				'field_name' : 'blood_group_rh',
 				'field_type' : 'int',
+				'note' : self.blood_rh_list
 			},
 			{
 				'field_name' : 'race',
