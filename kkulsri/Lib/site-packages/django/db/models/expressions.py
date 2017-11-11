@@ -939,7 +939,7 @@ class Subquery(Expression):
                 )
                 # Add table alias to the parent query's aliases to prevent
                 # quoting.
-                if hasattr(resolved, 'alias'):
+                if hasattr(resolved, 'alias') and resolved.alias != resolved.target.model._meta.db_table:
                     clone.queryset.query.external_aliases.add(resolved.alias)
                 return resolved
             return child
@@ -1089,6 +1089,9 @@ class OrderBy(BaseExpression):
 
     def reverse_ordering(self):
         self.descending = not self.descending
+        if self.nulls_first or self.nulls_last:
+            self.nulls_first = not self.nulls_first
+            self.nulls_last = not self.nulls_last
         return self
 
     def asc(self):
