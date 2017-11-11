@@ -107,10 +107,8 @@ def doctor_detail(request):
     else:
         raise Http404("No doctor found")
 
+@login_required(login_url='/accounts/login')
 def member(request):
-    """Renders the about page."""
-    if not check_logged_in(request):
-        return redirect('/login/?next=/member/')
     assert isinstance(request, HttpRequest)
     blood_abo = ['-', 'A', 'B', 'O', 'AB']
     blood_rh = ['', 'RH ลบ', 'RH บวก']
@@ -131,7 +129,7 @@ def member(request):
         }
     )
 
-
+@login_required(login_url='/accounts/login')
 def edit_member_info(request):
     assert isinstance(request, HttpRequest)
     if request.method == 'POST':

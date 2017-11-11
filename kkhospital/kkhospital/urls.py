@@ -42,6 +42,7 @@ urlpatterns = [
 
     url(r'^admin/', admin.site.urls),
     url(r'^accounts/', include('allauth.urls')),
-    url(r'^accounts/member/$', app.views.member, name='member '),
-    url(r'^accounts/member/edit/$', app.views.edit_member_info, name='member '),
+    url(r'^member/$', app.views.member, name='member'),
+    url(r'^member/edit/$', app.views.edit_member_info, name='member'),
+    url(r'^register/$', app.views.register, name='register'),
 ]
