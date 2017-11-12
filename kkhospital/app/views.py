@@ -364,7 +364,7 @@ def admin_mongo_collection(request, collection_name):
     permissions['update'] = 1 if api.get_collection_permission(collection_name, 'update')[0] else 0
     print(collection_name)
     print(permissions)
-    status, data = api.admin_get_all_document_names(collection_name)
+    status, data = api.admin_get_all_documents(collection_name)
     result = []
     for doc in data:
         tmp = {}
