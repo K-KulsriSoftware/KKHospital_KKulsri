@@ -11,7 +11,7 @@ class register_api :
 				 birthday_year, birthday_month, birthday_day, blood_group_abo, blood_group_rh, race, nationallity,
 				 religion, status, patient_address, occupy, telephone_number, father_name, mother_name, emergency_name,
 				 emergency_phone, emergency_address, email, congenital_disease) :
-		self.db.patients.insert(
+		self.db.patients.insert_one(
 			{
     			'username' : username,
     			'patient_name_title' : patient_name_title,

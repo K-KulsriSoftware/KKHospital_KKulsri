@@ -110,7 +110,7 @@ class doctor_query_api :
 
 	def insert_doctor(self, username, doctor_name_title, doctor_name, doctor_surname, gender, birthday, 
 		office_phone_number, email, department_id, doctor_img, position, expertises, educations, working_time) :
-		self.db.doctors.insert(
+		self.db.doctors.insert_one(
 			{
 				'username' : username,
         		'doctor_name_title' : doctor_name_title,
