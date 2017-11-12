@@ -23,7 +23,7 @@ class department_query_api :
 			{
             	'$match' : 
             		{
-            			'department_id' : department_id
+            			'_id' : department_id
             		}
         	}
 		])
