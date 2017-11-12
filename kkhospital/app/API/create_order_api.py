@@ -10,13 +10,13 @@ class create_order_api :
     def get_package_cost(self,package_id) :
         cursor = self.db.packages.aggregate([
             {
-                '$match' : 
+                '$match' :
                 {
                     '_id' : ObjectId(package_id)
                 }
             },
             {
-                '$project' : 
+                '$project' :
                 {
                     'package_cost' : '$package_cost'
                 }
@@ -38,13 +38,13 @@ class create_order_api :
     def get_patient_id(self, patient_username):
         cursor = self.db.patients.aggregate([
             {
-                '$match' : 
+                '$match' :
                 {
                     'username' : patient_username
                 }
             },
             {
-                '$project' : 
+                '$project' :
                 {
                     'patient_id' : '$_id'
                 }
@@ -53,7 +53,7 @@ class create_order_api :
         for temp in cursor:
             return True, temp['patient_id']
         return False, 'patient error'
-    
+
     def insert_query(self, package_id, doctor_id, patient_id, package_cost, notice, time, bought_time) :
         self.db.orders.insert_one(
             {
@@ -61,7 +61,7 @@ class create_order_api :
                 'doctor_id' : ObjectId(doctor_id),
                 'patient_id' : patient_id,
                 'cost' : package_cost,
-                'time' : 
+                'time' :
                 {
                     'start' : datetime(time['year'], time['month'], time['date'], time['start_hr'], 0),
                     'finish' : datetime(time['year'], time['month'], time['date'], time['finish_hr'], 0)

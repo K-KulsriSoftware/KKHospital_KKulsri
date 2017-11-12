@@ -157,10 +157,10 @@ class API :
 		if check : return True, result
 		return self.show_confirmation_info_api.show_confirmation_info(package_id, doctor_id, username, time)
 
-	def create_order(self,package_id=None, doctor_id=None, patient_id=None, notice='', time=None) :
+	def create_order(self,package_id=None, doctor_id=None, patient_username=None, notice='', time=None) :
 		check, result = self.incomplete_input(locals())
 		if check : return True, result
-		return self.create_order_api.create_order(package_id, doctor_id, patient_id, notice, time)
+		return self.create_order_api.create_order(package_id, doctor_id, patient_username, notice, time)
 
 ###############
 
