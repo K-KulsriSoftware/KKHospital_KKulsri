@@ -2,8 +2,8 @@ var listCount = {};
 var fieldInfo = {};
 var type_map = {'int': 'number', 'double': 'number', 'string': 'text', 'date': 'date', 'dict': 'dict', 'list': 'list'};
 
-function extractFields($input, parent, fields, level) {
-    for(i in fields) {
+function extractFields($input, parent, fields, level, data) {
+    for(var i = 0; i < fields.length; i++) {
         if (fields[i].field_type === 'dict') {
             $input.find('.panel-body:eq('+level+')').append(`
                 <div class="panel panel-default">
@@ -12,7 +12,7 @@ function extractFields($input, parent, fields, level) {
                     </div>
                 </div>
             `);
-            extractFields($input, parent + '[' + fields[i].field_name + ']', fields[i].dict, level+1);
+            extractFields($input, parent + '[' + fields[i].field_name + ']', fields[i].dict, level+1, data && data[fields[i].field_name] ? data[fields[i].field_name] : null);
         } else if (fields[i].field_type === 'list') {
             listCount[parent + '[' + fields[i].field_name + ']'] = 0;
             $input.find('.panel-body:eq('+level+')').append(`
@@ -25,11 +25,44 @@ function extractFields($input, parent, fields, level) {
                 </div>
             `);
             fieldInfo[parent + '[' + fields[i].field_name + ']'] = fields[i];
+            if (data && data[fields[i].field_name]) {
+                var $parent = $input.find('.panel-body:eq('+(level + 1)+')');
+                var field_name = parent + '[' + fields[i].field_name + ']';
+                var field_type = type_map[fields[i].value];
+                for (var j = 0; j < data[fields[i].field_name].length; j++) {
+                    if (field_type === 'dict') {
+                        $item = $(`
+                            <div class="panel panel-default">
+                                <div class="panel-heading">` + field_name + `</div>
+                                <div class="panel-body">
+                                </div>
+                            </div>
+                        `);
+                        extractFields($item, field_name + '[' + listCount[field_name] + ']', fields[i].dict, level, data[fields[i].field_name][j]);
+                    } else {
+                        $item = $(`
+                            <div class="list_item" field_name="` + field_name + `">
+                                <input type="` + field_type + `" class="form-control" id="` + field_name + '[' + listCount[field_name] + `]" name="` + field_name + '[' + listCount[field_name] + `]" value="` + data[fields[i].field_name][j] + `">
+                                <button class="btn btn-danger delete_list_item" type="button" generate="">-</button>
+                            </div>
+                        `);
+                    }
+                    listCount[field_name]++;
+                    if($parent.children('.list_item').length > 0) {
+                        $item.insertAfter($parent.find('.list_item:last'));
+                    } else if ($parent.children('.panel').length > 0) {
+                        $item.insertAfter($parent.children('.panel:last'));
+                    } else {
+                        $parent.prepend($item);
+                    }
+                    bindDeleteItemButton();
+                }
+            }
         } else {
             $input.find('.panel-body:eq('+level+')').append(`
                 <div class="form-group">
                     <label for="` + fields[i].field_name + `">` + fields[i].field_name + `</label>
-                    <input type="` + type_map[fields[i].field_type] + `" class="form-control" id="` + parent + '[' + fields[i].field_name + `]" name="` + parent + '[' + fields[i].field_name + `]">
+                    <input type="` + type_map[fields[i].field_type] + `" class="form-control" id="` + parent + '[' + fields[i].field_name + `]" name="` + parent + '[' + fields[i].field_name + `]" value="` + (data && data[fields[i].field_name] ? data[fields[i].field_name] : '') + `">
                 </div>
             `);
         }
@@ -48,7 +81,7 @@ if (fields) {
                     </div>
                 </div>
             `);
-            extractFields($input, fields[i].field_name, fields[i].dict, 0);
+            extractFields($input, fields[i].field_name, fields[i].dict, 0, data[fields[i].field_name]);
         } else if (fields[i].field_type === 'list') {
             listCount[fields[i].field_name] = 0;
             $input = $(`
