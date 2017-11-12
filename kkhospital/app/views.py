@@ -358,7 +358,13 @@ def admin_mongo(request):
 # @staff_member_required(login_url='/accounts/login')
 def admin_mongo_collection(request, collection_name):
     assert isinstance(request, HttpRequest)
-    status, data = api.admin_get_all_document_names(collection_name)
+    permissions = {}
+    permissions['insert'] = 1 if api.get_collection_permission(collection_name, 'insert')[0] else 0
+    permissions['delete'] = 1 if api.get_collection_permission(collection_name, 'delete')[0] else 0
+    permissions['update'] = 1 if api.get_collection_permission(collection_name, 'update')[0] else 0
+    print(collection_name)
+    print(permissions)
+    status, data = api.admin_get_all_documents(collection_name)
     result = []
     for doc in data:
         tmp = {}
@@ -374,6 +380,7 @@ def admin_mongo_collection(request, collection_name):
             'title': 'mongoDB Admin',
             'header_title': 'mongoDB Admin',
             'collection_name': collection_name,
+            'permissions': permissions,
             'data': result,
             'COLLECTION': True,
             'toolbar': True,
