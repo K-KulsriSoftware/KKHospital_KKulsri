@@ -27,5 +27,9 @@
         var data = JSON.parse('{{ data|safe }}');
     {% endif %}
 </script>
-<script src="{% static 'app/scripts/admin_mongo-add.js' %}"></script>
+{% if data %}
+    <script src="{% static 'app/scripts/admin_mongo-edit.js' %}"></script>
+{% else %}
+    <script src="{% static 'app/scripts/admin_mongo-add.js' %}"></script>
+{% endif %}
 {% endblock %}
