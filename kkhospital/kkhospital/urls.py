@@ -42,7 +42,7 @@ urlpatterns = [
 
     url(r'^admin/', admin.site.urls),
     url(r'^accounts/', include('allauth.urls')),
-    url(r'^member/$', app.views.member, name='member'),
-    url(r'^member/edit/$', app.views.edit_member_info, name='edit_member_info'),
+    url(r'^member/(?P<member_name>\w{0,50})/$', app.views.member, name='member'),
+    url(r'^member/(?P<member_name>\w{0,50})/edit/$', app.views.edit_member_info, name='edit_member_info'),
     url(r'^register/$', app.views.register, name='register'),
 ]
