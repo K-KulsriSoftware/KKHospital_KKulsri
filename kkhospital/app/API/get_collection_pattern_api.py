@@ -14,7 +14,7 @@ class get_collection_pattern_api :
 		self.blood_group_rh = ['+', '-', 'positive', 'negative']
 		self.status_list = ['โสด', 'แต่งงาน', 'หม้าย']
 		self.permissions = {
-							'builidngs' : {'delete' : True, 'insert' : True, 'update' : True},
+							'buildings' : {'delete' : True, 'insert' : True, 'update' : True},
 							'departments' : {'delete' : True, 'insert' : True, 'update' : True},
 							'doctors' : {'delete' : False, 'insert' : False, 'update' : True},
 							'patients' : {'delete' : False, 'insert' : False, 'update' : True},
