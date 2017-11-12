@@ -71,7 +71,7 @@ class building_query_api :
 		return True, 'Successfully Removed'
 
 	def insert_building(self, building_name) :
-		self.db.buildings.insert(
+		self.db.buildings.insert_one(
 			{
 				'building_name' : building_name
 			}

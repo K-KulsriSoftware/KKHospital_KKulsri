@@ -385,8 +385,8 @@ class API :
 			'departments' : self.get_all_departments,
 			'doctors' : self.get_all_doctors,
 			'orders' : self.get_all_orders,
-			'packages' : self.get_all_packages,
-			'patients' : self.get_all_patients
+			'patients' : self.get_all_patients,
+			'packages' : self.get_all_packages
 			#'users' : self.get_all_users
 		}
 		if collection_name in functions :
@@ -400,8 +400,8 @@ class API :
 			'departments' : self.get_all_departments_name,
 			'doctors' : self.get_all_doctors_name,
 			'orders' : self.get_all_orders_name,
-			'packages' : self.get_all_packages_name,
-			'patients' : self.get_all_patients_name
+			'patients' : self.get_all_patients_name,
+			'packages' : self.get_all_packages_name
 			#'users' : self.get_all_users_name
 		}
 		if collection_name in functions :
@@ -415,8 +415,8 @@ class API :
 			'departments' : self.get_department_detail,
 			'doctors' : self.get_doctor_detail,
 			'orders' : self.get_order_detail,
-			'packages' : self.get_package_detail,
-			'patients' : self.get_patient_detail
+			'patients' : self.get_patient_detail,
+			'packages' : self.get_package_detail
 			#'users' : self.get_user_detail
 		}
 		if collection_name in functions :
@@ -428,10 +428,10 @@ class API :
 		functions = {
 			'buildings' : self.delete_building,
 			'departments' : self.delete_department,
-			'doctors' : self.delete_doctor,
-			'orders' : self.delete_order,
-			'packages' : self.delete_package,
-			'patients' : self.delete_patient
+			#'doctors' : self.delete_doctor,
+			#'orders' : self.delete_order,
+			#'patients' : self.delete_patient,
+			'packages' : self.delete_package
 			#'users' : self.delete_user
 		}
 		if collection_name in functions :
@@ -444,9 +444,9 @@ class API :
 			'buildings' : self.update_building,
 			'departments' : self.update_department,
 			'doctors' : self.update_doctor,
-			'orders' : self.update_order,
-			'packages' : self.update_package,
-			'patients' : self.update_patient
+			#'orders' : self.update_order,
+			'patients' : self.update_patient,
+			'packages' : self.update_package
 			#'users' : self.update_user
 		}
 		if collection_name in functions :
@@ -458,10 +458,10 @@ class API :
 		functions = {
 			'buildings' : self.insert_building,
 			'departments' : self.insert_department,
-			'doctors' : self.insert_doctor,
-			'orders' : self.insert_order,
-			'packages' : self.insert_package,
-			'patients' : self.insert_patient
+			#'doctors' : self.insert_doctor,
+			#'orders' : self.insert_order,
+			#'patients' : self.insert_patient,
+			'packages' : self.insert_package
 			#'users' : self.insert_user
 		}
 		if collection_name in functions :

@@ -84,7 +84,7 @@ class packages_query_api :
 
 
 	def insert_package(self, package_name, package_cost, department_id, description, conditions, package_notice, building_id) :
-		self.db.packages.insert(
+		self.db.packages.insert_one(
 			{
     			'package_name' : package_name,
         		'package_cost' : float(package_cost),
