@@ -394,8 +394,6 @@ def clean_field(org, res, name=''):
             if 'value' in field:
                 this_field['value'] = field['value']
             res.append(this_field)
-            
-
 
 def admin_mongo_add(request, collection_name):
     if request.method == 'POST':
@@ -436,58 +434,8 @@ def admin_mongo_add(request, collection_name):
         }
     )
 
-
-def login(request):
-    assert isinstance(request, HttpRequest)
-    if request.method == 'POST':
-        status, username = api.verify_password(
-            request.POST['username'], request.POST['password'])
-        if status:
-            status, result = api.check_already_used_this_username(
-                request.POST['username'])
-            if not status:
-                request.session['just_regis'] = True
-            request.session['user'] = {
-                'username': request.POST['username'], 'is_authenticated': True}
-            return redirect(request.POST['next'])
-
-        else:
-            return render(
-                request,
-                'app/login.html',
-                {
-                    'title': 'Log in',
-                    'error': True
-                }
-            )
-    if 'user' in request.session:  # mind add
-        if request.session['user'].get('is_authenticated'):  # mind one tab
-            return redirect('/')  # mind one tab
-    next_page = '/'
-    if 'next' in request.GET:
-        next_page = request.GET['next']
-    return render(
-        request,
-        'app/login.html',
-        {
-            'title': 'Log in',
-            'next': next_page
-        }
-    )
-
-
-def logout(request):
-    assert isinstance(request, HttpRequest)
-    request.session['user'] = {'is_authenticated': False}
-    print(request.session['user'])
-    return redirect('/')
-
-
 def register(request):
     """Renders the about page."""
-    assert isinstance(request, HttpRequest)
-    if not request.session.get('just_regis'):
-        raise Http404("Page not found")
     if request.method == 'POST':
         patient_name_title = request.POST['patient_name_title']
         patient_name = request.POST['patient_name']
