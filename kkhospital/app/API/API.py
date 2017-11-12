@@ -479,6 +479,11 @@ class API :
 		if check : return True, result
 		return self.get_collection_pattern_api.get_collection_pattern(collection_name)
 
+	def get_collection_permission(self, collection_name=None, request_permission=None) :
+		check, result = self.incomplete_input(locals())
+		if check : return True, result
+		return self.get_collection_pattern_api.get_collection_permission(collection_name, request_permission)		
+
 	def get_patient_orders(self, patient_username) :
 		check, result = self.incomplete_input(locals())
 		if check : return True, result

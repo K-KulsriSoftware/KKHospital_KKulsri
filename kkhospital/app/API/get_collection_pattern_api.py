@@ -13,6 +13,14 @@ class get_collection_pattern_api :
 		self.blood_abo_list = ['A', 'B', 'O', 'AB']
 		self.blood_group_rh = ['+', '-', 'positive', 'negative']
 		self.status_list = ['โสด', 'แต่งงาน', 'หม้าย']
+		self.permissions = {
+							'builidngs' : {'delete' : True, 'insert' : True, 'update' : True},
+							'departments' : {'delete' : True, 'insert' : True, 'update' : True},
+							'doctors' : {'delete' : False, 'insert' : False, 'update' : True},
+							'patients' : {'delete' : False, 'insert' : False, 'update' : True},
+							'packages' : {'delete' : True, 'insert' : True, 'update' : True},
+							'orders' : {'delete' : False, 'insert' : False, 'update' : False}
+							}
 	'''
 	def str_type_name(self, field_type) :
 		#print(field_type)
@@ -510,3 +518,10 @@ class get_collection_pattern_api :
 			return True, self.get_packages_pattern()
 		else :
 			return False, 'No collection name : ' + collection_name
+
+	def get_collection_permission(self, collection_name, permission_name) :
+		if not collection_name in self.permissions :
+			return False, f'No collection name, {collection_name}'
+		if not permission_name in ['delete', 'insert', 'update'] :
+			return False, f'No permission name, {permission_name}'
+		return self.permissions[collection_name][permission], 'collection and permission found'
