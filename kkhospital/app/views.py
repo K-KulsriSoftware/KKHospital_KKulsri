@@ -440,6 +440,16 @@ def clean_datatype(data):
 
 
 def admin_mongo_edit(request, collection_name, object_id):
+    if request.method == 'POST':
+        tmp = dict(request.POST)
+        for key in tmp:
+            tmp[key] = tmp[key][0]
+        del tmp['csrfmiddlewaretoken']
+        status, result = api.admin_update_document(collection_name, object_id, tmp)
+        if status:
+            return redirect('..')
+        else:
+            return redirect('.')
     status, fields = api.get_collection_pattern(collection_name)
     status, data = api.admin_get_detail(collection_name, object_id)
     clean_datatype(data)
