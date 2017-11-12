@@ -445,7 +445,8 @@ def admin_mongo_edit(request, collection_name, object_id):
         for key in tmp:
             tmp[key] = tmp[key][0]
         del tmp['csrfmiddlewaretoken']
-        status, result = api.admin_update_document(collection_name, object_id, tmp)
+        # return JsonResponse(parse_json_form(tmp))
+        status, result = api.admin_update_document(collection_name, object_id, parse_json_form(tmp))
         if status:
             return redirect('..')
         else:
