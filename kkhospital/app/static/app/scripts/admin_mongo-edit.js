@@ -62,10 +62,14 @@ if (fields) {
             `);
             fieldInfo[fields[i].field_name] = fields[i]
         } else {
+            var thisFieldData = data[fields[i].field_name];
+            if (fields[i].field_type === 'date' && fields[i].note === 'without hour') {
+                thisFieldData = thisFieldData.split(' ')[0];
+            }
             $input = $(`
                 <div class="form-group">
                     <label for="` + fields[i].field_name + `">` + fields[i].field_name + `</label>
-                    <input type="` + type_map[fields[i].field_type] + `" class="form-control" id="` + fields[i].field_name + `" name="` + fields[i].field_name + `" value="` + data[fields[i].field_name] + `">
+                    <input type="` + type_map[fields[i].field_type] + `" class="form-control" id="` + fields[i].field_name + `" name="` + fields[i].field_name + `" value="` + thisFieldData + `">
                 </div>
             `);
         }
