@@ -358,15 +358,15 @@ def admin_mongo(request):
 # @staff_member_required(login_url='/accounts/login')
 def admin_mongo_collection(request, collection_name):
     assert isinstance(request, HttpRequest)
-    status, result = {
-        'buildings': api.get_all_buildings_name(),
-        'departments': api.get_all_departments_name(),
-        'doctors': api.get_all_doctors_name(),
-        'orders': api.get_all_orders(),
-        'patients': api.get_all_patients_name(),
-        'users': api.get_all_users_name(),
-        'packages': api.get_all_packages_name()
-    }.get(collection_name)
+    status, data = api.admin_get_all_document_names(collection_name)
+    result = []
+    for doc in data:
+        tmp = {}
+        for k, v in doc.items():
+            if k == '_id':
+                k = 'object_id'
+            tmp[k] = v
+        result.append(tmp)
     return render(
         request,
         'app/admin_mongo.html',
@@ -382,49 +382,29 @@ def admin_mongo_collection(request, collection_name):
         }
     )
 
-def clean_field(org, res, name=''):
-    for field in org:
-        tmp = field['field_name']
-        if name != '':
-            tmp = '[' + tmp + ']'
-        if field['field_type'] == 'dict':
-            clean_field(field['dict'], res, name + tmp)
-        elif field['field_type'] == 'list' and field['value'] == 'dict':
-            clean_field(field['dict'], res, name + tmp + '[0]')
-        else:
-            this_field = {'field_name': name + tmp, 'field_type': field['field_type']}
-            if 'value' in field:
-                this_field['value'] = field['value']
-            res.append(this_field)
-            
-
-
 def admin_mongo_add(request, collection_name):
     if request.method == 'POST':
         tmp = dict(request.POST)
         for key in tmp:
             tmp[key] = tmp[key][0]
         del tmp['csrfmiddlewaretoken']
+        # return JsonResponse(parse_json_form(tmp))
         # print(parse_json_form(tmp))
         status, result = api.admin_insert_document(collection_name, parse_json_form(tmp))
         if status:
             return redirect('..')
         else:
             return redirect('.')
-    status, result = api.get_collection_pattern(collection_name)
+    status, fields = api.get_collection_pattern(collection_name)
     found_id = False
-    for i in range(len(result)):
-        if result[i]['field_name'] == '_id':
+    for i in range(len(fields)):
+        if fields[i]['field_name'] == '_id':
             found_id = True
             index = i
             break
     if found_id:
-        del result[index]
-    print(result)
-    fields = []
-    clean_field(result, fields)
-    print(fields)
-    type_map = {'int': 'number', 'double': 'number', 'string': 'text', 'date': 'date'}
+        del fields[index]
+    # print(fields)
     return render(
         request,
         'app/admin_mongo-add.html',
@@ -432,12 +412,40 @@ def admin_mongo_add(request, collection_name):
             'title': 'mongoDB Admin',
             'header_title': 'mongoDB Admin',
             'collection_name': collection_name,
-            'fields': fields,
-            'type_map': type_map,
+            'fields': json.dumps(fields),
             'logo_link': '/admin-mongo',
         }
     )
 
+def admin_mongo_edit(request, collection_name, object_id):
+    status, fields = api.get_collection_pattern(collection_name)
+    found_id = False
+    for i in range(len(fields)):
+        if fields[i]['field_name'] == '_id':
+            found_id = True
+            index = i
+            break
+    if found_id:
+        del fields[index]
+    return render(
+        request,
+        'app/admin_mongo-add.html',
+        {
+            'title': 'mongoDB Admin',
+            'header_title': 'mongoDB Admin',
+            'collection_name': collection_name,
+            'fields': json.dumps(fields),
+            'logo_link': '/admin-mongo',
+        }
+    )
+
+def admin_mongo_delete(request, collection_name, object_id):
+    if request.method == 'POST':
+        status, result = api.admin_delete_document(collection_name, object_id)
+        respose = {'ok': 1 if status else 0}
+        return JsonResponse(respose)
+    else:
+        pass
 
 def login(request):
     assert isinstance(request, HttpRequest)

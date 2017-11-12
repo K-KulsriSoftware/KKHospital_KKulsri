@@ -3,6 +3,9 @@
 {% block content %}
     {% load staticfiles %}
     <link rel="stylesheet" type="text/css" href="{% static 'app/css/admin-mongo.css' %}" />
+    {% if COLLECTION %}
+        <link rel="stylesheet" type="text/css" href="{% static 'app/css/admin_mongo-collection.css' %}" />
+    {% endif %}
     {% if toolbar %}
         <div class="row">
             <div class="col-md-12">
@@ -28,6 +31,7 @@
         {% endfor %}
     {% endif %}
     {% if COLLECTION and data %}
+        {% csrf_token %}
         <div class="row">
             <div class="col-md-12">
                 <div class="collection-header-wrapper"><span class="collection-header">Collection: {{ collection_name }}</span></div>
@@ -36,7 +40,7 @@
         <div class="row">
             <div class="col-md-12">
             {% if data|length > 0 %}
-                <div class="table-responsive">
+                <div class="table-responsive data-table-wrapper">
                     <table class="table">
                         <thead>
                             <tr>
@@ -48,7 +52,7 @@
                         </thead>
                         <tbody>
                             {% for doc in data %}
-                                <tr>
+                                <tr _id="{{ doc.object_id }}">
                                     <td><input type="checkbox"></td>
                                     {% for field in data.0 %}
                                         <td>{{ doc|get_item:field }}</td>
@@ -65,5 +69,9 @@
 {% endblock %}
 
 {% block scripts %}
-<script src="{% static 'app/scripts/admin-mongo.js' %}"></script>
+    <script src="{% static 'app/scripts/admin-mongo.js' %}"></script>
+    {% if COLLECTION  %}
+        <script src="{% static 'app/scripts/admin_mongo-collection.js' %}"></script>
+        <script src="{% static 'app/scripts/admin_mongo-delete.js' %}"></script>
+    {% endif %}
 {% endblock %}

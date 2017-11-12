@@ -38,8 +38,8 @@ class building_query_api :
         	},
         	{
         		'$project' : {
-        			'building_id' : '$_id',
-        			'building_name' : '$building_name',
+        			'_id' : 1,
+        			'building_name' : 1,
         		}
         	}
 		])
@@ -56,7 +56,7 @@ class building_query_api :
     		{
         		'$set': 
         		{
-        			'building_name' : building_name,
+        			'building_name' : building_name
         		}
     		}
 		)

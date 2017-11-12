@@ -1,6 +1,7 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
 from pprint import pprint
+from bson.objectid import ObjectId
 class department_query_api :
 
 	def __init__(self, db) :##
@@ -14,7 +15,6 @@ class department_query_api :
 		])
 		departments = []
 		for department in cursor :
-			department.pop('_id', None)
 			departments.append(department)
 		return True, departments
 
@@ -39,14 +39,13 @@ class department_query_api :
         	},
         	{
         		'$project' : {
-        			'department_id' : '$department_id',
-        			'department_name' : '$department_name',
+        			'_id' : 1,
+        			'department_name' : 1,
         		}
         	}
 		])
 		departments = []
 		for department in cursor :
-			department.pop('_id', None)
 			departments.append(department)
 		return True, departments
 
@@ -68,7 +67,7 @@ class department_query_api :
 	def delete_department(self, department_id) :
 		self.db.departments.delete_one(
 			{
-				'department_id' : department_id
+				'_id' : ObjectId(department_id)
 			}
 		)
 		return True, 'Successfully Removed'
@@ -96,7 +95,6 @@ class department_query_api :
 	def insert_department(self, department_name, department_description) :
 		self.db.departments.insert(
 			{
-				'department_id' : get_new_department_id(),
 				'department_name' : department_name,
 				'department_description' : department_description
 			}
