@@ -252,8 +252,10 @@ class API :
 	def get_all_buildings(self) :
 		return self.building_query_api.get_all_buildings()
 
-	def get_building_detail(self) :
-		return self.building_query_api.get_building_detail()
+	def get_building_detail(self, building_id=None) :
+		check, result = self.incomplete_input(locals())
+		if check : return True, result
+		return self.building_query_api.get_building_detail(building_id)
 
 	def get_all_buildings_name(self) :
 		return self.building_query_api.get_all_buildings_name()
