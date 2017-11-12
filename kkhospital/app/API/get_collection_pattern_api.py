@@ -8,10 +8,10 @@ class get_collection_pattern_api :
 		self.db = db
 		self.name_title_list = ['นาย', 'นาง', 'นางสาว']
 		self.doctor_title_list = ['นายแพทย์', 'นายแพทย์หญิง']
-		self.gender_list = ['ชาย', 'หญิง', True, False]
+		self.gender_list = ['ชาย', 'หญิง']
 		self.hour_list = list(range(7, 23))
 		self.blood_abo_list = ['A', 'B', 'O', 'AB']
-		self.blood_group_rh = ['+', '-', 'positive', 'negative']
+		self.blood_rh_list = ['RH+', 'RH-']
 		self.status_list = ['โสด', 'แต่งงาน', 'หม้าย']
 		self.permissions = {
 							'buildings' : {'delete' : True, 'insert' : True, 'update' : True},
