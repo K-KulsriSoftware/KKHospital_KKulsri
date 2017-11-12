@@ -23,12 +23,11 @@ class department_query_api :
 			{
             	'$match' : 
             		{
-            			'_id' : department_id
+            			'_id' : ObjectId(department_id)
             		}
         	}
 		])
 		for department in cursor :
-			department.pop('_id', None)
 			return True, department
 		return False, "No match profile"
 
