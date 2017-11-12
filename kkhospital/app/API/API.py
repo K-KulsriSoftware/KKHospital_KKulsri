@@ -278,10 +278,10 @@ class API :
 	def get_all_patients(self) :
 		return self.patients_query_api.get_all_patients()
 
-	def get_patients_detail(self,patient_id=None) :
+	def get_patient_detail(self,patient_id=None) :
 		check, result = self.incomplete_input(locals())
 		if check : return True, result
-		return self.patients_query_api.get_patients_detail(patient_id)
+		return self.patients_query_api.get_patient_detail(patient_id)
 
 	def get_all_patients_name(self) :
 		return self.patients_query_api.get_all_patients_name()

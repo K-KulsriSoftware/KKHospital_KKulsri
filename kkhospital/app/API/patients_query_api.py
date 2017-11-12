@@ -19,7 +19,7 @@ class patients_query_api :
 			patients.append(patient)
 		return True, patients
 
-	def get_patients_detail(self,patient_id) :
+	def get_patient_detail(self,patient_id) :
 		cursor = self.db.patients.aggregate([
 			{
             	'$match' :
