@@ -29,7 +29,6 @@ class doctor_query_api :
         	}
 		])
 		for doctor in cursor :
-			doctor.pop('_id', None)
 			return True, doctor
 		return False, "No match profile"
 
