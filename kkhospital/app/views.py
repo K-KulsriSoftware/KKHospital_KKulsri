@@ -111,6 +111,7 @@ def member(request, member_name):
     blood_abo = ['-', 'A', 'B', 'O', 'AB']
     blood_rh = ['', 'RH ลบ', 'RH บวก']
     status_t, member_id = api.get_patient_id(member_name)
+    print(member_id)
     status, member_detail = api.get_patients_detail( member_id )
     member_detail['blood_group_abo'] = blood_abo[member_detail['blood_group_abo']]
     member_detail['blood_group_rh'] = blood_rh[member_detail['blood_group_rh']]
