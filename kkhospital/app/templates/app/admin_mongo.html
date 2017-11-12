@@ -10,8 +10,12 @@
         <div class="row">
             <div class="col-md-12">
                 <div class="toolbar">
-                    <button class="btn btn-default btn-danger delete hide" type="button">Delete</button>
-                    <a href="add"><button class="btn btn-default add" type="button">Add</button></a>
+                    {% if permissions.delete %}
+                        <button class="btn btn-default btn-danger delete hide" type="button">Delete</button>
+                    {% endif %}
+                    {% if permissions.insert %}
+                        <a href="add"><button class="btn btn-default add" type="button">Add</button></a>
+                    {% endif %}
                 </div>
             </div>
         </div>
@@ -71,6 +75,9 @@
 {% block scripts %}
     <script src="{% static 'app/scripts/admin-mongo.js' %}"></script>
     {% if COLLECTION  %}
+        <script>
+            var permissions = {{ permissions|safe }};
+        </script>
         <script src="{% static 'app/scripts/admin_mongo-collection.js' %}"></script>
         <script src="{% static 'app/scripts/admin_mongo-delete.js' %}"></script>
     {% endif %}
