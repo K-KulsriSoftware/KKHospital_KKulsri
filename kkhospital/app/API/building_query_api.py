@@ -21,7 +21,7 @@ class building_query_api :
 	def get_building_detail(self,building_id) :
 		cursor = self.db.buildings.aggregate([
 			{
-            	'$match' : 
+            	'$match' :
             		{
             			'_id' : ObjectId(building_id)
             		}
@@ -54,7 +54,7 @@ class building_query_api :
         		'_id': ObjectId(building_id)
     		},
     		{
-        		'$set': 
+        		'$set':
         		{
         			'building_name' : building_name
         		}
@@ -71,7 +71,7 @@ class building_query_api :
 		return True, 'Successfully Removed'
 
 	def insert_building(self, building_name) :
-		self.db.buildings.insert(
+		self.db.buildings.insert_one(
 			{
 				'building_name' : building_name
 			}

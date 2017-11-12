@@ -47,11 +47,3 @@ class TestUM(unittest.TestCase) :
     '''
 if __name__ == '__main__' :
     unittest.main()
-
-'''
-dict_test = {'a':1, 'b':2}
-list_key = []
-print (dict_test)
-for k in dict_test : list_key.append(k)
-print (list_key
-'''
