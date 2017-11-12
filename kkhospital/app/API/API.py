@@ -230,10 +230,10 @@ class API :
 	def get_all_users(self) :
 		return self.user_query_api.get_all_users()
 
-	def get_user_detail(self,user_id=None) :
+	def get_user_detail(self,username=None) :
 		check, result = self.incomplete_input(locals())
 		if check : return True, result
-		return self.user_query_api.get_user_detail(user_id)
+		return self.user_query_api.get_user_detail(username)
 
 	def get_all_users_name(self) :
 		return self.user_query_api.get_all_users()
