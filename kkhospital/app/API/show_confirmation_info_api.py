@@ -11,7 +11,7 @@ class show_confirmation_info_api :
 			{
 				'$match' : 
 				{
-            		'package_id' : package_id
+            		'_id' : package_id
             	}
 			},
 			{
