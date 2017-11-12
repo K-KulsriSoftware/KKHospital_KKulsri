@@ -524,4 +524,4 @@ class get_collection_pattern_api :
 			return False, f'No collection name, {collection_name}'
 		if not permission_name in ['delete', 'insert', 'update'] :
 			return False, f'No permission name, {permission_name}'
-		return self.permissions[collection_name][permission], 'collection and permission found'
+		return self.permissions[collection_name][permission_name], 'collection and permission found'
