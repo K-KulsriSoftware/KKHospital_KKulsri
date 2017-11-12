@@ -325,7 +325,7 @@ class API :
 	def get_patient_id(self, patient_username=None) :
 		check, result = self.incomplete_input(locals())
 		if check : return True, result
-		return self.create_order.get_patient_id(patient_username)
+		return self.create_order_api.get_patient_id(patient_username)
 #############
 
 	def get_all_packages(self) :
