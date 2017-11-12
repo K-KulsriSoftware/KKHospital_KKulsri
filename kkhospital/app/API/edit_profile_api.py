@@ -12,7 +12,7 @@ class edit_profile_api :
         		'username': username
     		},
     		{
-        		'$set': 
+        		'$set':
         		{
 	               	'email': email,
 	               	'telphone_number' : telphone_number,
