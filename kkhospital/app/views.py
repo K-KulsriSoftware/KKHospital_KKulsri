@@ -6,6 +6,7 @@ from django.contrib.admin.views.decorators import staff_member_required
 from datetime import datetime
 from django.template.defaulttags import register
 from html_json_forms import parse_json_form
+from bson.objectid import ObjectId
 import json
 # Create your views here.
 from .API.API import API
@@ -424,10 +425,24 @@ def admin_mongo_add(request, collection_name):
         }
     )
 
+def clean_datatype(data):
+    for k, v in data.items():
+        if type(v) == type(datetime.now()) or type(v) == type(ObjectId()):
+            data[k] = str(v)
+        elif type(v) == type({}):
+            clean_datatype(data[k])
+        elif type(v) == type([]):
+            for i in range(len(v)):
+                if type(v) == type(datetime.now()) or type(v) == type(ObjectId()):
+                    data[k] = str(v)
+                elif type(v) == type({}):
+                    clean_datatype(v[i])
+
+
 def admin_mongo_edit(request, collection_name, object_id):
     status, fields = api.get_collection_pattern(collection_name)
     status, data = api.admin_get_detail(collection_name, object_id)
-    data['_id'] = str(data['_id'])
+    clean_datatype(data)
     found_id = False
     for i in range(len(fields)):
         if fields[i]['field_name'] == '_id':
