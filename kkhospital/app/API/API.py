@@ -321,6 +321,11 @@ class API :
 		check, result = self.incomplete_input(locals())
 		if check : return True, result
 		return self.patients_query_api.check_already_used_this_username(username)
+
+	def get_patient_id(self, patient_username=None) :
+		check, result = self.incomplete_input(locals())
+		if check : return True, result
+		return self.create_order.get_patient_id(patient_username)
 #############
 
 	def get_all_packages(self) :
