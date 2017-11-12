@@ -48,10 +48,10 @@ class department_query_api :
 			departments.append(department)
 		return True, departments
 
-	def update_department_profile(self, department_id, department_name, department_description) :
+	def update_department(self, department_id, department_name, department_description) :
 		self.db.departments.update_one(
 			{
-        		'department_id': department_id
+        		'_id': ObjectId(department_id)
     		},
     		{
         		'$set': 

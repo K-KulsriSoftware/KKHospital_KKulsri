@@ -48,7 +48,7 @@ class building_query_api :
 			buildings.append(building)
 		return True, buildings
 
-	def update_building_profile(self, building_id, building_name) :
+	def update_building(self, building_id, building_name) :
 		self.db.buildings.update_one(
 			{
         		'_id': ObjectId(building_id)

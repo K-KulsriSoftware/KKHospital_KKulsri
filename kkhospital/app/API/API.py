@@ -209,10 +209,10 @@ class API :
 	def get_all_departments_name(self) :
 		return self.department_query_api.get_all_departments_name()
 
-	def update_department_profile(self, department_id=None, data=None) :
+	def update_department(self, department_id=None, data=None) :
 		check, result = self.incomplete_input(locals())
 		if check : return True, result
-		return self.department_query_api.update_department_profile(department_id, data['department_name'], data['department_description'])
+		return self.department_query_api.update_department(department_id, data['department_name'], data['department_description'])
 
 	def delete_department(self, department_id=None) :
 		check, result = self.incomplete_input(locals())
@@ -260,10 +260,10 @@ class API :
 	def get_all_buildings_name(self) :
 		return self.building_query_api.get_all_buildings_name()
 
-	def update_building_profile(self, building_id=None, data=None) :
+	def update_building(self, building_id=None, data=None) :
 		check, result = self.incomplete_input(locals())
 		if check : return True, result
-		return self.building_query_api.update_building_profile(building_id, data['building_name'])
+		return self.building_query_api.update_building(building_id, data['building_name'])
 
 	def delete_building(self, building_id=None) :
 		check, result = self.incomplete_input(locals())
