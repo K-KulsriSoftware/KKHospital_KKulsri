@@ -23,6 +23,9 @@
 {% block scripts %}
 <script>
     var fields = JSON.parse('{{ fields|safe }}');
+    {% if data %}
+        var data = JSON.parse('{{ data|safe }}');
+    {% endif %}
 </script>
 <script src="{% static 'app/scripts/admin_mongo-add.js' %}"></script>
 {% endblock %}
