@@ -28,12 +28,11 @@ class show_doctor_detail_api :
 					'position' : '$position',
 					'expertises' : '$expertises',
 					'educations' : '$educations',
-					'language' : '$language',
 					'working_time' : '$working_time',
         		}
      		}
 		])
-	
+
 	def show_doctor_detail(self, doctor_id) :
 		doctors = self.get_doctor_query(doctor_id)
 		for doctor in doctors :
