@@ -1,5 +1,6 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
+from datetime import datetime
 
 class show_confirmation_info_api :
 
@@ -77,5 +78,6 @@ class show_confirmation_info_api :
 			patient.pop('_id',None)
 			res_patient = patient
 		#dateandtime = "time" : {'start':datetime(time['year'],time['month'],time['date'],time['start_hr'],0),'finish':datetime(time['year'],time['month'],time['date'],time['finish_hr'],0)}
+		timeout = {'start':datetime(time['year'],time['month'],time['date'],time['start_hr'],0),'finish':datetime(time['year'],time['month'],time['date'],time['finish_hr'],0)}
 		result = {**res_package,**res_doctor,**res_patient,**time}
 		return True, result

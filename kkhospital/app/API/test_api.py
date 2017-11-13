@@ -253,7 +253,7 @@ status,result = api.create_order('59d8bc02612d9a6b5fb41c33', '59d8ca694ddf3286ea
 '''
 
 #test show_confirmation_info
-'''
+
 status,result = api.show_confirmation_info('p00003','d002', 'admao',
 				{
     	    		"year" : 2017,
@@ -262,7 +262,7 @@ status,result = api.show_confirmation_info('p00003','d002', 'admao',
 					"start_hr" : 9,
 					"finish_hr" : 10,
     			})
-'''
+
 
 #test get_collection_pattern
 #status, result = api.get_collection_pattern('doctors')
@@ -281,7 +281,7 @@ status,result = api.show_confirmation_info('p00003','d002', 'admao',
 
 #test verify_password()
 #status, result = api.verify_password('mind', '5555')
-status, result = api.verify_password('mind', 'jirateep')
+#status, result = api.verify_password('mind', 'jirateep')
 
 if status :
 	pprint(result)
