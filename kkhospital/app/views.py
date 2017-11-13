@@ -438,6 +438,20 @@ def clean_datatype(data):
                 elif type(v) == type({}):
                     clean_datatype(v[i])
 
+def fill_field(fields, data):
+    for field in fields:
+        if data == None or data.get(field['field_name']) == None:
+            if field['field_type'] == 'dict':
+                fill_field(field['dict'], None)
+            else:
+                data[field['field_name']] = None
+        elif field['field_type'] == 'date':
+            tmp = data[field['field_name']].split('-')
+            data[field['field_name']] = {
+                'year': tmp[0],
+                'month': tmp[1],
+                'day': tmp[2]
+            }
 
 def admin_mongo_edit(request, collection_name, object_id):
     if request.method == 'POST':
@@ -446,7 +460,10 @@ def admin_mongo_edit(request, collection_name, object_id):
             tmp[key] = tmp[key][0]
         del tmp['csrfmiddlewaretoken']
         # return JsonResponse(parse_json_form(tmp))
-        status, result = api.admin_update_document(collection_name, object_id, parse_json_form(tmp))
+        data = parse_json_form(tmp)
+        status, fields = api.get_collection_pattern(collection_name)
+        fill_field(fields, data)
+        status, result = api.admin_update_document(collection_name, object_id, data)
         if status:
             return redirect('..')
         else:
