@@ -27,3 +27,5 @@ class TestUM(unittest.TestCase) :
         self.assertEqual( status ,True )
         self.assertEqual( sorted(list_key[0]) , sorted(list_result))
 
+if __name__ == '__main__' :
+    unittest.main()
