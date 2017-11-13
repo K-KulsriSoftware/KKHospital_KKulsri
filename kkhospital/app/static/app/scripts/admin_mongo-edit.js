@@ -107,6 +107,39 @@ if (fields) {
                 </div>
             `);
             fieldInfo[fields[i].field_name] = fields[i]
+            if (data && data[fields[i].field_name]) {
+                var $parent = $input.find('.panel-body');
+                var field_name = fields[i].field_name;
+                var field_type = type_map[fields[i].value];
+                for (var j = 0; j < data[fields[i].field_name].length; j++) {
+                    if (field_type === 'dict') {
+                        $item = $(`
+                            <div class="panel panel-default">
+                                <div class="panel-heading">` + field_name + `</div>
+                                <div class="panel-body">
+                                </div>
+                            </div>
+                        `);
+                        extractFields($item, field_name + '[' + listCount[field_name] + ']', fields[i].dict, level, data[fields[i].field_name][j]);
+                    } else {
+                        $item = $(`
+                            <div class="list_item" field_name="` + field_name + `">
+                                <input type="` + field_type + `" class="form-control" id="` + field_name + '[' + listCount[field_name] + `]" name="` + field_name + '[' + listCount[field_name] + `]" value="` + data[fields[i].field_name][j] + `">
+                                <button class="btn btn-danger delete_list_item" type="button" generate="">-</button>
+                            </div>
+                        `);
+                    }
+                    listCount[field_name]++;
+                    if($parent.children('.list_item').length > 0) {
+                        $item.insertAfter($parent.find('.list_item:last'));
+                    } else if ($parent.children('.panel').length > 0) {
+                        $item.insertAfter($parent.children('.panel:last'));
+                    } else {
+                        $parent.prepend($item);
+                    }
+                    bindDeleteItemButton();
+                }
+            }
         } else {
             var thisFieldData = data[fields[i].field_name];
             if (fields[i].field_type === 'date' && fields[i].note === 'without hour') {
