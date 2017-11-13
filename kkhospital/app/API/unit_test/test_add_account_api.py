@@ -45,5 +45,4 @@ class TestUM(unittest.TestCase) :
         self.assertEqual( sorted(list_key) , sorted(['b','a']))
         print ('test_json : success')
     '''
-if __name__ == '__main__' :
-    unittest.main()
+
