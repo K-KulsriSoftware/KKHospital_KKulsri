@@ -1,175 +1,280 @@
-{% extends "layout.html" %}
 
-{% block content %}
-{% load staticfiles %}
-    <!-- <link rel="stylesheet" href="assets/css/styles.css">
-    <link rel="stylesheet" href="assets/css/untitled.css"> -->
-    <link rel="stylesheet" type="text/css" href="{% static 'app/css/register-styles.css' %}" />
-    <div class="title-register">
-        <h1 class="text-muted title-registerm">ระบบสมัครสมาชิก </h1></div>
-    <form action="." method="POST">
-        {% csrf_token %}
-        <div class="edge-top">
-            <div class="tab-top"></div>
-            <div class="box-content">
-                <!-- <div class="col1">
-                    <div class="box-username"><span>username</span></div>
+    <link rel="stylesheet" href="assets/css/register.css">
 
-                    <div class="us">
-                        <input type="text" id="iUsername" class="inuser" name="username">
+    <div class="box-all-content">
+        <div class="box-background-heading">
+            <h1 class="box-heading">ระบบสมัครสมาชิก </h1></div>
+        <div class="box-border">
+            <div class="edge-top"></div>
+            <div class="box-indent">
+                <div class="input-indent-vertical"></div>
+                <div class="row row-username">
+                    <div class="col-md-12"><span class="box-span">username </span></div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <input type="text" id="username" class="input-username">
                     </div>
                 </div>
-                <div class="col1">
-                        <div class="box-password"><span>password </span></div>
-                        <div class="us">
-                            <input type="password" id="iPassword" class="inuser">
+                <div class="input-indent-vertical"></div>
+                <div class="row">
+                    <div class="col-md-12"><span class="box-span">password </span></div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <input type="password" class="input-username">
+                    </div>
+                </div>
+                <div class="input-indent-vertical"></div>
+                <div class="row">
+                    <div class="col-md-12"><span class="box-span">confirm password</span></div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <input type="password" class="input-username">
+                    </div>
+                </div>
+                <div class="input-indent-vertical"></div>
+                <div class="row">
+                    <div class="col-md-12"><span class="box-span">เลขบัตรประชาชน </span></div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <input type="text" id="id_card_number" class="input-id-card">
+                    </div>
+                </div>
+                <div class="input-indent-vertical"></div>
+                <div class="row">
+                    <div class="col-md-12"><span class="box-span">คำนำหน้า </span></div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <input type="text" id="patient_name_title" class="input-name-title">
+                    </div>
+                </div>
+                <div class="input-indent-vertical"></div>
+                <div class="row">
+                    <div class="col-md-12"><span class="box-span">ชื่อ </span></div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <input type="text" id="patient_name" class="input-name">
+                    </div>
+                </div>
+                <div class="input-indent-vertical"></div>
+                <div class="row">
+                    <div class="col-md-12"><span class="box-span">นามสกุล </span></div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <input type="text" id="patient_surname" class="input-name">
+                    </div>
+                </div>
+                <div class="input-indent-vertical"></div>
+                <div class="row">
+                    <div class="col-md-12"><span class="box-span">วันเกิด </span></div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <input type="text" placeholder="วว" id="birthday_day" class="input-birthday-day"><span class="birthday-slash">/ </span>
+                        <input type="text" placeholder="ดด" id="birthday_month" class="input-birthday-month"><span class="birthday-slash">/ </span>
+                        <input type="text" placeholder="ค.ศ." id="birthday_year" class="input-birthday-year">
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12"><span class="box-span">อายุ </span></div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <input type="number" class="input-age">
+                    </div>
+                </div>
+                <div class="input-indent-vertical"></div>
+                <div class="row">
+                    <div class="col-md-12"><span class="box-span">เพศ </span></div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12 box-gender">
+                        <input type="radio" id="male_gender" class="input-male">
+                        <div class="box span-text"><span class="box-text-gender">ชาย </span></div>
+                    </div>
+                    <div class="col-md-12 box-gender">
+                        <input type="radio" id="female_gender" class="input-female">
+                        <div class="box span-text"><span class="box-text-gender">หญิง </span></div>
+                    </div>
+                </div>
+                <div class="input-indent-vertical"></div>
+                <div class="row">
+                    <div class="col-md-12"><span class="box-span">หมู่เลือด </span></div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="dropdown">
+                            <button class="btn btn-default dropdown-toggle dropdown-now" data-toggle="dropdown" aria-expanded="false" type="button" id="blood_group_abo">กรุ๊ป <span class="caret"></span></button>
+                            <ul class="dropdown-menu" role="menu">
+                                <li role="presentation"><a href="#">O </a></li>
+                                <li role="presentation"><a href="#">A </a></li>
+                                <li role="presentation"><a href="#">B </a></li>
+                                <li role="presentation"><a href="#">AB </a></li>
+                            </ul>
                         </div>
+                    </div>
                 </div>
-                <div class="col1">
-                        <div class="box-confirm-password"><span>confirm password </span></div>
-
-                        <div class="us">
-                            <input type="password" id="iConfirmPassword" class="inuser">
+                <div class="input-indent-vertical"></div>
+                <div class="row">
+                    <div class="col-md-12"><span class="box-span">เชื้อชาติ </span></div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <input type="text" id="race" class="input-race">
+                    </div>
+                </div>
+                <div class="input-indent-vertical"></div>
+                <div class="row">
+                    <div class="col-md-12"><span class="box-span">สัญชาติ </span></div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <input type="text" id="nationallity" class="input-race">
+                    </div>
+                </div>
+                <div class="input-indent-vertical"></div>
+                <div class="row">
+                    <div class="col-md-12"><span class="box-span">ศาสนา </span></div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <input type="text" id="Religion" class="input-race">
+                    </div>
+                </div>
+                <div class="input-indent-vertical"></div>
+                <div class="row">
+                    <div class="col-md-12"><span class="box-span">สถานภาพ </span></div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="dropdown">
+                            <button class="btn btn-default dropdown-toggle dropdown-now" data-toggle="dropdown" aria-expanded="false" type="button">สถานภาพปัจจุบัน <span class="caret"></span></button>
+                            <ul class="dropdown-menu" role="menu">
+                                <li role="presentation"><a href="#">โสด </a></li>
+                                <li role="presentation"><a href="#">สมรส </a></li>
+                                <li role="presentation"><a href="#">หม้าย </a></li>
+                                <li role="presentation"><a href="#">หย่า </a></li>
+                                <li role="presentation"><a href="#">แยกกันอยู่ </a></li>
+                            </ul>
                         </div>
-                    </div> -->
-                <div class="col1">
-                    <div class="box-id-card-number"><span>เลขประจำตัวประชาชน </span></div>
-
-                    <div class="id">
-                        <input type="text" id="iIDCard" class="inid" name="id_card_number">
                     </div>
                 </div>
-                <div class="col1">
-                    <div class="box-patient-name-title"><span>คำนำหน้า </span></div>
-                    <div class="mr">
-                        <input type="text" id="iMr" class="inmr" name="patient_name_title">
-                    </div>
-                    <div class="box-patient-name"><span>ชื่อ </span>
-                        <input type="text" id="iName" class="inname" name="patient_name">
-                    </div>
-                    <div class="box-patient-surname"><span>นามสกุล </span>
-                        <input type="text" id="iSurname" class="insurname" name="patient_surname">
+                <div class="input-indent-vertical"></div>
+                <div class="row">
+                    <div class="col-md-12"><span class="box-span">อาชีพ </span></div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <input type="text" class="input-career">
                     </div>
                 </div>
-                <div class="col1">
-                    <div class="box-patient-name-title"><span>วันเกิด </span></div>
-                    <!--div class="box-birthday">
-                        <input type="date" id="iBirthday" class="inbirth" name="">
-                    </div-->
-                    <div class="box-birthday">
-                        <input type="text" id="iMonth" class="inbirth" name="birthday_month" placeholder="วว">
-                        <input type="text" id="iDay" class="inbirth" name="birthday_day" placeholder="ดด">
-                        <input type="text" id="iYear" class="inyear" name="birthday_year" placeholder="คศ">
-                    </div>
-                    <!-- <div class="box-age"><span>อายุ</span>
-                        <input type="number" id="iAge" class="inold" name="">
-                    </div> -->
-                    <div class="box-gender"><span>เพศ</span>
-                        <input type="text" id="iSex" class="insex" name="gender">
-                    </div>
-                    <div class="box-blood"><span>หมู่เลือด </span>
-                        <input type="text" id="iBlood" class="inblood" name="blood_group_abo" placeholder="O/A/B/AB">
-                    </div>
-                    <div class="box-rh"><span>Rh </span>
-                        <input type="text" id="iRh" class="inrh" name="blood_group_rh" placeholder="+/-">
+                <div class="input-indent-vertical"></div>
+                <div class="row">
+                    <div class="col-md-12"><span class="box-span">ที่อยู่ </span></div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <input type="text" id="pateint_address" class="input-address">
                     </div>
                 </div>
-                <div class="col1">
-                    <div class="box-patient-name-title"><span>เชื้อชาติ </span></div>
-                    <div class="dnational">
-                        <input type="text" id="iRace" class="innational" name="race">
-                    </div>
-                    <div class="box-nationality"><span>สัญชาติ </span>
-                        <input type="text" id="iNationality" class="innationn" name="nationallity">
-                    </div>
-                    <div class="box-religion"><span>ศาสนา </span>
-                        <input type="text" id="iReligious" class="inregion" name="religion">
-                    </div>
-                    <div class="box-status"><span>สถานภาพ</span>
-                        <select id="iNow" class="innow" name="Status">
-                            <optgroup label="สถานภาพปัจจุบัน">
-                                <option value="12" selected="">โสด</option>
-                                <option value="13">สมรส</option>
-                                <option value="14">หม้าย</option>
-                                <option value="">หย่า</option>
-                                <option value="">แยกกันอยู่</option>
-                            </optgroup>
-                        </select>
+                <div class="input-indent-vertical"></div>
+                <div class="row">
+                    <div class="col-md-12"><span class="box-span">โรคประจำตัว </span></div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <input type="text" id="congenital_disease" class="input-congenital-disease">
                     </div>
                 </div>
-                <div class="col1">
-                    <div class="box-patient-name-title"><span>อาชีพ </span></div>
-                    <div class="dcareer">
-                        <input type="text" id="iCareer" class="incareer" name="occupy">
-                    </div>
-                    <div class="box-occupy"><span>ที่อยู่ </span>
-                        <input type="text" id="iLive" class="inlive" name="pateint_address">
+                <div class="input-indent-vertical"></div>
+                <div class="row">
+                    <div class="col-md-12"><span class="box-span">E-mail </span></div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <input type="email" id="email" class="input-email">
                     </div>
                 </div>
-                <!-- <div class="col1">
-                    <div class="box-occupy-continue">
-                        <input type="text" id="iLive2" class="inlive2" name="pateint_address">
-                    </div>
-                </div> -->
-                <div class="col1">
-                    <div class="box-congenital-disease"><span>โรคประจำตัว </span>
-                        <input type="text" id="iLok" class="inlok" name="congenital_disease">
-                    </div>
-                    <div class="box-email"><span>E-mail </span>
-                        <input type="email" id="iEmail" class="inemail" name="email">
+                <div class="input-indent-vertical"></div>
+                <div class="row">
+                    <div class="col-md-12"><span class="box-span">เบอร์โทร </span></div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <input type="tel" id="telphone_number" class="input-telphone-number">
                     </div>
                 </div>
-                <div class="col1">
-                    <div class="box-telphone-number"><span>เบอร์โทร </span>
-                        <input type="tel" id="iTel" class="intel" name="telphone_number">
+                <div class="input-indent-vertical"></div>
+                <div class="row">
+                    <div class="col-md-12"><span class="box-span">ชื่อ-นามสกุลของบิดา </span></div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <input type="text" id="father_name" class="input-name-parents">
                     </div>
                 </div>
-                <div class="col1">
-                    <div class="box-father-name"><span>ชื่อ-นามสกุลของบิดา </span>
-                        <input type="text" id="iFather" class="infather" name="father_name">
+                <div class="input-indent-vertical"></div>
+                <div class="row">
+                    <div class="col-md-12"><span class="box-span">ชื่อ-นามสกุลของมารดา </span></div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <input type="text" class="input-name-parents">
                     </div>
                 </div>
-                <div class="col1">
-                    <div class="dmother"><span>ชื่อ-นามสกุลของมารดา </span>
-                        <input type="text" id="iMother" class="inmother" name="mother_name">
+                <div class="input-indent-vertical"></div>
+                <div class="row">
+                    <div class="col-md-12"><span class="box-span">ชื่อผู้ที่ติดต่อได้ฉุกเฉิน </span></div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <input type="text" id="emergency_name" class="input-name-parents">
                     </div>
                 </div>
-                <div class="col1">
-                    <div class="demername"><span>ชื่อผู้ที่ติดต่อได้ฉุกเฉิน </span>
-                        <input type="text" id="iEmerName" class="inemername" name="emergency_name">
-                    </div>
-                    <div class="dtelmer"><span>เบอร์โทรศัพท์ </span>
-                        <input type="tel" id="iEmerTel" class="intelmer" name="emergency_phone">
-                    </div>
+                <div class="input-indent-vertical"></div>
+                <div class="row">
+                    <div class="col-md-12"><span class="box-span">เบอร์โทรศัพท์ </span></div>
                 </div>
-                <div class="col1">
-                    <div class="demerlive"><span>ที่อยู่ของผู้ที่สามารถติดต่อได้ฉุกเฉิน </span>
-                        <input type="text" id="iEmerLive" class="inemerlive" name="emergency_addr">
-                        <div class="col1"></div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <input type="tel" id="emergency_phone" class="input-telphone-number">
                     </div>
                 </div>
-                <div class="col1">
-                    <div class="demerlive">
-                        <div class="col1"></div>
+                <div class="input-indent-vertical"></div>
+                <div class="row">
+                    <div class="col-md-12"><span class="box-span">ที่อยู่ของผู้ที่ติดต่อได้ฉุกเฉิน </span></div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <input type="text" id="emergency_addr" class="input-address">
                     </div>
                 </div>
-                <div class="col1 confirmcheckbox">
-                    <div class="daccept">
-                        <input type="checkbox" class="inputplamplamplam" id="confirm-form"><span class="plamplamplam">ข้าพเจ้ายินยอมเปิดเผยข้อมูลการตรวจรักษาของข้าพเจ้าให้แก่ คณะแพทย์ และพยาบาล </span></div>
+                <div class="input-indent-vertical"></div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="checkbox box-accept-condition">
+                            <label class="label-confirm">
+                                <input type="checkbox" class="checkbox-phone"> ยืนยัน</label>
+                        </div>
+                        <div class="checkbox">
+                            <label class="box-accept-condition">
+                                <input type="checkbox"> ข้าพเจ้ายินยอมเปิดเผยข้อมูลการตรวจรักษาของข้าพเจ้า ให้แก่คณะแพทย์, พยาบาล,เจ้าหน้าที่และบุคลากรของโรงพยาบาลที่เกี่ยวข้องซึ่งมีความจำเป็นในการเข้าถึงข้อมูลของข้าพเจ้า</label>
+                        </div>
+                    </div>
                 </div>
-                <div class="col1 confirmcheckbox">
-                    <div class="daccept"><span class="plamplamplam">เจ้าหน้าที่และบุคลากรของโรงพยาบาลที่เกี่ยวข้อง ซึ่งมีความจำเป็นในการเข้าถึงข้อมูลของข้าพเจ้า </span></div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div id="submit" class="button-accept"><span class="label-register">ลงทะเบียน </span></div>
+                    </div>
                 </div>
-                <div class="col1">
-                    <button class="btn btn-default button" type="submit">ลงทะเบียน </button>
-                </div>
-                <div class="col1"></div>
-                <div class="col1"></div>
             </div>
         </div>
-    </form>
-{% endblock %}
-
-{% block scripts %}
-<script src="{% static 'app/scripts/register.js' %}"></script>
-{% endblock %}
+    </div>
+    <script src="assets/js/jquery.min.js"></script>
+    <script src="assets/bootstrap/js/bootstrap.min.js"></script>

@@ -24,7 +24,8 @@ div.box-indent{
     width:100px;
     border-color:#c0dfd9;
     border-style:solid;
-    margin:5% 0 5% 24.5%;
+    margin:5% 0 5% 32.5%;
+    text-align:center;
   }
 }
 
@@ -35,6 +36,7 @@ div.box-indent{
     border-color:#c0dfd9;
     border-style:solid;
     margin:5% 0 5% 35.5%;
+    text-align:center;
   }
 }
 
@@ -50,7 +52,7 @@ div.box-indent{
 
 @media (min-width:360px) {
   h1.box-heading{
-    font-size:90%;
+    font-size:20px;
     text-align:center;
     padding-top:13px;
     color:#3b3a36;
@@ -59,7 +61,7 @@ div.box-indent{
 
 @media (min-width:768px) {
   h1.box-heading{
-    font-size:150%;
+    font-size:20px;
     text-align:center;
     padding-top:13px;
     color:#3b3a36;
@@ -68,19 +70,31 @@ div.box-indent{
 
 @media (min-width:1024px) {
   h1.box-heading{
-    font-size:180%;
+    font-size:22px;
     text-align:center;
     padding-top:13px;
     color:#3b3a36;
   }
 }
 
-div.box-background-heading{
-  background-color:#c0dfd9;
-  height:17%;
-  width:38%;
-  vertical-align:middle;
-  border-radius:5px;
+@media (max-width:767px) {
+  div.box-background-heading{
+    background-color:#c0dfd9;
+    height:17%;
+    width:100%;
+    vertical-align:middle;
+    border-radius:5px;
+  }
+}
+
+@media (min-width:768px) {
+  div.box-background-heading{
+    background-color:#c0dfd9;
+    height:17%;
+    width:38%;
+    vertical-align:middle;
+    border-radius:5px;
+  }
 }
 
 div.row.row-username{
@@ -89,7 +103,7 @@ div.row.row-username{
 
 span.box-span{
   color:#3b3a36;
-  font-size:100%;
+  font-size:18PX;
 }
 
 input.input-username{
@@ -125,11 +139,6 @@ input.input-age{
   width:10%;
 }
 
-input.input-gender{
-  border-radius:5px;
-  width:15%;
-}
-
 input.input-blood-type{
   border-radius:5px;
   width:16%;
@@ -140,7 +149,7 @@ input{
   border-radius:5px;
   color:#3b3a36;
   height:25px;
-  font-size:18px;
+  font-size:16px;
 }
 
 input.input-rh{
@@ -175,30 +184,28 @@ input.input-telphone-number{
   width:40%;
 }
 
-@media (min-width:360px) {
-  label.box-accept-edit{
+@media (max-width:767px) {
+  label.box-accept-condition{
     color:#3b3a36;
     width:96%;
-    font-size:12px;
-    text-align:center;
+    font-size:4px;
+    display:none;
   }
 }
 
 @media (min-width:768px) {
-  label.box-accept-edit{
+  label.box-accept-condition{
     color:#3b3a36;
     width:96%;
-    font-size:13px;
-    text-align:center;
+    font-size:10px;
   }
 }
 
 @media (min-width:1024px) {
-  label.box-accept-edit{
+  label.box-accept-condition{
     color:#3b3a36;
     width:96%;
-    font-size:16px;
-    text-align:center;
+    font-size:13px;
   }
 }
 
@@ -207,35 +214,125 @@ input.input-career{
 }
 
 @media (min-width:360px) {
-  span.label-edit{
+  span.label-register{
     padding:0 0 0 12px;
     font-size:15px;
+    text-align:center;
   }
 }
 
 @media (min-width:768px) {
-  span.label-edit{
-    padding:0 0 0 13px;
+  span.label-register{
+    padding:0 0 0 15px;
     font-size:19px;
+    text-align:center;
   }
 }
 
 @media (min-width:1024px) {
-  span.label-edit{
-    padding:0 0 0 19px;
+  span.label-register{
+    padding:0 0 0 21px;
     font-size:21px;
+    text-align:center;
   }
 }
 
 input.input-birthday-day{
   width:14%;
+  text-align:center;
 }
 
 input.input-birthday-month{
   width:14%;
+  margin-left:5px;
+  text-align:center;
 }
 
 input.input-birthday-year{
   width:18%;
+  margin-left:5px;
+  text-align:center;
 }
 
+@media (max-width:767px) {
+  div.checkbox.box-accept-condition{
+    text-align:center;
+  }
+}
+
+@media (min-width:768px) {
+  div.checkbox.box-accept-condition{
+    display:none;
+  }
+}
+
+label.label-confirm{
+  font-size:12px;
+  margin-left:-13%;
+}
+
+input.checkbox-phone{
+  margin-top:-3px;
+}
+
+span.birthday-slash{
+  margin-left:5px;
+}
+
+div.radio{
+  width:14%;
+}
+
+.checkbox label, .radio label{
+  min-height:20px;
+  padding-left:35px;
+  margin-bottom:0;
+  font-weight:400;
+  cursor:pointer;
+  color:#3b3a36;
+  font-size:16px;
+}
+
+input.input-gender{
+  width:17px;
+}
+
+span.box-text{
+  margin-left:10px;
+}
+
+div.box-radio-text{
+  margin-left:3%;
+  display:inline;
+  float:left;
+}
+
+div.box-gender{
+  display:inline-block;
+  float:left;
+  height:30px;
+  width:100%;
+}
+
+div.box.span-text{
+  height:20px;
+  margin-top:5px;
+}
+
+span.box-text-gender{
+  margin-left:2%;
+  font-size:16px;
+  color:#3b3a36;
+}
+
+input.input-female{
+  float:left;
+  width:18px;
+  margin-left:10px;
+}
+
+input.input-male{
+  float:left;
+  width:18px;
+  margin-left:10px;
+}

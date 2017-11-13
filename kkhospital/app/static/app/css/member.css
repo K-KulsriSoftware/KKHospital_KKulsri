@@ -1,104 +1,362 @@
-.member-image-wrapper {
-  overflow: hidden;
+div.box-border{
+  border-color:#c0dfd9;
+  border-style:solid;
 }
 
-img.member-image{
-  height:300px;
+div.edge-top{
+  background-color:#8dd9ca;
+  height:5px;
 }
 
-div.container{
-  padding-top:10px;
-  padding-bottom:10px;
+div.box-all-content{
+  margin:5% 0 10% 20%;
+  width:60%;
+  height:auto;
 }
 
-div.row.member{
-  border-left:10px solid #8dd9ca;
-  vertical-align:middle;
+div.box-indent{
+  margin-left:5%;
 }
 
-.member-content-detail tr, .member-content-detail td{
-  border:none;
+@media (min-width:360px) {
+  div.button-accept{
+    height:30px;
+    width:100px;
+    border-color:#c0dfd9;
+    border-style:solid;
+    margin:5% 0 5% 32.5%;
+    text-align:center;
+  }
 }
 
-ul.time{
-  list-style:none;
-  padding:0px;
+@media (min-width:768px) {
+  div.button-accept{
+    height:35px;
+    width:120px;
+    border-color:#c0dfd9;
+    border-style:solid;
+    margin:5% 0 5% 35.5%;
+    text-align:center;
+  }
 }
 
-ul.time > li{
-  border:1px solid rgba(153,153,153, 0.7);
-  padding:10px;
-  margin-bottom:5px;
-  border-radius:5px;
-  color:#3a3b36;
-  cursor:pointer;
-  text-align:center;
-  font-weight:bold;
+@media (min-width:1024px) {
+  div.button-accept{
+    height:40px;
+    width:140px;
+    border-color:#c0dfd9;
+    border-style:solid;
+    margin:5% 0 5% 36.5%;
+    text-align:center;
+  }
 }
 
-button#confirm-appointment:hover{
-  background-color:#8dd9ca !important;
+@media (min-width:360px) {
+  h1.box-heading{
+    font-size:20px;
+    text-align:center;
+    padding-top:13px;
+    color:#3b3a36;
+  }
 }
 
-button#confirm-appointment{
-  background-color:#8dd9ca !important;
-  border:0px;
-  border-radius:10px;
-  vertical-align:middle;
+@media (min-width:768px) {
+  h1.box-heading{
+    font-size:20px;
+    text-align:center;
+    padding-top:13px;
+    color:#3b3a36;
+  }
 }
 
-div.row.appointment-detail > *{
-  vertical-align:middle;
+@media (min-width:1024px) {
+  h1.box-heading{
+    font-size:24px;
+    text-align:center;
+    padding-top:13px;
+    color:#3b3a36;
+  }
 }
 
-div.col-md-4.confirm-appointment-container{
-  text-align:center;
+@media (max-width:767px) {
+  div.box-background-heading{
+    background-color:#c0dfd9;
+    height:17%;
+    width:100%;
+    vertical-align:middle;
+    border-radius:5px;
+  }
 }
 
-div.row.schedule-container{
-  border:1px solid rgba(153,153,153, 0.7);
+@media (min-width:768px) {
+  div.box-background-heading{
+    background-color:#c0dfd9;
+    height:17%;
+    width:38%;
+    vertical-align:middle;
+    border-radius:5px;
+  }
 }
 
-div.row.appointment-detail{
-  border:1px solid rgba(153,153,153, 0.7);
-}
-
-div.round-border{
-  border-radius:5px;
-}
-
-div.row-top-margin{
+div.row.row-username{
   margin-top:10px;
 }
 
-div.padding-row{
-  padding-top:10px;
-  padding-bottom:10px;
+span.box-span{
+  color:#3b3a36;
+  font-size:18PX;
 }
 
-@media (min-width:1024px) {
-  div.row.appointment-detail{
-    height:82px;
+input.input-username{
+  width:40%;
+  border-radius:5px;
+}
+
+input.input-id-card{
+  border-radius:5px;
+  width:25%;
+}
+
+.col-lg-1, .col-lg-10, .col-lg-11, .col-lg-12, .col-lg-2, .col-lg-3, .col-lg-4, .col-lg-5, .col-lg-6, .col-lg-7, .col-lg-8, .col-lg-9, .col-md-1, .col-md-10, .col-md-11, .col-md-12, .col-md-2, .col-md-3, .col-md-4, .col-md-5, .col-md-6, .col-md-7, .col-md-8, .col-md-9, .col-sm-1, .col-sm-10, .col-sm-11, .col-sm-12, .col-sm-2, .col-sm-3, .col-sm-4, .col-sm-5, .col-sm-6, .col-sm-7, .col-sm-8, .col-sm-9, .col-xs-1, .col-xs-10, .col-xs-11, .col-xs-12, .col-xs-2, .col-xs-3, .col-xs-4, .col-xs-5, .col-xs-6, .col-xs-7, .col-xs-8, .col-xs-9{
+  position:relative;
+  min-height:1px;
+  padding-right:15px;
+  padding-left:15px;
+  padding-bottom:5px;
+}
+
+input.input-name-title{
+  border-radius:5px;
+  width:13%;
+}
+
+input.input-name{
+  border-radius:5px;
+  width:40%;
+}
+
+input.input-age{
+  border-radius:5px;
+  width:10%;
+}
+
+input.input-blood-type{
+  border-radius:5px;
+  width:16%;
+}
+
+input{
+  line-height:normal;
+  border-radius:5px;
+  color:#3b3a36;
+  height:25px;
+  font-size:16px;
+}
+
+input.input-rh{
+  width:14%;
+}
+
+input.input-address{
+  width:85%;
+}
+
+input.input-email{
+  width:50%;
+}
+
+div.input-indent-vertical{
+  height:20px;
+}
+
+input.input-name-parents{
+  width:70%;
+}
+
+input.input-race{
+  width:20%;
+}
+
+input.input-congenital-disease{
+  width:60%;
+}
+
+input.input-telphone-number{
+  width:40%;
+}
+
+@media (max-width:767px) {
+  label.box-accept-condition{
+    color:#3b3a36;
+    width:96%;
+    font-size:4px;
+    display:none;
+  }
+}
+
+@media (min-width:768px) {
+  label.box-accept-condition{
+    color:#3b3a36;
+    width:96%;
+    font-size:10px;
   }
 }
 
 @media (min-width:1024px) {
-  div.row.appointment-detail > div{
-    height:100%;
+  label.box-accept-condition{
+    color:#3b3a36;
+    width:96%;
+    font-size:13px;
+  }
+}
+
+input.input-career{
+  width:80%;
+}
+
+@media (min-width:360px) {
+  span.label-register{
+    padding:0 0 0 12px;
+    font-size:15px;
+    text-align:center;
+  }
+}
+
+@media (min-width:768px) {
+  span.label-register{
+    padding:0 0 0 15px;
+    font-size:19px;
+    text-align:center;
   }
 }
 
 @media (min-width:1024px) {
-  div.confirm-appointment-container{
-    line-height:60px;
+  span.label-register{
+    padding:0 0 0 21px;
+    font-size:21px;
+    text-align:center;
   }
 }
 
-button.change-info-btn{
-  background-color:#8dd9ca !important;
+input.input-birthday-day{
+  width:14%;
+  text-align:center;
 }
 
-div.change-info-wrapper{
-  margin-top:20px;
+input.input-birthday-month{
+  width:14%;
+  margin-left:5px;
+  text-align:center;
+}
+
+input.input-birthday-year{
+  width:18%;
+  margin-left:5px;
+  text-align:center;
+}
+
+@media (max-width:767px) {
+  div.checkbox.box-accept-condition{
+    text-align:center;
+  }
+}
+
+@media (min-width:768px) {
+  div.checkbox.box-accept-condition{
+    display:none;
+  }
+}
+
+label.label-confirm{
+  font-size:12px;
+  margin-left:-13%;
+}
+
+input.checkbox-phone{
+  margin-top:-3px;
+}
+
+span.birthday-slash{
+  margin-left:5px;
+}
+
+div.radio{
+  width:14%;
+}
+
+.checkbox label, .radio label{
+  min-height:20px;
+  padding-left:35px;
+  margin-bottom:0;
+  font-weight:400;
+  cursor:pointer;
+  color:#3b3a36;
+  font-size:16px;
+}
+
+input.input-gender{
+  width:16%;
+}
+
+span.box-text{
+  margin-left:10px;
+}
+
+div.box-radio-text{
+  margin-left:3%;
+  display:inline;
+  float:left;
+}
+
+div.box-gender{
+  display:inline-block;
+  float:left;
+  height:30px;
+  width:100%;
+}
+
+span.box-text-gender{
+  margin-left:2%;
+  font-size:16px;
+  color:#3b3a36;
+}
+
+input.input-male{
+  float:left;
+  width:18px;
+  margin-left:10px;
+}
+
+input.input-female{
+  float:left;
+  width:18px;
+  margin-left:10px;
+}
+
+@media (min-width:360px) {
+  label.box-accept-edit{
+    color:#3b3a36;
+    width:96%;
+    font-size:12px;
+    text-align:center;
+  }
+}
+
+@media (min-width:768px) {
+  label.box-accept-edit{
+    color:#3b3a36;
+    width:96%;
+    font-size:13px;
+    text-align:center;
+  }
+}
+
+@media (min-width:1024px) {
+  label.box-accept-edit{
+    color:#3b3a36;
+    width:96%;
+    font-size:16px;
+    text-align:center;
+  }
 }
 
