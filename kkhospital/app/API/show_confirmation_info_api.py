@@ -1,6 +1,7 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
 from datetime import datetime
+from bson.objectid import ObjectId
 
 class show_confirmation_info_api :
 
@@ -12,7 +13,7 @@ class show_confirmation_info_api :
 			{
 				'$match' : 
 				{
-            		'_id' : package_id
+            		'_id' : ObjectId(package_id)
             	}
 			},
 			{
@@ -70,13 +71,13 @@ class show_confirmation_info_api :
 		doctors = self.get_doctors_query(doctor_id)
 		res_doctor = ''
 		for doctor in doctors:
-			doctor.pop('_id',None)
+			doctor.pop('username',None)
 			res_doctor = doctor
 		patients = self.get_patients_query(username)
 		res_patient = ''
 		for patient in patients:
-			patient.pop('_id',None)
+			patient.pop('username',None)
 			res_patient = patient
 		#dateandtime = "time" : {'start':datetime(time['year'],time['month'],time['date'],time['start_hr'],0),'finish':datetime(time['year'],time['month'],time['date'],time['finish_hr'],0)}
-		result = {**res_package,**res_doctor,**res_patient,**time}
+		result = [res_package,res_doctor,res_patient,time]
 		return True, result

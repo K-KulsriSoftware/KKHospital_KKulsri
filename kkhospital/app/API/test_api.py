@@ -254,13 +254,13 @@ status,result = api.create_order('59d8bc02612d9a6b5fb41c33', '59d8ca694ddf3286ea
 
 #test show_confirmation_info
 
-status,result = api.show_confirmation_info('p00003','d002', 'admao',
+status,result = api.show_confirmation_info('59d8946b7434c9e2a98088ed','d0001', 'jirateep',
 				{
-    	    		"year" : 2017,
-					"date" : 12,
-					"month" : 11,
-					"start_hr" : 9,
-					"finish_hr" : 10,
+    	    		'year' : 2017,
+					'date' : 12,
+					'month' : 11,
+					'start_hr' : 9,
+					'finish_hr' : 10,
     			})
 
 
