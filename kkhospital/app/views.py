@@ -116,8 +116,7 @@ def member(request):
     status, member_detail = api.get_patients_detail(patient_id)
     member_detail['blood_group_abo'] = blood_abo[member_detail['blood_group_abo']]
     member_detail['blood_group_rh'] = blood_rh[member_detail['blood_group_rh']]
-    status, orders = api.get_patient_orders(
-        request.user.username)
+    status, orders = api.get_patient_orders(request.user.username)
     return render(
         request,
         'app/member.html',
@@ -125,7 +124,7 @@ def member(request):
             'title': 'ข้อมูลสมาชิก',
             'member_detail': member_detail,
             'orders': orders,
-            'logged_user': request.session.get('user')
+            'logged_user': request.user.username
         }
     )
 
@@ -137,8 +136,8 @@ def edit_member_info(request):
         status = request.POST['status']
         telephone_number = request.POST['telephone_number']
         emergency_phone = request.POST['emergency_phone']
-        query_status, member_detail = api.get_patients_detail(
-            request.session['user']['username'])
+        status, patient_id = api.get_patient_id(request.user.username)
+        status, member_detail = api.get_patients_detail(patient_id)
 
         # เอาค่า email, status ..... เอาไปใส่ใน field ของ dict member_detail แล้วเอา member_detail แต่ละ field ไปแทนใน paramenter ใน function ข้างล่าง
         member_detail['email'] = email
@@ -159,8 +158,8 @@ def edit_member_info(request):
                                                           member_detail['emergency_phone'], member_detail['emergency_address'], member_detail['email'], member_detail['congenital_disease'])
     blood_abo = ['-', 'A', 'B', 'O', 'AB']
     blood_rh = ['', 'RH ลบ', 'RH บวก']
-    status, member_detail = api.get_patients_detail(
-        request.session['user']['username'])
+    status, patient_id = api.get_patient_id(request.user.username)
+    status, member_detail = api.get_patients_detail(patient_id)
     member_detail['blood_group_abo'] = blood_abo[member_detail['blood_group_abo']]
     member_detail['blood_group_rh'] = blood_rh[member_detail['blood_group_rh']]
     return render(
@@ -169,7 +168,7 @@ def edit_member_info(request):
         {
             'title': 'แก้ไขข้อมูลสมาชิก',
             'member_detail': member_detail,
-            'logged_user': request.session.get('user')
+            'logged_user': request.user.username
         }
     )
 
