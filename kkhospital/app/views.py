@@ -329,7 +329,7 @@ def confirm(request):
         return redirect('/doctor-detail/')
     if request.method == 'POST':
         status, result = api.create_order(request.session['selected_package'], request.session['selected_doctor'],
-                                          request.session['user']['username'], '-', request.session['selected_date'])
+                                          request.user.username, '-', request.session['selected_date'])
         if status:
             return redirect('/')
     # print(request.session['selected_date'])
@@ -362,7 +362,7 @@ def confirm(request):
             'selected_year': request.session['selected_date']['year'],
             'selected_start_hr': request.session['selected_date']['start_hr'],
             'selected_finish_hr': request.session['selected_date']['finish_hr'],
-            'logged_user': request.session.get('user')
+            'logged_user': request.user.username
         }
     )
 
