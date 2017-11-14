@@ -16,7 +16,7 @@
                 </div>
                 <div class="row">
                     <div class="col-md-12">
-                        <input type="text" disabled="" readonly="" id="username" class="input-username">
+                        <input type="text" disabled="" readonly="" id="username" class="input-username" value="{{ member_detail.username }}">
                     </div>
                 </div>
                 <div class="input-indent-vertical"></div>
@@ -25,7 +25,7 @@
                 </div>
                 <div class="row">
                     <div class="col-md-12">
-                        <input type="text" disabled="" readonly="" id="id_card_number" class="input-id-card">
+                        <input type="text" disabled="" readonly="" id="id_card_number" class="input-id-card" value="{{ member_detail.id_card_number }}">
                     </div>
                 </div>
                 <div class="input-indent-vertical"></div>
@@ -34,7 +34,7 @@
                 </div>
                 <div class="row">
                     <div class="col-md-12">
-                        <input type="text" disabled="" readonly="" id="patient_name_title" class="input-name-title">
+                        <input type="text" disabled="" readonly="" id="patient_name_title" class="input-name-title" value="{{ member_detail.patient_name_title }}">
                     </div>
                 </div>
                 <div class="input-indent-vertical"></div>
@@ -43,7 +43,7 @@
                 </div>
                 <div class="row">
                     <div class="col-md-12">
-                        <input type="text" disabled="" readonly="" id="patient_name" class="input-name">
+                        <input type="text" disabled="" readonly="" id="patient_name" class="input-name" value="{{ member_detail.patient_name }}">
                     </div>
                 </div>
                 <div class="input-indent-vertical"></div>
@@ -52,7 +52,7 @@
                 </div>
                 <div class="row">
                     <div class="col-md-12">
-                        <input type="text" disabled="" readonly="" id="patient_surname" class="input-name">
+                        <input type="text" disabled="" readonly="" id="patient_surname" class="input-name" value="{{ member_detail.patient_surname }}">
                     </div>
                 </div>
                 <div class="input-indent-vertical"></div>
@@ -61,17 +61,9 @@
                 </div>
                 <div class="row">
                     <div class="col-md-12">
-                        <input type="text" disabled="" readonly="" id="birthday_day" class="input-birthday-day"><span class="birthday-slash">/ </span>
-                        <input type="text" disabled="" readonly="" id="birthday_month" class="input-birthday-month"><span class="birthday-slash">/ </span>
-                        <input type="text" disabled="" readonly="" id="birthday_year" class="input-birthday-year">
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-md-12"><span class="box-span">อายุ </span></div>
-                </div>
-                <div class="row">
-                    <div class="col-md-12">
-                        <input type="number" disabled="" readonly="" class="input-age">
+                        <input type="text" disabled="" readonly="" id="birthday_day" class="input-birthday-day" value="{{ member_detail.birthday.day }}"><span class="birthday-slash">/ </span>
+                        <input type="text" disabled="" readonly="" id="birthday_month" class="input-birthday-month" value="{{ member_detail.birthday.month }}"><span class="birthday-slash">/ </span>
+                        <input type="text" disabled="" readonly="" id="birthday_year" class="input-birthday-year" value="{{ member_detail.birthday.year }}">
                     </div>
                 </div>
                 <div class="input-indent-vertical"></div>
@@ -80,7 +72,7 @@
                 </div>
                 <div class="row">
                     <div class="col-md-12 box-gender">
-                        <input type="text" disabled="" readonly="" id="gender" class="input-gender">
+                        <input type="text" disabled="" readonly="" id="gender" class="input-gender"  value="{{ member_detail.gender }}">
                     </div>
                 </div>
                 <div class="input-indent-vertical"></div>
@@ -89,7 +81,7 @@
                 </div>
                 <div class="row">
                     <div class="col-md-12">
-                        <input type="text" disabled="" readonly="" id="blood_group_abo" class="input-blood-type">
+                        <input type="text" disabled="" readonly="" id="blood_group_abo" class="input-blood-type" value="{{ member_detail.blood_group_abo }} {{ member_detail.blood_group_rh }}">
                     </div>
                 </div>
                 <div class="input-indent-vertical"></div>
@@ -98,7 +90,7 @@
                 </div>
                 <div class="row">
                     <div class="col-md-12">
-                        <input type="text" disabled="" readonly="" id="race" class="input-race">
+                        <input type="text" disabled="" readonly="" id="race" class="input-race" value="{{ member_detail.race }}">
                     </div>
                 </div>
                 <div class="input-indent-vertical"></div>
@@ -107,7 +99,7 @@
                 </div>
                 <div class="row">
                     <div class="col-md-12">
-                        <input type="text" disabled="" readonly="" id="nationallity" class="input-race">
+                        <input type="text" disabled="" readonly="" id="nationallity" class="input-race" value="{{ member_detail.nationality }}">
                     </div>
                 </div>
                 <div class="input-indent-vertical"></div>
@@ -116,7 +108,7 @@
                 </div>
                 <div class="row">
                     <div class="col-md-12">
-                        <input type="text" disabled="" readonly="" id="Religion" class="input-race">
+                        <input type="text" disabled="" readonly="" id="Religion" class="input-race" value="{{ member_detail.religion }}">
                     </div>
                 </div>
                 <div class="input-indent-vertical"></div>
@@ -125,7 +117,7 @@
                 </div>
                 <div class="row">
                     <div class="col-md-12">
-                        <input type="text" disabled="" readonly="" id="Status" class="input-race">
+                        <input type="text" disabled="" readonly="" id="Status" class="input-race" value="{{ member_detail.status }}">
                     </div>
                 </div>
                 <div class="input-indent-vertical"></div>
@@ -134,7 +126,7 @@
                 </div>
                 <div class="row">
                     <div class="col-md-12">
-                        <input type="text" disabled="" readonly="" class="input-career">
+                        <input type="text" disabled="" readonly="" class="input-career" value="{{ member_detail.occupy }}">
                     </div>
                 </div>
                 <div class="input-indent-vertical"></div>
@@ -143,7 +135,7 @@
                 </div>
                 <div class="row">
                     <div class="col-md-12">
-                        <input type="text" disabled="" readonly="" id="pateint_address" class="input-address">
+                        <input type="text" disabled="" readonly="" id="pateint_address" class="input-address" value="{{ member_detail.patient_address }}">
                     </div>
                 </div>
                 <div class="input-indent-vertical"></div>
@@ -152,7 +144,7 @@
                 </div>
                 <div class="row">
                     <div class="col-md-12">
-                        <input type="text" disabled="" readonly="" id="congenital_disease" class="input-congenital-disease">
+                        <input type="text" disabled="" readonly="" id="congenital_disease" class="input-congenital-disease" value="{{ member_detail.congenital_disease }}">
                     </div>
                 </div>
                 <div class="input-indent-vertical"></div>
@@ -161,7 +153,7 @@
                 </div>
                 <div class="row">
                     <div class="col-md-12">
-                        <input type="email" id="email" class="input-email">
+                        <input type="email" id="email" class="input-email" value="{{ member_detail.email }}">
                     </div>
                 </div>
                 <div class="input-indent-vertical"></div>
@@ -170,7 +162,7 @@
                 </div>
                 <div class="row">
                     <div class="col-md-12">
-                        <input type="tel" id="telphone_number" class="input-telphone-number">
+                        <input type="tel" id="telphone_number" class="input-telphone-number" value="{{ member_detail.telephone_number }}">
                     </div>
                 </div>
                 <div class="input-indent-vertical"></div>
@@ -179,7 +171,7 @@
                 </div>
                 <div class="row">
                     <div class="col-md-12">
-                        <input type="text" disabled="" readonly="" id="father_name" class="input-name-parents">
+                        <input type="text" disabled="" readonly="" id="father_name" class="input-name-parents" value="{{ member_detail.father_name }}">
                     </div>
                 </div>
                 <div class="input-indent-vertical"></div>
@@ -188,7 +180,7 @@
                 </div>
                 <div class="row">
                     <div class="col-md-12">
-                        <input type="text" disabled="" readonly="" class="input-name-parents">
+                        <input type="text" disabled="" readonly="" class="input-name-parents" value="{{ member_detail.mother_name }}">
                     </div>
                 </div>
                 <div class="input-indent-vertical"></div>
@@ -197,7 +189,7 @@
                 </div>
                 <div class="row">
                     <div class="col-md-12">
-                        <input type="text" disabled="" readonly="" id="emergency_name" class="input-name-parents">
+                        <input type="text" disabled="" readonly="" id="emergency_name" class="input-name-parents" value="{{ member_detail.emergency_name }}">
                     </div>
                 </div>
                 <div class="input-indent-vertical"></div>
@@ -206,7 +198,7 @@
                 </div>
                 <div class="row">
                     <div class="col-md-12">
-                        <input type="tel" id="emergency_phone" class="input-telphone-number">
+                        <input type="tel" id="emergency_phone" class="input-telphone-number" value="{{ member_detail.emergency_phone }}">
                     </div>
                 </div>
                 <div class="input-indent-vertical"></div>
@@ -215,7 +207,7 @@
                 </div>
                 <div class="row">
                     <div class="col-md-12">
-                        <input type="text" disabled="" readonly="" id="emergency_addr" class="input-address">
+                        <input type="text" disabled="" readonly="" id="emergency_addr" class="input-address" value="{{ member_detail.emergency_address }}">
                     </div>
                 </div>
                 <div class="input-indent-vertical"></div>

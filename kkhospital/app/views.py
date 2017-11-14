@@ -150,7 +150,7 @@ def edit_member_info(request):
                                                           member_detail['birthday'].year, member_detail[
                                                               'birthday'].month, member_detail['birthday'].day,
                                                           member_detail['blood_group_abo'], member_detail[
-                                                              'blood_group_rh'], member_detail['race'], member_detail['nationallity'],
+                                                              'blood_group_rh'], member_detail['race'], member_detail['nationality'],
                                                           member_detail['religion'], member_detail['status'], member_detail[
                                                               'patient_address'], member_detail['occupy'], member_detail['telephone_number'],
                                                           member_detail['father_name'], member_detail[
@@ -160,8 +160,10 @@ def edit_member_info(request):
     blood_rh = ['', 'RH ลบ', 'RH บวก']
     status, patient_id = api.get_patient_id(request.user.username)
     status, member_detail = api.get_patients_detail(patient_id)
+    member_detail['gender'] = 'ชาย' if member_detail['gender'] else 'หญิง'
     member_detail['blood_group_abo'] = blood_abo[member_detail['blood_group_abo']]
     member_detail['blood_group_rh'] = blood_rh[member_detail['blood_group_rh']]
+    member_detail['congenital_disease'] = ', '.join(member_detail['congenital_disease'])
     return render(
         request,
         'app/edit-member.html',
