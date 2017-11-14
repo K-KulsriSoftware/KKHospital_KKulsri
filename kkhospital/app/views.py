@@ -321,10 +321,8 @@ def doctor(request):
         }
     )
 
-
+@login_required(login_url='/accounts/login')
 def confirm(request):
-    if not check_logged_in(request):
-        return redirect('/login/?next=/confirm/')
     """Renders the about page."""
     assert isinstance(request, HttpRequest)
     if 'selected_package' not in request.session or 'selected_doctor' not in request.session or 'selected_date' not in request.session:
