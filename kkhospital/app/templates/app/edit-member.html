@@ -1,152 +1,236 @@
-{% extends "layout.html" %}
 
-{% block content %}
-{% load staticfiles %}
-    <!-- <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
-    <link rel="stylesheet" href="assets/css/styles.css">
-    <link rel="stylesheet" href="assets/css/untitled.css">
-    <link rel="stylesheet" href="assets/css/Bootstrap-Payment-Form.css"> -->
-    <link rel="stylesheet" type="text/css" href="{% static 'app/css/edit-member-styles.css' %}" />
-    <div class="plamm">
-        <h1 class="text-muted plammm">ระบบสมาชิก </h1></div>
-    <div class="plam">
-        <div class="teub"></div>
-        <div class="marr">
-            <form action="." method="POST">
-                {% csrf_token %}
-                <div class="col1">
-                    <div class="ddus"><span>username</span></div>
-                    <div class="us">
-                        <input type="text" disabled="" readonly="" id="iUsername" class="inuser" value="{{ member_detail.username }}">
+    <link rel="stylesheet" href="assets/css/member.css">
+
+    <div class="box-all-content">
+        <div class="box-background-heading">
+            <h1 class="box-heading">ระบบสมาชิก </h1></div>
+        <div class="box-border">
+            <div class="edge-top"></div>
+            <div class="box-indent">
+                <div class="input-indent-vertical"></div>
+                <div class="row row-username">
+                    <div class="col-md-12"><span class="box-span">username </span></div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <input type="text" disabled="" readonly="" id="username" class="input-username">
                     </div>
                 </div>
-                <div class="col1">
-                    <div class="ddidcard"><span>เลขบัตรประชาชน </span></div>
-                    <div class="id">
-                        <input type="text" disabled="" readonly="" id="iIDCard" class="inid" value="{{ member_detail.id_card_number }}">
+                <div class="input-indent-vertical"></div>
+                <div class="row">
+                    <div class="col-md-12"><span class="box-span">เลขบัตรประชาชน </span></div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <input type="text" disabled="" readonly="" id="id_card_number" class="input-id-card">
                     </div>
                 </div>
-                <div class="col1">
-                    <div class="ddmr"><span>คำนำหน้า </span></div>
-                    <div class="mr">
-                        <input type="text" disabled="" readonly="" id="iMr" class="inmr" value="{{ member_detail.patient_name_title }}">
-                    </div>
-                    <div class="name"><span>ชื่อ </span>
-                        <input type="text" disabled="" readonly="" id="iName" class="inname" value="{{ member_detail.patient_name }}">
-                    </div>
-                    <div class="surname"><span>นามสกุล </span>
-                        <input type="text" disabled="" readonly="" id="iSurname" class="insurname" value="{{ member_detail.patient_surname }}">
+                <div class="input-indent-vertical"></div>
+                <div class="row">
+                    <div class="col-md-12"><span class="box-span">คำนำหน้า </span></div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <input type="text" disabled="" readonly="" id="patient_name_title" class="input-name-title">
                     </div>
                 </div>
-                <div class="col1">
-                    <div class="ddmr"><span>วันเกิด </span></div>
-                    <div class="dbir">
-                        <input type="date" disabled="" readonly="" id="iBirthday" class="inbirth">
-                    </div>
-                    <!-- <div class="dold"><span>อายุ</span>
-                        <input type="number" disabled="" readonly="" id="iAge" class="inold">
-                    </div> -->
-                    <div class="dsex"><span>เพศ</span>
-                        <input type="text" disabled="" readonly="" id="iSex" class="insex" value="{% if member_detail.gender %} ชาย {% else %} หญิง {% endif %}">
-                    </div>
-                    <div class="dblood"><span>หมู่เลือด </span>
-                        <input type="text" disabled="" readonly="" id="iBlood" class="inblood" value="{{ member_detail.blood_group_abo }}, {{ member_detail.blood_group_rh }}">
+                <div class="input-indent-vertical"></div>
+                <div class="row">
+                    <div class="col-md-12"><span class="box-span">ชื่อ </span></div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <input type="text" disabled="" readonly="" id="patient_name" class="input-name">
                     </div>
                 </div>
-                <div class="col1">
-                    <div class="ddmr"><span>เชื้อชาติ </span></div>
-                    <div class="dnational">
-                        <input type="text" disabled="" readonly="" id="iRace" class="innational" value="{{ member_detail.race }}">
-                    </div>
-                    <div class="dnationn"><span>สัญชาติ </span>
-                        <input type="text" disabled="" readonly="" id="iNationality" class="innationn" value="{{ member_detail.nationallity }}">
-                    </div>
-                    <div class="dregion"><span>ศาสนา </span>
-                        <input type="text" disabled="" readonly="" id="iReligious" class="inregion" value="{{ member_detail.religion }}">
-                    </div>
-                    <div class="dnow"><span>สถานภาพ</span>
-                        <select id="iNow" class="innow" value="{{ member_detail.status }}" name="status">
-                            <optgroup label="สถานภาพปัจจุบัน">
-                                <option value="0">ไม่ระบุ</option>
-                                <option value="1">โสด</option>
-                                <option value="2">สมรส</option>
-                                <option value="3">หม้าย</option>
-                                <!-- <option value="">หย่า</option>
-                                <option value="">แยกกันอยู่</option> -->
-                            </optgroup>
-                        </select>
+                <div class="input-indent-vertical"></div>
+                <div class="row">
+                    <div class="col-md-12"><span class="box-span">นามสกุล </span></div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <input type="text" disabled="" readonly="" id="patient_surname" class="input-name">
                     </div>
                 </div>
-                <div class="col1">
-                    <div class="ddmr"><span>อาชีพ </span></div>
-                    <div class="dcareer">
-                        <input type="text" disabled="" readonly="" id="iCareer" class="incareer" value="{{ member_detail.occupy }}">
-                    </div>
-                    <div class="dlive"><span>ที่อยู่ </span>
-                        <input type="text" disabled="" readonly="" id="iLive" class="inlive" value="{{ member_detail.patient_address }}">
+                <div class="input-indent-vertical"></div>
+                <div class="row">
+                    <div class="col-md-12"><span class="box-span">วันเกิด </span></div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <input type="text" disabled="" readonly="" id="birthday_day" class="input-birthday-day"><span class="birthday-slash">/ </span>
+                        <input type="text" disabled="" readonly="" id="birthday_month" class="input-birthday-month"><span class="birthday-slash">/ </span>
+                        <input type="text" disabled="" readonly="" id="birthday_year" class="input-birthday-year">
                     </div>
                 </div>
-                <!-- <div class="col1">
-                    <div class="dlive2">
-                        <input type="text" disabled="" readonly="" id="iLive2" class="inlive2">
-                    </div>
-                </div> -->
-                <div class="col1">
-                    <!-- <div class="dlok"><span>โรคประจำตัว </span>
-                        <input type="text" disabled="" readonly="" id="iLok" class="inlok">
-                    </div> -->
-                    <div class="demail"><span>E-mail </span>
-                        <input type="email" id="iEmail" class="inemail" value="{{ member_detail.email }}" name="email">
+                <div class="row">
+                    <div class="col-md-12"><span class="box-span">อายุ </span></div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <input type="number" disabled="" readonly="" class="input-age">
                     </div>
                 </div>
-                <div class="col1">
-                    <div class="dtel"><span>เบอร์โทร </span>
-                        <input type="tel" id="iTel" class="intel" value="{{ member_detail.telephone_number }}" name="telephone_number">
+                <div class="input-indent-vertical"></div>
+                <div class="row">
+                    <div class="col-md-12"><span class="box-span">เพศ </span></div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12 box-gender">
+                        <input type="text" disabled="" readonly="" id="gender" class="input-gender">
                     </div>
                 </div>
-                <div class="col1">
-                    <div class="dfather"><span>ชื่อ-นามสกุลของบิดา </span>
-                        <input type="text" disabled="" readonly="" id="iFather" class="infather" value="{{ member_detail.father_name }}">
+                <div class="input-indent-vertical"></div>
+                <div class="row">
+                    <div class="col-md-12"><span class="box-span">หมู่เลือด </span></div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <input type="text" disabled="" readonly="" id="blood_group_abo" class="input-blood-type">
                     </div>
                 </div>
-                <div class="col1">
-                    <div class="dmother"><span>ชื่อ-นามสกุลของมารดา </span>
-                        <input type="text" disabled="" readonly="" id="iMother" class="inmother" value="{{ member_detail.mother_name }}">
+                <div class="input-indent-vertical"></div>
+                <div class="row">
+                    <div class="col-md-12"><span class="box-span">เชื้อชาติ </span></div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <input type="text" disabled="" readonly="" id="race" class="input-race">
                     </div>
                 </div>
-                <div class="col1">
-                    <div class="demername"><span>ชื่อผู้ที่ติดต่อได้ฉุกเฉิน </span>
-                        <input type="text" disabled="" readonly="" id="iEmerName" class="inemername" value="{{ member_detail.emergency_name }}">
-                    </div>
-                    <div class="dtelmer"><span>เบอร์โทรศัพท์ </span>
-                        <input type="tel" id="iEmerTel" class="intelmer" value="{{ member_detail.emergency_phone }}" name="emergency_phone">
-                    </div>
+                <div class="input-indent-vertical"></div>
+                <div class="row">
+                    <div class="col-md-12"><span class="box-span">สัญชาติ </span></div>
                 </div>
-                <div class="col1">
-                    <div class="demerlive"><span>ที่อยู่ของผู้ที่สามารถติดต่อได้ฉุกเฉิน </span>
-                        <input type="text" disabled="" readonly="" id="iEmerLive" class="inemerlive" value="{{ member_detail.emergency_address }}">
-                        <div class="col1"></div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <input type="text" disabled="" readonly="" id="nationallity" class="input-race">
                     </div>
                 </div>
-                <div class="col1">
-                    <div class="demerlive">
-                        <div class="col1"></div>
+                <div class="input-indent-vertical"></div>
+                <div class="row">
+                    <div class="col-md-12"><span class="box-span">ศาสนา </span></div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <input type="text" disabled="" readonly="" id="Religion" class="input-race">
                     </div>
                 </div>
-                <div class="col1 confirmcheckbox">
-                    <div class="daccept">
-                        <input type="checkbox" class="inputplamplamplam confirm-edit"><span class="plamplamplam">ยืนยันการแก้ไขข้อมูล </span></div>
+                <div class="input-indent-vertical"></div>
+                <div class="row">
+                    <div class="col-md-12"><span class="box-span">สถานภาพ </span></div>
                 </div>
-                <div class="col1">
-                    <button class="btn btn-default button" type="submit">แก้ไขข้อมูล </button>
+                <div class="row">
+                    <div class="col-md-12">
+                        <input type="text" disabled="" readonly="" id="Status" class="input-race">
+                    </div>
                 </div>
-            </form>
-            <div class="col1"></div>
-            <div class="col1"></div>
+                <div class="input-indent-vertical"></div>
+                <div class="row">
+                    <div class="col-md-12"><span class="box-span">อาชีพ </span></div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <input type="text" disabled="" readonly="" class="input-career">
+                    </div>
+                </div>
+                <div class="input-indent-vertical"></div>
+                <div class="row">
+                    <div class="col-md-12"><span class="box-span">ที่อยู่ </span></div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <input type="text" disabled="" readonly="" id="pateint_address" class="input-address">
+                    </div>
+                </div>
+                <div class="input-indent-vertical"></div>
+                <div class="row">
+                    <div class="col-md-12"><span class="box-span">โรคประจำตัว </span></div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <input type="text" disabled="" readonly="" id="congenital_disease" class="input-congenital-disease">
+                    </div>
+                </div>
+                <div class="input-indent-vertical"></div>
+                <div class="row">
+                    <div class="col-md-12"><span class="box-span">E-mail </span></div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <input type="email" id="email" class="input-email">
+                    </div>
+                </div>
+                <div class="input-indent-vertical"></div>
+                <div class="row">
+                    <div class="col-md-12"><span class="box-span">เบอร์โทร </span></div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <input type="tel" id="telphone_number" class="input-telphone-number">
+                    </div>
+                </div>
+                <div class="input-indent-vertical"></div>
+                <div class="row">
+                    <div class="col-md-12"><span class="box-span">ชื่อ-นามสกุลของบิดา </span></div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <input type="text" disabled="" readonly="" id="father_name" class="input-name-parents">
+                    </div>
+                </div>
+                <div class="input-indent-vertical"></div>
+                <div class="row">
+                    <div class="col-md-12"><span class="box-span">ชื่อ-นามสกุลของมารดา </span></div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <input type="text" disabled="" readonly="" class="input-name-parents">
+                    </div>
+                </div>
+                <div class="input-indent-vertical"></div>
+                <div class="row">
+                    <div class="col-md-12"><span class="box-span">ชื่อผู้ที่ติดต่อได้ฉุกเฉิน </span></div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <input type="text" disabled="" readonly="" id="emergency_name" class="input-name-parents">
+                    </div>
+                </div>
+                <div class="input-indent-vertical"></div>
+                <div class="row">
+                    <div class="col-md-12"><span class="box-span">เบอร์โทรศัพท์ </span></div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <input type="tel" id="emergency_phone" class="input-telphone-number">
+                    </div>
+                </div>
+                <div class="input-indent-vertical"></div>
+                <div class="row">
+                    <div class="col-md-12"><span class="box-span">ที่อยู่ของผู้ที่ติดต่อได้ฉุกเฉิน </span></div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <input type="text" disabled="" readonly="" id="emergency_addr" class="input-address">
+                    </div>
+                </div>
+                <div class="input-indent-vertical"></div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="checkbox">
+                            <label class="box-accept-edit">
+                                <input type="checkbox"> ยืนยันการแก้ไขข้อมูล</label>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div id="submit" class="button-accept"><span class="label-register">แก้ไขข้อมูล </span></div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
-{% endblock %}
-
-{% block scripts %}
-<script src="{% static 'app/scripts/edit-member.js' %}"></script>
-{% endblock %}
+    <script src="assets/js/jquery.min.js"></script>
+    <script src="assets/bootstrap/js/bootstrap.min.js"></script>

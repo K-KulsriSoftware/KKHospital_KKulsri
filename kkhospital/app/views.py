@@ -112,12 +112,12 @@ def member(request):
     assert isinstance(request, HttpRequest)
     blood_abo = ['-', 'A', 'B', 'O', 'AB']
     blood_rh = ['', 'RH ลบ', 'RH บวก']
-    status, member_detail = api.get_patients_detail(
-        request.session['user']['username'])
+    status, patient_id = api.get_patient_id(request.user.username)
+    status, member_detail = api.get_patients_detail(patient_id)
     member_detail['blood_group_abo'] = blood_abo[member_detail['blood_group_abo']]
     member_detail['blood_group_rh'] = blood_rh[member_detail['blood_group_rh']]
     status, orders = api.get_patient_orders(
-        request.session['user']['username'])
+        request.user.username)
     return render(
         request,
         'app/member.html',
