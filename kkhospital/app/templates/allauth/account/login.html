@@ -58,17 +58,15 @@
             <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" /> 
           {% endif %}
           <div class="box-button-detail">
-            <div class="col-md-offset-2 col-md-10">
+            <!-- <div class="col-md-offset-2 col-md-10"> -->
               <button class="primaryAction btn btn-default btn-login" type="submit">{% trans "ลงชื่อเข้าใช้" %}</button>
               <br>
-              <a class="button secondaryAction" href="{% url 'account_reset_password' %}">{% trans "Forgot Password?" %}</a>
-            </div>
-          </div>
-          <div style="text-align:center;font-size:16px;margin-top:5px;">
-            <p>
-              {% blocktrans %} มีบัญชีแล้วหรือไม่,
-              <a href="{{ signup_url }}">สมัครสมาชิก</a> ก่อน. {% endblocktrans %}
-            </p>
+              {% blocktrans %}<a href="{{ signup_url }}"><button type="button" class="primaryAction btn btn-default btn-login">สมัครสมาชิก</button></a>{% endblocktrans %}
+              <br>
+              <a class="button secondaryAction" href="{% url 'account_reset_password' %}"><button type="button" class="primaryAction btn btn-default btn-login">{% trans "ลืมรหัสผ่าน" %}</button></a>
+              <br>
+
+              <!-- </div> -->
           </div>
         </form>
       </section>

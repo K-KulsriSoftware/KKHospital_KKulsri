@@ -1,0 +1,96 @@
+{% extends "layout.html" %}
+
+{% block content %}
+    {% load staticfiles %}
+    <link rel="stylesheet" type="text/css" href="{% static 'app/css/doctor-detail.css' %}" />
+    <div class="container">
+        <div class="row doctor">
+            <div class="col-sm-4"><div class="doctor-image-wrapper"><img class="doctor-image" src="{{ doctor.doctor_img }}"></div></div>
+            <div class="col-sm-8 doctor-content">
+                <h3>{{ doctor.doctor_name_title }}{{ doctor.doctor_name }} {{ doctor.doctor_surname }}</h3>
+                <div class="doctor-content-detail">
+                    <div class="row">
+                        <div class="col-xs-4"><span>ชำนาญพิเศษ </span></div>
+                        <div class="col-xs-8">
+                            <span>
+                            {% if doctor.expertise and doctor.expertise|length > 0 %}
+                                {{ doctor.expertise|join:"<br>" }}
+                            {% else %}
+                                -
+                            {% endif %}
+                            </span>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-4"><span>เฉพาะทาง </span></div>
+                        <div class="col-xs-8">
+                            <span>
+                            {% if doctor.position %}
+                                {{ doctor.position }}
+                            {% else %}
+                                -
+                            {% endif %}
+                            </span>
+                        </div>
+                    </div>
+                    <!-- <div class="row">
+                        <div class="col-xs-4"><span>ภาษา </span></div>
+                        <div class="col-xs-8">
+                            <span>
+                            {% if doctor.language and doctor.language|length %}
+                                {{ doctor.language|join:", " }}
+                            {% else %}
+                                -
+                            {% endif %}
+                            </span>
+                        </div>
+                    </div> -->
+                    <div class="row">
+                        <div class="col-xs-4"><span>การศึกษา </span></div>
+                        <div class="col-xs-8">
+                            <span>
+                            {% if doctor.educations and doctor.educations|length %}
+                                {{ doctor.educations|join:"<br>" }}
+                            {% else %}
+                                -
+                            {% endif %}
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row schedule-container round-border row-top-margin">
+                <div class="col-xs-12">
+                    <div class="table-responsive">
+                        <table class="table" style="text-align: center;">
+                            <thead>
+                                <tr>
+                                    <th>ชื่อแพ็กเกจ </th>
+                                    <th>ชื่อผู้ป่วยที่นัดหมาย </th>
+                                    <th>วันที่นัดหมาย </th>
+                                    <th class="col-xs-1">ข้อมูลผู้ป่วย </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% if orders %}
+                                    {% for order in orders %}
+                                        <tr>
+                                            <td><!-- ชื่อแพคเกจ --></td>
+                                            <td><!-- ชื่อผู้ป่วย --></td>
+                                            <td><!-- วันที่นัดหมาย --></td>
+                                            <td><button style="width: 60px;"><a href="#"></a>ข้อมูล</a></button></td> <!-- ใส่ลิ้งไปหน้าผู้ป่วย -->
+                                        </tr>
+                                    {% endfor %}
+                                {% endif %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+    </div>
+{% endblock %}
+
+{% block scripts %}
+<script src="{% static 'app/scripts/doctor-detail.js' %}"></script>
+{% endblock %}

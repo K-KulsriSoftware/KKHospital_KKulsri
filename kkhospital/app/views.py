@@ -107,6 +107,34 @@ def doctor_detail(request):
     else:
         raise Http404("No doctor found")
 
+def doctor_profile(request):
+    """Renders the about page."""
+    status, doctor = api.show_doctor_detail("59d8a8902b116cf11562a135")
+    if status:
+        status, package = api.show_special_package_info(
+            "59d892817434c9e2a98088eb")
+        working_times = {}
+        for day in doctor['working_time']:
+            if doctor['working_time'][day] != []:
+                working_times[day] = []
+                for time in doctor['working_time'][day]:
+                    for i in range(int(time['start']), int(time['finish'])):
+                        working_times[day].append(
+                            {'start': i, 'finish': i + 1})
+        print(working_times)
+        return render(
+            request,
+            'app/doctor-profile.html',
+            {
+                'title': 'ข้อมูลแพทย์',
+                'doctor': doctor,
+                'selected_package': package,
+                'working_time': working_times,
+            }
+        )
+    else:
+        raise Http404("No doctor found")
+
 @login_required(login_url='/accounts/login')
 def member(request):
     assert isinstance(request, HttpRequest)
@@ -121,6 +149,28 @@ def member(request):
     return render(
         request,
         'app/member.html',
+        {
+            'title': 'ข้อมูลสมาชิก',
+            'member_detail': member_detail,
+            'orders': orders,
+            'logged_user': request.session.get('user')
+        }
+    )
+
+@login_required(login_url='/accounts/login')
+def member_profile(request):
+    assert isinstance(request, HttpRequest)
+    blood_abo = ['-', 'A', 'B', 'O', 'AB']
+    blood_rh = ['', 'RH ลบ', 'RH บวก']
+    status, member_detail = api.get_patients_detail(
+        request.session['user']['username'])
+    member_detail['blood_group_abo'] = blood_abo[member_detail['blood_group_abo']]
+    member_detail['blood_group_rh'] = blood_rh[member_detail['blood_group_rh']]
+    status, orders = api.get_patient_orders(
+        request.session['user']['username'])
+    return render(
+        request,
+        'app/member-profile.html',
         {
             'title': 'ข้อมูลสมาชิก',
             'member_detail': member_detail,
