@@ -294,7 +294,7 @@ class API :
 		return self.patients_query_api.update_patient(patient_id, data['username'], data['patient_name_title'], 
 			data['patient_name'], data['patient_surname'], data['patient_img'], data['id_card_number'], data['gender'], 
 			data['birthday'], data['blood_group_abo'], data['blood_group_rh'], data['race'], data['nationallity'], 
-			data['religion'], data['status'], data['patient_address'], data['occupy'], data['telephone_number'], 
+			data['religion'], data['status'], data['patient_address'], data['occupy'], data['telphone_number'], 
 			data['father_name'], data['mother_name'], data['emergency_name'], data['emergency_phone'], 
 			data['emergency_address'], data['email'], data['congenital_disease'])
 
@@ -309,7 +309,7 @@ class API :
 		return self.patients_query_api.insert_patient(data['username'], data['patient_name_title'], 
 			data['patient_name'], data['patient_surname'], data['patient_img'], data['id_card_number'], data['gender'], 
 			data['birthday'], data['blood_group_abo'], data['blood_group_rh'], data['race'], data['nationallity'], 
-			data['religion'], data['status'], data['patient_address'], data['occupy'], data['telephone_number'], 
+			data['religion'], data['status'], data['patient_address'], data['occupy'], data['telphone_number'], 
 			data['father_name'], data['mother_name'], data['emergency_name'], data['emergency_phone'], 
 			data['emergency_address'], data['email'], data['congenital_disease'])
 

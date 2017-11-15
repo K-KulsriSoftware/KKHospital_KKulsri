@@ -56,7 +56,7 @@ class patients_query_api :
 
 	def update_patient(self, patient_id, username, patient_name_title, patient_name, patient_surname, patient_img, 
 		id_card_number, gender, birthday, blood_group_abo, blood_group_rh, race, nationallity, religion, status, 
-		patient_address, occupy, telephone_number, father_name, mother_name, emergency_name, emergency_phone, 
+		patient_address, occupy, telphone_number, father_name, mother_name, emergency_name, emergency_phone, 
 		emergency_address, email, congenital_disease) :
 		self.db.patients.update_one(
     		{
@@ -81,7 +81,7 @@ class patients_query_api :
     				'status' : status,
     				'patient_address' : patient_address,
     				'occupy' : occupy,
-    				'telephone_number' : telephone_number,
+    				'telephone_number' : telphone_number,
     				'father_name' : father_name,
     				'mother_name' : mother_name,
     				'emergency_name' : emergency_name,
@@ -104,7 +104,7 @@ class patients_query_api :
 
 	def insert_patient(self, username, patient_name_title, patient_name, patient_surname, patient_img, 
 		id_card_number, gender, birthday, blood_group_abo, blood_group_rh, race, nationallity, religion, status, 
-		patient_address, occupy, telephone_number, father_name, mother_name, emergency_name, emergency_phone, 
+		patient_address, occupy, telphone_number, father_name, mother_name, emergency_name, emergency_phone, 
 		emergency_address, email, congenital_disease) :
 		self.db.patients.insert(
 			{
