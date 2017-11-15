@@ -12,7 +12,7 @@ class get_collection_pattern_api :
 		self.hour_list = list(range(7, 23))
 		self.blood_abo_list = ['A', 'B', 'O', 'AB']
 		self.blood_rh_list = ['RH+', 'RH-']
-		self.status_list = ['โสด', 'แต่งงาน', 'หม้าย']
+		self.status_list = ['โสด', 'แต่งงาน', 'หย่าร้าง', 'หม้าย', 'แยกกันอยู่']
 		self.permissions = {
 							'buildings' : {'delete' : True, 'insert' : True, 'update' : True},
 							'departments' : {'delete' : True, 'insert' : True, 'update' : True},
