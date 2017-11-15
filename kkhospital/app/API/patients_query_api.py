@@ -72,7 +72,7 @@ class patients_query_api :
         			'patient_img' : patient_img,
         			'id_card_number' : id_card_number,
         			'gender' : gender,
-    				'birthday' : datetime(birthday['year'], birthday['month'], birthday['day']),
+    				'birthday' : datetime(int(birthday['year']), int(birthday['month']), int(birthday['day'])),
     				'blood_group_abo' : blood_group_abo,
     				'blood_group_rh' : blood_group_rh,
     				'race' : race,
