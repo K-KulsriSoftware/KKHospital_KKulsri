@@ -486,6 +486,16 @@ class API :
 		if check : return True, result
 		return self.get_collection_pattern_api.get_collection_permission(collection_name, request_permission)		
 
+	def encode_thai_value(self, domain=None, thai_word=None) :
+		check, result = self.incomplete_input(locals())
+		if check : return True, result
+		return self.get_collection_pattern_api.encode_thai_value(domain, thai_word)
+
+	def decode_thai_value(self, domain=None, code=None) :
+		check, result = self.incomplete_input(locals())
+		if check : return True, result
+		return self.get_collection_pattern_api.decode_thai_value(domain, code)
+
 	def get_patient_orders(self, patient_username) :
 		check, result = self.incomplete_input(locals())
 		if check : return True, result

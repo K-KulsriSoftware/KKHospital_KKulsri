@@ -525,3 +525,47 @@ class get_collection_pattern_api :
 		if not permission_name in ['delete', 'insert', 'update'] :
 			return False, f'No permission name, {permission_name}'
 		return self.permissions[collection_name][permission_name], 'collection and permission found'
+
+	def encode_thai_value(self, domain, thai_word) :
+		if domain == 'patient_name_title' :
+			return True, self.name_title_list.index(thai_word) + 1
+		elif domain == 'doctor_name_title' :
+			return True, self.doctor_title_list.index(thai_word) + 1
+		elif domain == 'gender' :
+			if thai_word == 'ชาย' :
+				return True, True
+			elif thai_word == 'หญิง' :
+				return True, False
+			else :
+				return '' 
+		elif domain == 'blood_group_abo' :
+			return True, self.blood_abo_list.index(thai_word) + 1
+		elif domain == 'blood_group_rh' :
+			return True, self.blood_rh_list.index(thai_word) + 1
+		elif domain == 'status' :
+			return True, self.status_list.index(thai_word) + 1
+		else :
+			return False, ''
+
+	def decode_thai_value(self, domain, code) :
+		if code == 0 :
+			return True, ''
+		if domain == 'patient_name_title' :
+			return True, self.name_title_list[code - 1]
+		elif domain == 'doctor_name_title' :
+			return True, self.doctor_title_list[code - 1]
+		elif domain == 'gender' :
+			if code == True :
+				return True, 'ชาย'
+			elif code == False :
+				return True, 'หญิง'
+			else :
+				return False, '' 
+		elif domain == 'blood_group_abo' :
+			return True, self.blood_abo_list[code - 1]
+		elif domain == 'blood_group_rh' :
+			return True, self.blood_rh_list[code - 1]
+		elif domain == 'status' :
+			return True, self.status_list[code - 1]
+		else :
+			return False, ''
