@@ -36,6 +36,7 @@ div.box-tab-detail{
   border-bottom-left-radius:5px;
   border-bottom-right-radius:5px;
   padding-bottom:20px;
+  height: 320px;
 }
 
 div.detail-login{
@@ -127,17 +128,6 @@ label.text-password{
 @media (max-width:420px){
   div.box{
     width: 90%;
-  }
-}
-
-.btn-login{
-  width: 200px;
-}
-
-@media (max-width: 991px){
-  .bnt-login{
-    width: 200px;
-    margin-left: -50px;
   }
 }
 

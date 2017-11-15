@@ -105,20 +105,68 @@ def doctor_detail(request):
     else:
         raise Http404("No doctor found")
 
+def doctor_profile(request):
+    """Renders the about page."""
+    status, doctor = api.show_doctor_detail("59d8a8902b116cf11562a135")
+    if status:
+        status, package = api.show_special_package_info(
+            "59d892817434c9e2a98088eb")
+        working_times = {}
+        for day in doctor['working_time']:
+            if doctor['working_time'][day] != []:
+                working_times[day] = []
+                for time in doctor['working_time'][day]:
+                    for i in range(int(time['start']), int(time['finish'])):
+                        working_times[day].append(
+                            {'start': i, 'finish': i + 1})
+        print(working_times)
+        return render(
+            request,
+            'app/doctor-profile.html',
+            {
+                'title': 'ข้อมูลแพทย์',
+                'doctor': doctor,
+                'selected_package': package,
+                'working_time': working_times,
+            }
+        )
+    else:
+        raise Http404("No doctor found")
+
 @login_required(login_url='/accounts/login')
 def member(request, member_name):
     assert isinstance(request, HttpRequest)
     blood_abo = ['-', 'A', 'B', 'O', 'AB']
     blood_rh = ['', 'RH ลบ', 'RH บวก']
-    status_t, member_id = api.get_patient_id(member_name)
-    print(member_id)
-    status, member_detail = api.get_patients_detail( member_id )
+    status, patient_id = api.get_patient_id(request.user.username)
+    status, member_detail = api.get_patients_detail(patient_id)
+    member_detail['blood_group_abo'] = blood_abo[member_detail['blood_group_abo']]
+    member_detail['blood_group_rh'] = blood_rh[member_detail['blood_group_rh']]
+    status, orders = api.get_patient_orders(request.user.username)
+    return render(
+        request,
+        'app/member.html',
+        {
+            'title': 'ข้อมูลสมาชิก',
+            'member_detail': member_detail,
+            'orders': orders,
+            'logged_user': request.user.username
+        }
+    )
+
+@login_required(login_url='/accounts/login')
+def member_profile(request):
+    assert isinstance(request, HttpRequest)
+    blood_abo = ['-', 'A', 'B', 'O', 'AB']
+    blood_rh = ['', 'RH ลบ', 'RH บวก']
+    status, member_detail = api.get_patients_detail(
+        request.session['user']['username'])
     member_detail['blood_group_abo'] = blood_abo[member_detail['blood_group_abo']]
     member_detail['blood_group_rh'] = blood_rh[member_detail['blood_group_rh']]
     status, orders = api.get_patient_orders(member_id)
     return render(
         request,
-        'app/member.html',
+        'app/member-profile.html',
         {
             'title': 'ข้อมูลสมาชิก',
             'member_detail': member_detail,
@@ -134,7 +182,8 @@ def edit_member_info(request, member_name):
         status = request.POST['status']
         telephone_number = request.POST['telephone_number']
         emergency_phone = request.POST['emergency_phone']
-        query_status, member_detail = api.get_patients_detail(member_name)
+        status, patient_id = api.get_patient_id(request.user.username)
+        status, member_detail = api.get_patients_detail(patient_id)
 
         # เอาค่า email, status ..... เอาไปใส่ใน field ของ dict member_detail แล้วเอา member_detail แต่ละ field ไปแทนใน paramenter ใน function ข้างล่าง
         member_detail['email'] = email
@@ -147,7 +196,7 @@ def edit_member_info(request, member_name):
                                                           member_detail['birthday'].year, member_detail[
                                                               'birthday'].month, member_detail['birthday'].day,
                                                           member_detail['blood_group_abo'], member_detail[
-                                                              'blood_group_rh'], member_detail['race'], member_detail['nationallity'],
+                                                              'blood_group_rh'], member_detail['race'], member_detail['nationality'],
                                                           member_detail['religion'], member_detail['status'], member_detail[
                                                               'patient_address'], member_detail['occupy'], member_detail['telephone_number'],
                                                           member_detail['father_name'], member_detail[
@@ -155,15 +204,19 @@ def edit_member_info(request, member_name):
                                                           member_detail['emergency_phone'], member_detail['emergency_address'], member_detail['email'], member_detail['congenital_disease'])
     blood_abo = ['-', 'A', 'B', 'O', 'AB']
     blood_rh = ['', 'RH ลบ', 'RH บวก']
-    status, member_detail = api.get_patients_detail(member_name)
+    status, patient_id = api.get_patient_id(request.user.username)
+    status, member_detail = api.get_patients_detail(patient_id)
+    member_detail['gender'] = 'ชาย' if member_detail['gender'] else 'หญิง'
     member_detail['blood_group_abo'] = blood_abo[member_detail['blood_group_abo']]
     member_detail['blood_group_rh'] = blood_rh[member_detail['blood_group_rh']]
+    member_detail['congenital_disease'] = ', '.join(member_detail['congenital_disease'])
     return render(
         request,
         'app/edit-member.html',
         {
             'title': 'แก้ไขข้อมูลสมาชิก',
             'member_detail': member_detail,
+            'logged_user': request.user.username
         }
     )
 
@@ -264,17 +317,15 @@ def doctor(request):
         }
     )
 
-
+@login_required(login_url='/accounts/login')
 def confirm(request):
-    if not check_logged_in(request):
-        return redirect('/login/?next=/confirm/')
     """Renders the about page."""
     assert isinstance(request, HttpRequest)
     if 'selected_package' not in request.session or 'selected_doctor' not in request.session or 'selected_date' not in request.session:
         return redirect('/doctor-detail/')
     if request.method == 'POST':
         status, result = api.create_order(request.session['selected_package'], request.session['selected_doctor'],
-                                          request.session['user']['username'], '-', request.session['selected_date'])
+                                          request.user.username, '-', request.session['selected_date'])
         if status:
             return redirect('/')
     # print(request.session['selected_date'])
@@ -307,7 +358,7 @@ def confirm(request):
             'selected_year': request.session['selected_date']['year'],
             'selected_start_hr': request.session['selected_date']['start_hr'],
             'selected_finish_hr': request.session['selected_date']['finish_hr'],
-            'logged_user': request.session.get('user')
+            'logged_user': request.user.username
         }
     )
 

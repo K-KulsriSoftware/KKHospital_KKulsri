@@ -42,18 +42,20 @@
                         <tr>
                             <th>ชื่อแพ็กเกจ </th>
                             <th>แพทย์ที่เข้าพบ </th>
-                            <th>วันที่ชำระเงิน </th>
-                            <th>วันนัดหมาย </th>
+                            <th>วันที่นัดหมาย </th>
+                            <th>ข้อมูลบันทึกการรักษา </th>
+                            <th>ปุ่มยืนยัน </th>
                         </tr>
                     </thead>
                     <tbody>
                         {% if orders %}
                             {% for order in orders %}
                                 <tr>
-                                    <td>{{ order.package_name }}</td>
-                                    <td>{{ order.doctor_name_title }}{{ order.doctor_name }} {{ order.doctor_surname }}</td>
-                                    <td>{{ order.bought_time|date:"d/m/Y, H:i" }}</td>
-                                    <td>{{ order.start_time|date:"d/m/Y, H:i" }} - {{ order.finish_time|date:"H:i" }}</td>
+                                    <td><!-- ชื่อแพคเกจ --></td>
+                                    <td><!-- ชื่อแพทย์ที่เข้าพบ --></td>
+                                    <td><!-- วันที่เข้าพบ --></td>
+                                    <td><!-- ตรงนี้จะให้หมอกรอกข้อมูล --></td>
+                                    <td></td>
                                 </tr>
                             {% endfor %}
                         {% endif %}

@@ -15,6 +15,7 @@ Including another URLconf
 """
 from django.conf.urls import url, include
 from django.contrib import admin
+import allauth
 
 import app.views
 
@@ -45,4 +46,6 @@ urlpatterns = [
     url(r'^member/(?P<member_name>\w{0,50})/$', app.views.member, name='member'),
     url(r'^member/(?P<member_name>\w{0,50})/edit/$', app.views.edit_member_info, name='edit_member_info'),
     url(r'^register/$', app.views.register, name='register'),
+    url(r'^doctor-profile/$', app.views.doctor_profile, name='doctor-profile'),
+    url(r'^member/profile/$', app.views.member, name='member-profile'),
 ]
