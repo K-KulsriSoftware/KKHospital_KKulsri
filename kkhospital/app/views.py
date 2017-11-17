@@ -93,7 +93,7 @@ def doctor_detail(request):
                     for i in range(int(time['start']), int(time['finish'])):
                         working_times[day].append(
                             {'start': i, 'finish': i + 1})
-        print(working_times)
+        # print(working_times)
         return render(
             request,
             'app/doctor-detail.html',
@@ -202,7 +202,7 @@ def special_packages(request, package_id):
         request.session['selected_package'] = request.POST['package']
         return redirect('/doctor-search/')
     status, result = api.show_special_package_info(package_id)
-    print(result)
+    # print(result)
     return render(
         request,
         'app/special_packages.html',
@@ -222,7 +222,7 @@ def search_for_doctor(request):
     if request.method == 'POST':
         request.session['selected_doctor'] = request.POST['doctor_id']
         return redirect('/doctor-detail/')
-    print(request.session['selected_package'])
+    # print(request.session['selected_package'])
     assert isinstance(request, HttpRequest)
     return render(
         request,
@@ -239,7 +239,7 @@ def doctor_search_api(request):
     days = request.GET.get('days').split(
         ',') if request.GET.get('days') != None else None
     time = request.GET.get('time')
-    print(time)
+    # print(time)
     doctor_firstname = request.GET.get('doctor_firstname')
     doctor_lastname = request.GET.get('doctor_surname')
     gender = request.GET.get('gender')
@@ -262,7 +262,7 @@ def doctor(request):
         request.session['selected_doctor'] = request.POST['doctor_id']
         return redirect('/doctor-detail/')
     status, result = api.show_doctor_in_department()
-    print(result)
+    # print(result)
     return render(
         request,
         'app/doctor.html',
@@ -363,8 +363,8 @@ def admin_mongo_collection(request, collection_name):
     permissions['insert'] = 1 if api.get_collection_permission(collection_name, 'insert')[0] else 0
     permissions['delete'] = 1 if api.get_collection_permission(collection_name, 'delete')[0] else 0
     permissions['update'] = 1 if api.get_collection_permission(collection_name, 'update')[0] else 0
-    print(collection_name)
-    print(permissions)
+    # print(collection_name)
+    # print(permissions)
     status, data = api.admin_get_all_documents(collection_name)
     result = []
     for doc in data:
@@ -486,8 +486,8 @@ def admin_mongo_edit(request, collection_name, object_id):
             'title': 'mongoDB Admin',
             'header_title': 'mongoDB Admin',
             'collection_name': collection_name,
-            'fields': json.dumps(fields),
-            'data': json.dumps(data),
+            'fields': json.dumps(fields).replace('"', '\\"').replace("'", "\\'"),
+            'data': json.dumps(data).replace('"', '\\"').replace("'", "\\'"),
             'logo_link': '/admin-mongo',
         }
     )
@@ -542,7 +542,7 @@ def login(request):
 def logout(request):
     assert isinstance(request, HttpRequest)
     request.session['user'] = {'is_authenticated': False}
-    print(request.session['user'])
+    # print(request.session['user'])
     return redirect('/')
 
 
@@ -590,7 +590,7 @@ def register(request):
                                                     emergency_phone, emergency_addr, email, congenital_disease)
         if status:
             del request.session['just_regis']
-            print(request.session['user'])
+            # print(request.session['user'])
             return redirect('/')
         else:
             return render(
