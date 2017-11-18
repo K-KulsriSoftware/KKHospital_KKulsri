@@ -547,24 +547,19 @@ class get_collection_pattern_api :
 		else :
 			return False, thai_word
 
+	def get_value_from_index(self, mylist, index) :
+		if type(index) == type(1) and 0 <= index < len(mylist) :
+			return True, mylist[index]
+		elif type(index) == type(1) :
+			return False, str(index)
+		return False, index
 	def decode_thai_value(self, domain, code) :
 		if type(code) == type('') and code.isdigit() :
 			code = int(code)
 
-		#if type(code) == type(True) :
-				
-		#elif type(code) != type('') :
-		#	return False, code
-		
-		#if not code.isdigit() :
-		#	return False, code
-		#code = int(code)
 		if code == 0 :
 			return True, 'None'
-		#if domain == 'patient_name_title' :
-		#	return True, self.name_title_list[code]
-		#elif domain == 'doctor_name_title' :
-		#	return True, self.doctor_title_list[code]
+		
 		if domain == 'gender' :
 				if code == True :
 					return True, 'ชาย'
@@ -573,9 +568,10 @@ class get_collection_pattern_api :
 				else :
 					return False, code
 		elif domain == 'blood_group_abo' :
-			if type(code) == type(1) and 0 <= code < len(self.blood_abo_list) : 
-				return True, self.blood_abo_list[code]
-			return False, code
+			return self.get_value_from_index(self.blood_abo_list, code)
+			# if type(code) == type(1) and 0 <= code < len(self.blood_abo_list) : 
+			# 	return True, self.blood_abo_list[code]
+			# return False, code
 		elif domain == 'blood_group_rh' :
 			if type(code) == type(1) and 0 <= code < len(self.blood_rh_list) : 
 				return True, self.blood_rh_list[code]
