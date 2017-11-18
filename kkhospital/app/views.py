@@ -337,7 +337,7 @@ def payment(request):
     )
 
 
-# @staff_member_required(login_url='/accounts/login')
+@staff_member_required(login_url='/accounts/login')
 def admin_mongo(request):
     assert isinstance(request, HttpRequest)
     status, result = api.get_all_collections_name()
@@ -366,7 +366,7 @@ def decode_data(data):
             data[k] = api.decode_thai_value(k, v)[1]
 
 
-# @staff_member_required(login_url='/accounts/login')
+@staff_member_required(login_url='/accounts/login')
 def admin_mongo_collection(request, collection_name):
     assert isinstance(request, HttpRequest)
     permissions = {}
@@ -402,6 +402,7 @@ def admin_mongo_collection(request, collection_name):
         }
     )
 
+@staff_member_required(login_url='/accounts/login')
 def admin_mongo_add(request, collection_name):
     if request.method == 'POST':
         tmp = dict(request.POST)
@@ -466,6 +467,7 @@ def fill_field(fields, data):
                 'day': tmp[2]
             }
 
+@staff_member_required(login_url='/accounts/login')
 def admin_mongo_edit(request, collection_name, object_id):
     if request.method == 'POST':
         tmp = dict(request.POST)
@@ -506,6 +508,7 @@ def admin_mongo_edit(request, collection_name, object_id):
         }
     )
 
+@staff_member_required(login_url='/accounts/login')
 def admin_mongo_delete(request, collection_name, object_id):
     if request.method == 'POST':
         status, result = api.admin_delete_document(collection_name, object_id)
