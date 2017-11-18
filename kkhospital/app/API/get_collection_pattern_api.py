@@ -6,13 +6,13 @@ class get_collection_pattern_api :
 	
 	def __init__(self, db) :
 		self.db = db
-		self.name_title_list = ['นาย', 'นาง', 'นางสาว']
-		self.doctor_title_list = ['นายแพทย์', 'นายแพทย์หญิง']
-		self.gender_list = ['ชาย', 'หญิง']
+		self.name_title_list = ['none', 'นาย', 'นาง', 'นางสาว']
+		self.doctor_title_list = ['none', 'นายแพทย์', 'นายแพทย์หญิง']
+		self.gender_list = ['none', 'ชาย', 'หญิง']
 		self.hour_list = list(range(7, 23))
-		self.blood_abo_list = ['A', 'B', 'O', 'AB']
-		self.blood_rh_list = ['RH+', 'RH-']
-		self.status_list = ['โสด', 'แต่งงาน', 'หย่าร้าง', 'หม้าย', 'แยกกันอยู่']
+		self.blood_abo_list = ['none', 'A', 'B', 'O', 'AB']
+		self.blood_rh_list = ['none', 'RH+', 'RH-']
+		self.status_list = ['none', 'โสด', 'แต่งงาน', 'หย่าร้าง', 'หม้าย', 'แยกกันอยู่']
 		self.permissions = {
 							'buildings' : {'delete' : True, 'insert' : True, 'update' : True},
 							'departments' : {'delete' : True, 'insert' : True, 'update' : True},
@@ -537,35 +537,35 @@ class get_collection_pattern_api :
 			elif thai_word == 'หญิง' :
 				return True, False
 			else :
-				return '' 
+				return thai_word 
 		elif domain == 'blood_group_abo' :
-			return True, self.blood_abo_list.index(thai_word) + 1
+			return True, self.blood_abo_list.index(thai_word)
 		elif domain == 'blood_group_rh' :
-			return True, self.blood_rh_list.index(thai_word) + 1
+			return True, self.blood_rh_list.index(thai_word)
 		elif domain == 'status' :
-			return True, self.status_list.index(thai_word) + 1
+			return True, self.status_list.index(thai_word)
 		else :
-			return False, ''
+			return False, thai_word
 
 	def decode_thai_value(self, domain, code) :
 		if code == 0 :
-			return True, ''
+			return True, 'None'
 		if domain == 'patient_name_title' :
-			return True, self.name_title_list[code - 1]
+			return True, self.name_title_list[code]
 		elif domain == 'doctor_name_title' :
-			return True, self.doctor_title_list[code - 1]
+			return True, self.doctor_title_list[code]
 		elif domain == 'gender' :
 			if code == True :
 				return True, 'ชาย'
 			elif code == False :
 				return True, 'หญิง'
 			else :
-				return False, '' 
+				return False, code
 		elif domain == 'blood_group_abo' :
-			return True, self.blood_abo_list[code - 1]
+			return True, self.blood_abo_list[code]
 		elif domain == 'blood_group_rh' :
-			return True, self.blood_rh_list[code - 1]
+			return True, self.blood_rh_list[code]
 		elif domain == 'status' :
-			return True, self.status_list[code - 1]
+			return True, self.status_list[code]
 		else :
-			return False, ''
+			return False, code
