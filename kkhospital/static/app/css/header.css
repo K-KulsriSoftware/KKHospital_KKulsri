@@ -1,0 +1,53 @@
+ul.nav.navbar-nav.links{
+  float:right;
+}
+
+nav.navbar.navbar-default.custom-header{
+  background-color:white;
+}
+
+.custom-header ul.nav.navbar-nav.links li {
+  transition: all 0.2s ease;
+}
+
+.custom-header ul.nav.navbar-nav.links li:hover {
+  background-color: #EEEEEE;
+}
+
+.custom-header ul.nav.navbar-nav.links li a{
+  background-color:Transparent;
+  color:black;
+}
+
+.custom-header a.navbar-brand.navbar-link{
+  background:Transparent;
+  font-family:sans-serif;
+  color:black;
+  float:left;
+  position:absolute;
+  padding:0px;
+  margin-top:-10px;
+}
+
+img#site-logo{
+  width:80px;
+}
+
+.custom-header a.navbar-brand.navbar-link *{
+  display:inline-block;
+}
+
+@media (max-width:767px) {
+  span.logo-description{
+    display:none !important;
+  }
+}
+
+span.logo-description{
+  color:black !important;
+  opacity:0.9;
+}
+
+#navbar-collapse {
+  margin-top: 15px;
+}

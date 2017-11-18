@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ title }} - KKHospital</title>
+    {% load staticfiles %}
+    <link rel="shortcut icon" type="image/png" href="{% static 'app/images/KKULSRI_Logo.png' %}"/>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Cookie">
+    <link rel="stylesheet" type="text/css" href="{% static 'app/content/bootstrap.min.css' %}" />
+    <link rel="stylesheet" type="text/css" href="{% static 'app/content/site.css' %}" />
+    <link rel="stylesheet" type="text/css" href="{% static 'app/css/Pretty-Header.css' %}" />
+    <link rel="stylesheet" type="text/css" href="{% static 'app/css/header.css' %}" />
+    <link rel="stylesheet" type="text/css" href="{% static 'app/css/footer.css' %}" />
+    <script src="{% static 'app/scripts/modernizr-2.6.2.js' %}"></script>
+    {% block styles %}{% endblock %}
+</head>
+
+<body>
+    <nav class="navbar navbar-default custom-header">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <a href="{{ logo_link|default:'/' }}" class="navbar-brand navbar-link"><img id="site-logo" src="{% static 'app/images/KKULSRI_Logo.png' %}"><span class="logo-description">{{ header_title|default:"KKHospital" }}</span></a>
+                {% if not NO_NAV %}
+                    <button data-toggle="collapse" data-target="#navbar-collapse" class="navbar-toggle collapsed"><span class="sr-only">Toggle navigation</span><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span></button>
+                {% endif %}
+            </div>
+            {% if not NO_NAV %}
+                <div class="collapse navbar-collapse" id="navbar-collapse">
+                    <ul class="nav navbar-nav links">
+                        <li role="presentation"><a href="/departments">แพ็กเกจ</a></li>
+                        <li role="presentation"><a href="/doctor">แพทย์</a></li>
+                        {% if not user.is_authenticated %}
+                            <li role="presentation"><a href="/accounts/signup">สมัครสมาชิก</a></li>
+                            <li role="presentation"><a href="/accounts/login">เข้าสู่ระบบ</a></li>
+                        {% else %}
+                            <li role="presentation"><a href="/accounts/member">ข้อมูลสมาชิก</a></li>
+                            <li role="presentation"><a href="/accounts/logout">ออกจากระบบ</a></li>
+                        {% endif %}
+                    </ul>
+                </div>
+            {% endif %}
+        </div>
+    </nav>
+    <div class="container body-content">
+{% block content %}{% endblock %}
+    </div>
+    <footer>
+        <p>Copyright 2017 K.KULSRI Co., Ltd. All rights reserved.</p>
+    </footer>
+
+    <script src="{% static 'app/scripts/jquery-1.10.2.js' %}"></script>
+    <script src="{% static 'app/scripts/bootstrap.js' %}"></script>
+    <script src="{% static 'app/scripts/respond.js' %}"></script>
+{% block scripts %}{% endblock %}
+
+</body>
+</html>

@@ -1,5 +1,5 @@
 @echo off
-set "VIRTUAL_ENV=C:\ZProject\Python\KKulsri\KKHospital\kkulsri"
+set "VIRTUAL_ENV=C:\Zproject\KKHospital_KKulsri\kkulsri"
 
 if defined _OLD_VIRTUAL_PROMPT (
     set "PROMPT=%_OLD_VIRTUAL_PROMPT%"

@@ -1,0 +1,137 @@
+div.box{
+  position:fixed;
+  left:0;
+  right:0;
+  top:0;
+  bottom:0;
+  margin:auto;
+  width:400px;
+  height:270px;
+}
+
+div.title-login{
+  width:50%;
+  height:40px;
+  background-color:#c6e8e1;
+  border-top-left-radius:5px;
+  border-top-right-radius:5px;
+}
+
+label.text-title-login{
+  font-size:20px;
+  margin:7px 0 0 20px;
+}
+
+div.tab-under-title{
+  width:100%;
+  height:5px;
+  background-color:#8dd9ca;
+}
+
+div.box-tab-detail{
+  width:100%;
+  border-color:#c6e8e1;
+  border-width:1px;
+  border-style:solid;
+  border-bottom-left-radius:5px;
+  border-bottom-right-radius:5px;
+  padding-bottom:20px;
+  height: 320px;
+}
+
+div.detail-login{
+  width:100%;
+}
+
+div.box-username{
+  text-align:center;
+  height:50px;
+  margin-top:20px;
+  display:block;
+}
+
+div.box-password{
+  height:50px;
+  display:inline-block;
+  width:100%;
+}
+
+div.box-button-detail{
+  height:50px;
+  margin-top:10px;
+  text-align:center;
+}
+
+button.btn.btn-default{
+  height:40px;
+  width:250px;
+  margin-top:5px;
+}
+
+div.title-username{
+  display:inline-block;
+  float:left;
+  width:30%;
+  font-size:16px;
+  /* margin-top:5px; */
+  text-align:right;
+}
+
+div.input-username{
+  width:70%;
+  height:50px;
+  display:inline-block;
+  text-align:left;
+  padding-left:20px;
+  padding-right: 20px;
+
+}
+
+input.value-input-username{
+  width:210px;
+  height:30px;
+  margin-top:10px;
+  text-align:left;
+  padding-left:10px;
+  border:solid 1px #a3a2a0;
+}
+
+div.title-password{
+  width:30%;
+  text-align:right;
+  display:inline-block;
+  float:left;
+  margin:5px 0 0 0;
+}
+
+div.input-password{
+  width:70%;
+  height:50px;
+  display:inline-block;
+  float:left;
+  padding-left:20px;
+  padding-right: 20px;
+  /*padding:10px 0 0 20px;*/
+}
+
+input.value-input-password{
+  padding-left:10px;
+  width:210px;
+  height:30px;
+  border:solid 1px #a3a2a0;
+}
+
+label.text-password{
+  font-size:16px;
+}
+
+@media (max-width:420px){
+  div.box{
+    width: 90%;
+  }
+}
+
+.control-label{
+  font-size: 16px;
+  padding-top: 0px !important;
+}

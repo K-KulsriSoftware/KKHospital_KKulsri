@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+
+{% extends "layout.html" %}
+
+{% block content %}
+
+	{% load staticfiles %}
+    <link rel="stylesheet" type="text/css" href="{% static 'app/css/departments.css' %}" />
+
+	<!--find package tab-->
+	<div class="img-top-slider">
+		<!-- <div class="div-button-middle">ค้นหาแพคเกจ</div> -->
+	</div>
+	<!--end find package tab-->
+
+	<div>
+		<div id="allpage">
+			<div id="span1"> ศูนย์อายุรกรรม </div>
+			<div id="crossline"></div>
+			<div id="box">
+				<ul class="department-ul">
+					<li class="department-li"><a href="/regular-packages/"><span class="department-span"> แพ็กเกจตรวจสุขภาพต่าง ๆ </span></a></li>
+				</ul>
+			</div>
+		</div>
+	</div>
+
+	{% for department in departments %}
+		{% if department.department_name.0 != 'อายุรกรรม' %}
+		<div>
+			<div id="allpage">
+				<div id="span1"> {{ department.department_name }} </div>
+				<div id="crossline"></div>
+				<div id="box">
+
+					<ul class="department-ul">
+						{% for package_list in department.package_list %}
+							{% if package_list.package_name != 'นัดหมายแพทย์' %}
+								<li class="department-li"><a href="/special-packages/{{ package_list.package_id }}/"><span class="department-span"> {{ package_list.package_name }}</span></a></li>
+							{% endif %}
+						{% endfor %}
+					</ul>
+				</div>
+			</div>
+		</div>
+		{% endif %}
+
+	{% endfor %}
+	<!-- เพิ่มแผนกแบบนี้ -->
+
+{% endblock %}

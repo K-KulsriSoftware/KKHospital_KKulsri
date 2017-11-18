@@ -1,0 +1,29 @@
+span.collection-header{
+  font-weight:bold;
+}
+
+div.collection-header-wrapper{
+  background-color:#8dd9ca;
+  padding:10px;
+}
+
+div.collection{
+  padding:10px;
+}
+
+div.toolbar{
+  text-align:right;
+  padding-bottom:5px;
+}
+
+div.toolbar button{
+  margin-left:5px;
+}
+
+div.list_item > * {
+  display: inline-block;
+}
+
+.data-table-wrapper {
+  overflow: auto;
+}

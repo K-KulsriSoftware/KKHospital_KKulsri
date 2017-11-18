@@ -1,0 +1,37 @@
+{% extends "layout.html" %}
+
+{% block content %}
+    {% load staticfiles %}
+    <link rel="stylesheet" type="text/css" href="{% static 'app/css/confirm.css' %}" />
+    <div class="container">
+        <div class="row head">
+            <div class="div-package-title">
+                <span class="package-title">ยืนยันการซื้อแพคเกจ </span>
+            </div>
+            <div class="div-tab-title-and-detail"></div>
+        </div>
+        <div id="content">
+            <div class="row">
+                <div class="col-md-12">
+                    <p class="confirm-page">แพ็กเกจ : {{ selected_package.package_name }}<br>
+                                            ราคา : {{ selected_package.package_cost|floatformat:2 }} บาท<br>
+                                            แพทย์ที่ต้องการพบ : {{ selected_doctor.doctor_name_title }}{{ selected_doctor.doctor_name }}
+                                            {{ selected_doctor.doctor_surname }}
+                                            <br>
+                                            เวลานัดหมาย : {{selected_date}} {{selected_month}} {{selected_year}} เวลา {{selected_start_hr}}:00 - {{selected_finish_hr}}:00
+                                            <br>
+                                            <!-- ชื่อผู้นัดหมาย : นายกนกพล กุลศรี<br>
+                                            วันเกิด : 14 มีนาคม 2539<br>
+                                            เบอร์โทรศัพท์ : 084-685-7867 -->
+                    </p>
+                </div>
+            </div>
+            <div class="row button">
+                <form action="." method="POST">
+                    {% csrf_token %}
+                    <button class="confirm-button" type="submit">ยืนยันข้อมูล</button>
+                </form>
+            </div>
+        </div>
+    </div>
+{% endblock %}

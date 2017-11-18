@@ -1,0 +1,84 @@
+{% extends "layout.html" %}
+
+{% block content %}
+    {% load staticfiles %}
+    <link rel="stylesheet" type="text/css" href="{% static 'app/css/admin-mongo.css' %}" />
+    {% if COLLECTION %}
+        <link rel="stylesheet" type="text/css" href="{% static 'app/css/admin_mongo-collection.css' %}" />
+    {% endif %}
+    {% if toolbar %}
+        <div class="row">
+            <div class="col-md-12">
+                <div class="toolbar">
+                    {% if permissions.delete %}
+                        <button class="btn btn-default btn-danger delete hide" type="button">Delete</button>
+                    {% endif %}
+                    {% if permissions.insert %}
+                        <a href="add"><button class="btn btn-default add" type="button">Add</button></a>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    {% endif %}
+    {% if DATABASE and collections %}
+        <div class="row">
+            <div class="col-md-12">
+                <div class="collection-header-wrapper"><span class="collection-header">Collections </span></div>
+            </div>
+        </div>
+        {% for collection in collections %}
+            <div class="row">
+                <div class="col-xs-12">
+                    <div class="collection"><a href="collection/{{ collection }}">{{ collection }}</a></div>
+                </div>
+            </div>
+        {% endfor %}
+    {% endif %}
+    {% if COLLECTION and data %}
+        {% csrf_token %}
+        <div class="row">
+            <div class="col-md-12">
+                <div class="collection-header-wrapper"><span class="collection-header">Collection: {{ collection_name }}</span></div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+            {% if data|length > 0 %}
+                <div class="table-responsive data-table-wrapper">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th><input type="checkbox"></th>
+                                {% for field in data.0 %}
+                                    <th>{{ field }}</th>
+                                {% endfor %}
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for doc in data %}
+                                <tr _id="{{ doc.object_id }}">
+                                    <td><input type="checkbox"></td>
+                                    {% for field in data.0 %}
+                                        <td>{{ doc|get_item:field }}</td>
+                                    {% endfor%}
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            {% endif %}
+            </div>
+        </div>
+    {% endif %}
+{% endblock %}
+
+{% block scripts %}
+    <script src="{% static 'app/scripts/admin-mongo.js' %}"></script>
+    {% if COLLECTION  %}
+        <script>
+            var permissions = {{ permissions|safe }};
+        </script>
+        <script src="{% static 'app/scripts/admin_mongo-collection.js' %}"></script>
+        <script src="{% static 'app/scripts/admin_mongo-delete.js' %}"></script>
+    {% endif %}
+{% endblock %}

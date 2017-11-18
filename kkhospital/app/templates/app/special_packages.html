@@ -1,0 +1,73 @@
+<!DOCTYPE html> {% extends "layout.html" %} {% block content %} {% load staticfiles %}
+<link rel="stylesheet" type="text/css" href="{% static 'app/css/special_packages.css' %}" />
+
+
+<div>
+    <div id="allpage">
+        <div class="package-name" style="margin-bottom: 20px;">
+            <span style="font-size: 25px;">{{ package.package_name }}</span>
+        </div>
+        <div class="p1" style="width: 10px; height: 100%;background: #8dd9ca;display: inline-block;float: left;">
+            <div class="p2" style="width:auto;margin-left: 10px;height: auto;display: inline-block;float: left;"></div>
+            <div style="width:100%;height:63px"></div>
+        </div>
+        <div id="span2"> &nbsp ราคาแพ็กเกจ : {{ package.package_cost|floatformat:2 }} บาท
+            <p></p>
+        </div>
+
+        <form action="." method="POST">
+            {% csrf_token %}
+            <input type="hidden" name="package" value="{{package_id}}">
+            <p> &nbsp <button class="selectButton1" type="submit">เลือกแพ็กเกจนี้</button></p>
+        </form>
+
+        <p><br></br>
+        </p>
+
+        {% if package.description %}
+        <div id="span1">&nbsp รายละเอียดการตรวจ</div>
+        <ul>
+            <li> {{ package.description }}</li>
+        </ul>
+        {% endif %}
+
+        <p> <br></br>
+        </p>
+
+        <div id="span1">&nbsp เงื่อนไขการเข้ารับบริการ</div>
+        <ul class="b">
+            {% for package_cond in package.conditions %}
+            <li>
+                <div id="span2"> {{ package_cond }}</div>
+            </li>
+            {% endfor %}
+        </ul>
+
+        <p> <br></br>
+        </p>
+
+        <div id="span1">&nbsp หมายเหตุ</div>
+        <ul class="b">
+            <li>
+                <div id="span2"> {{ package.package_notice }}</div>
+            </li>
+        </ul>
+
+        <p> <br></br>
+        </p>
+
+        <div id="span1">&nbsp สถานที่ให้บริการ</div>
+        <p>
+            <div id="span2">&nbsp &nbsp &nbsp {{ package.building_name }}
+            </div>
+        </p>
+        <div class="div-button-below">
+          <form action="." method="POST">
+              {% csrf_token %}
+              <input type="hidden" name="package" value="{{package_id}}">
+              <p> &nbsp &nbsp &nbsp &nbsp &nbsp<button class="selectButton2" type="submit">เลือกแพ็กเกจนี้</button></p>
+          </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,70 @@
+div#allpage {
+	/*padding: 5px;
+	margin-top: 50px;
+	margin-bottom: 50px;
+	margin-right: 100px;
+	margin-left: 100px;*/
+	margin: auto;
+	/*max-height: 821px;
+	max-width: 1000px;*/
+	width: 90%;
+}
+.jumbotron {
+	font-size: 30px;
+	text-align: center;
+}
+
+div#p1 {
+	width: 10px;
+	height: 100%;
+	background: #8dd9ca;
+	display: inline-block;
+	float: left;
+	margin: auto;
+}
+
+div#p2 {
+	width: 990px;
+	height: auto;
+	display: inline-block;
+	float: left;
+	margin: auto;
+}
+
+div#span0 {
+	font-size: 20px;
+	margin: auto;
+}
+
+div#span1 {
+	font-size: 18px;
+	margin: auto;
+}
+
+div#span2 {
+	font-size: 16px;
+	margin: auto;
+}
+
+.selectButton1{
+	height: 30px;
+	width: 150px;
+	border-radius: 5px;
+	background-color: transparent;
+	border: 2px solid #8dd9ca;
+	color: #3b3a36;
+}
+
+.selectButton2{
+	height: 50px;
+	width: 150px;
+	border-radius: 5px;
+	background-color: transparent;
+	border: 2px solid #8dd9ca;
+}
+
+.div-button-below{
+	width: 100%;
+	text-align: center;
+	margin-bottom: 50px;
+}

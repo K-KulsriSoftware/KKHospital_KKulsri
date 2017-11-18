@@ -1,0 +1,130 @@
+{% extends "layout.html" %}
+
+{% block content %}
+    {% load staticfiles %}
+    <link rel="stylesheet" type="text/css" href="{% static 'app/css/doctor-detail.css' %}" />
+    <div class="container">
+        <div class="row doctor">
+            <div class="col-sm-4"><div class="doctor-image-wrapper"><img class="doctor-image" src="{{ doctor.doctor_img }}"></div></div>
+            <div class="col-sm-8 doctor-content">
+                <h3>{{ doctor.doctor_name_title }}{{ doctor.doctor_name }} {{ doctor.doctor_surname }}</h3>
+                <div class="doctor-content-detail">
+                    <div class="row">
+                        <div class="col-xs-4"><span>ชำนาญพิเศษ </span></div>
+                        <div class="col-xs-8">
+                            <span>
+                            {% if doctor.expertise and doctor.expertise|length > 0 %}
+                                {{ doctor.expertise|join:"<br>" }}
+                            {% else %}
+                                -
+                            {% endif %}
+                            </span>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-4"><span>เฉพาะทาง </span></div>
+                        <div class="col-xs-8">
+                            <span>
+                            {% if doctor.position %}
+                                {{ doctor.position }}
+                            {% else %}
+                                -
+                            {% endif %}
+                            </span>
+                        </div>
+                    </div>
+                    <!-- <div class="row">
+                        <div class="col-xs-4"><span>ภาษา </span></div>
+                        <div class="col-xs-8">
+                            <span>
+                            {% if doctor.language and doctor.language|length %}
+                                {{ doctor.language|join:", " }}
+                            {% else %}
+                                -
+                            {% endif %}
+                            </span>
+                        </div>
+                    </div> -->
+                    <div class="row">
+                        <div class="col-xs-4"><span>การศึกษา </span></div>
+                        <div class="col-xs-8">
+                            <span>
+                            {% if doctor.educations and doctor.educations|length %}
+                                {{ doctor.educations|join:"<br>" }}
+                            {% else %}
+                                -
+                            {% endif %}
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row schedule-container round-border row-top-margin">
+            <div class="col-md-12">
+                <nav>
+                    <ul class="pager">
+                        <li class="previous disabled"><a href="#">สัปดาห์ก่อน</a></li>
+                        <li class="next"><a href="#">สัปดาห์ถัดไป</a></li>
+                    </ul>
+                </nav>
+                <div class="schedule">
+                    {% if working_time %}
+                        {% for day in working_time  %}
+                            {% if working_time|get_item:day|length > 0 %}
+                            <div class="col-md-3 col-sm-4">
+                                <div class="panel panel-default">
+                                    <div class="panel-heading">
+                                        <h3 class="panel-title">
+                                            {% if day == 'mon' %}
+                                                วันจันทร์
+                                            {% elif day == 'tue' %}
+                                                วันอังคาร
+                                            {% elif day == 'wed' %}
+                                                วันพุธ
+                                            {% elif day == 'thu' %}
+                                                วันพฤหัส
+                                            {% elif day == 'fri' %}
+                                                วันศุกร์
+                                            {% elif day == 'sat' %}
+                                                วันเสาร์
+                                            {% elif day == 'sun' %}
+                                                วันอาทิตย์
+                                            {% endif %}
+                                        </h3>
+                                    </div>
+                                    <div class="panel-body">
+                                        <ul class="time">
+                                            {% for time in working_time|get_item:day %}
+                                                <li>{{ time.start }}:00 - {{ time.finish }}:00</li>
+                                            {% endfor %}
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                            {% endif %}
+                        {% endfor %}
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+        <div class="row appointment-detail round-border row-top-margin padding-row hide">
+            <div class="col-md-8">
+                <p>นัดหมายกับ {{ doctor.doctor_name_title }}{{ doctor.doctor_name }} {{ doctor.doctor_surname }}</p>
+                <p class="appointment-time"></p>
+                <p class="appointment-package">แพ็กเกจ: {{ selected_package.package_name }}</p>
+            </div>
+            <div class="col-md-4 confirm-appointment-container">
+                <form action="." method="POST">
+                    {% csrf_token %}
+                    <input type="hidden" name="date">
+                    <button class="btn" type="submit" id="confirm-appointment">ยืนยันการนัดหมายแพทย์ </button>
+                </form>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block scripts %}
+<script src="{% static 'app/scripts/doctor-detail.js' %}"></script>
+{% endblock %}

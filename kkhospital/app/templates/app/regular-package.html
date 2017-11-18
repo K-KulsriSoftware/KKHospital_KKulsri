@@ -1,0 +1,74 @@
+{% extends "layout.html" %}
+
+{% block content %}
+{% load staticfiles %}
+
+    <!-- <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="assets/css/styles.css"> -->
+    <link rel="stylesheet" type="text/css" href="{% static 'app/css/regular-packages.css' %}" />
+    <div class="body-big">
+        <div class="img-top-slider"></div>
+        <div class="tab-title-addons">
+            <div style="padding-top: 5px"><span style="font-size: 20px;"><b>รายการตรวจสุขภาพทั่วไป</b></span></div>
+        </div>
+
+        <!-- <div class="table-data-row">
+            <div class="row-data">
+                <div class="row-data-name">
+                    <span class="row-data-name-span">1. การตรวจวัดอุณหภูมิในร่างกาย</span>
+                </div>
+                <div class="row-data-button">
+                    <button class="btn btn-default plam" type="button" id="p00006"><span class="choosebtn">เลือก</span><span class="icon-choobtn glyphicon glyphicon-shopping-cart"></span></button>
+                </div>
+            </div>
+        </div> -->
+
+        {% for package in packages%}
+            {% if package.package_name != 'นัดหมายแพทย์' %}
+                <div class="row-data">
+                    <div class="row-data-name">
+                        <span class="row-data-name-span">{{package.package_name}}</span>
+                    </div>
+                    <div class="row-data-button">
+                        <form action="." method="POST">
+                            {% csrf_token %}
+                            <input type="hidden" name="package" value="{{ package.package_id }}">
+                            <button class="btn btn-default plam" type="submit" id={{package_package_id}}><span class="choosebtn">เลือก</span><span class="icon-choobtn glyphicon glyphicon-shopping-cart"></span></button>
+                        </form>
+                    </div>
+                </div>
+            {% endif %}
+        {% endfor %}
+
+        <div class="detail-conditions">
+            <span style="font-size: 18px"><b>รายละเอียดการตรวจ</b></span><br>
+<div style="margin-left: 50px">
+    <span>ข้อแนะนำสำหรับการตรวจสุขภาพทั่วไป</span>
+    <span>
+        <ul>
+            <li>งดอาหารและเครื่องดื่มทุกชนิด ยกเว้นน้ำดื่ม ก่อนเข้ารับการตรวจสุขภาพอย่างน้อย 12 ชั่วโมง กรณีที่มีการตรวจเอกซเรย์ทางเดินอาหารส่วนต้นต้องงดอาหารและน้ำทุกชนิด</li>
+            <li>กรุณานำบัตรประจำตัวประชาชนหรือหนังสือเดินทางมาพบเจ้าหน้าที่ ก่อนเวลานัดอย่างน้อย 10 นาที</li>
+            <li>เก็บปัสสาวะและอุจจาระส่งตรวจในวันที่มาตรวจสุขภาพ</li>
+            <li>กรุณานำผลตรวจ รายงานทางด้านการแพทย์ หรือประวัติสุขภาพอื่นๆที่ท่านมีอยู่มาด้วย เพื่อประกอบการวินิจฉัยของแพทย์</li>
+            <li>งดการดื่มแอลกอฮอล์ก่อนเข้ารับการตรวจสุขภาพอย่างน้อย 24 ชั่วโมง</li>
+        </ul>
+    </span>
+    <span>ในกรณีที่เข้ารับการทดสอบสมรรถภาพหัวใจขณะออกกำลังกาย</span>
+    <ul>
+        <li>กรุณาสวมเสื้อผ้าที่สบาย และนำรองเท้าสำหรับวิ่งหรือรองเท้ากีฬามาด้วย</li>
+        <li>หากท่านจำเป็นต้องรับประทานอาหารก่อนตรวจ กรุณาเลือกเฉพาะอาหารว่าง หลีกเลี่ยงอาหารที่มีไขมันสูงหรือมีส่วนผสมของคาเฟอีนและแอลกอฮอล์</li>
+        <li>หากท่านอยู่ในระหว่างการรักษาพยาบาลหรือรับประทานยาอยู่ กรุณาแจ้งพยาบาลก่อนรับการตรวจ</li>
+        <li>หากท่านมีอาการเจ็บหน้าอกหรือหายใจติดขัด กรุณาแจ้งพยาบาลก่อนรับการตรวจ</li>
+    </ul>
+    <span>ข้อแนะนำสำหรับการตรวจช่องท้องทั้งหมดด้วยระบบคลื่นเสียงความถี่สูง</span>
+    <ul>
+        <li>เพื่อให้ได้ผลการตรวจที่ดีขึ้น ควรดื่มน้ำเปล่าและงดการปัสสาวะก่อนเข้ารับการตรวจ</li>
+    </ul>
+</div>
+
+        </div>
+    </div>
+    {% endblock %}
+    {% block scripts %}
+    <script src="{% static 'app/scripts/regular-packages.js' %}"></script>
+    {% endblock %}

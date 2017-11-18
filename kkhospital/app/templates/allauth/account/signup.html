@@ -1,0 +1,74 @@
+{% extends "layout.html" %}
+
+{% load i18n %}
+
+{% block head_title %}{% trans "Signup" %}{% endblock %}
+
+{% load staticfiles %} {% block content %}
+
+<h1>ลงทะเบียนใช้งาน</h1>
+
+<p>{% blocktrans %}Already have an account? Then please <a href="{{ login_url }}">sign in</a>.{% endblocktrans %}</p>
+
+<form class="signup" id="signup_form" method="post" action="{% url 'account_signup' %}">
+  {% csrf_token %}
+  <div class="form-group">
+    <label class="control-label  " for="id_username">Username</label>
+    <div class=" ">
+      {{ form.username }}
+      <p class="help-block">
+          {% if form.username.help_text %}
+            <sup>{{  form.username.help_text }}</sup>
+          {% endif %}
+          {{form.username.errors}}
+      </p>
+    </div>
+  </div>
+  <div class="form-group">
+    <label class="control-label  " for="id_email">Email</label>
+    <div class=" ">
+      {{ form.email }}
+      <p class="help-block">
+        {% if form.email.help_text %}
+          <sup>{{ form.email.help_text }}</sup>
+        {% endif %} {{form.email.errors}}
+      </p>
+    </div>
+  </div>  
+  <div class="form-group">
+    <label class="control-label  " for="id_password1">Password</label>
+    <div class=" ">
+      {{ form.password1 }}
+      <p class="help-block">
+        {% if form.password1.help_text %}
+          <sup>{{ form.password1.help_text }}</sup>
+        {% endif %} {{form.password1.errors}}
+      </p>
+    </div>
+  </div>
+  <div class="form-group">
+    <label class="control-label  " for="id_password2">Password confirmation</label>
+    <div class=" ">
+      {{ form.password2 }}
+      <p class="help-block">
+        {% if form.password2.help_text %}
+        <sup>{{ form.password2.help_text }}</sup>
+        {% endif %} {{form.password2.errors}}
+      </p>
+    </div>
+  </div>
+  {% if redirect_field_value %}
+  <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
+  {% endif %}
+  <div class="form-actions">
+    <button class="btn btn-primary" type="submit">{% trans "Sign Up" %} &raquo;</button>
+  </div>
+</form>
+
+{% endblock %}
+
+{% block scripts %}
+<script src="{% static 'app/scripts/signup.js' %}"></script> {% if alert %}
+<script>
+  alert( '{{ alert }}' )
+</script> {% endif %} {% endblock %}

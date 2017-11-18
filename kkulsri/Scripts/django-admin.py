@@ -1,4 +1,4 @@
-#!c:\zproject\python\kkulsri\kkhospital\kkulsri\scripts\python.exe
+#!c:\zproject\kkhospital_kkulsri\kkulsri\scripts\python.exe
 from django.core import management
 
 if __name__ == "__main__":

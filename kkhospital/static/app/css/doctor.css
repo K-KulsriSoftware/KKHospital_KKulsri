@@ -1,0 +1,95 @@
+div#department{
+  background-color:#c0dfd9;
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
+}
+
+img#doc-img{
+  width:150px;
+  border-radius:100%;
+  border:2px solid #8dd9ca;
+  height:150px;
+  margin-top:50px;
+  margin-bottom:10px;
+}
+
+div#depart.row{
+  border-bottom:5px solid #8dd9ca;
+}
+
+div#con_dep.row{
+  /*border-left:10px solid #8dd9ca;*/
+}
+
+.div-detail-department{
+  border: #c0dfd9 solid 1px;
+  margin: 0 -15px 20px -15px;
+}
+
+p.doc-page{
+  font-family:sans-serif;
+  font-size:16px;
+  padding: 10px;
+}
+
+span.doc-page{
+  font-size: 20px;
+}
+
+.div-title-department{
+  padding-top: 7px;
+  height: 40px;
+  width: 300px;
+}
+
+div.container{
+  margin-top:20px;
+}
+
+button.btn.btn-default.my-btn{
+  /*font-size:20px;*/
+  width:200px;
+  border:2px solid #8dd9ca;
+  border-radius:7px;
+  margin-top:5px;
+  text-align:center;
+}
+
+p#name_doc{
+  text-align:center;
+}
+
+div.doctor-card{
+  text-align:center;
+}
+
+div.col-md-12.doc_info{
+  text-align:center;
+}
+
+div.col-md-3.person{
+  border-right:1px solid #c0dfd9;
+  border-left:1px solid #c0dfd9;
+  border-bottom:1px solid #c0dfd9;
+  /*background-color: #000;*/
+}
+
+div#button.col-md-12.doc_info{
+  margin-bottom:20px;
+}
+
+div#buttton.col-md-12.doc_info{
+  margin-bottom:20px;
+}
+
+div#button2.col-md-12.doc_info{
+  margin-bottom:20px;
+}
+
+div#button3.col-md-12.doc_info{
+  margin-bottom:20px;
+}
+
+div#button4.col-md-12.doc_info{
+  margin-bottom:20px;
+}
