@@ -548,8 +548,17 @@ class get_collection_pattern_api :
 			return False, thai_word
 
 	def decode_thai_value(self, domain, code) :
-		if type(code) != type('') :
+		if type(code) == type(True) :
+			if domain == 'gender' :
+			if code == True :
+				return True, 'ชาย'
+			elif code == False :
+				return True, 'หญิง'
+			else :
+				return False, code	
+		elif type(code) != type('') :
 			return False, code
+		
 		if not code.isdigit() :
 			return False, code
 		code = int(code)
@@ -559,14 +568,7 @@ class get_collection_pattern_api :
 		#	return True, self.name_title_list[code]
 		#elif domain == 'doctor_name_title' :
 		#	return True, self.doctor_title_list[code]
-		if domain == 'gender' :
-			if code == True :
-				return True, 'ชาย'
-			elif code == False :
-				return True, 'หญิง'
-			else :
-				return False, code
-		elif domain == 'blood_group_abo' :
+		if domain == 'blood_group_abo' :
 			if 0 <= code < len(self.blood_abo_list) : 
 				return True, self.blood_abo_list[code]
 			return False, code
