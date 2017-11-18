@@ -1,4 +1,7 @@
 $('.btn.delete').click(function() {
+    if (!confirm('ยืนยันการลบข้อมูล')) {
+        return;
+    }
     var $rows = $('tbody input:checked').parent().parent();
     var csrfToken = $('input[name="csrfmiddlewaretoken"]').val();
     $rows.each(function() {

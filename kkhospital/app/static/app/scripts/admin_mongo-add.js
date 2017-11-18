@@ -2,16 +2,20 @@ var listCount = {};
 var fieldInfo = {};
 var type_map = {'int': 'number', 'double': 'number', 'string': 'text', 'date': 'date', 'dict': 'dict', 'list': 'list'};
 
-function extractFields($input, parent, fields, level) {
+function extractFields($input, parent, fields, level, isInList) {
     for(i in fields) {
         if (fields[i].field_type === 'dict') {
-            $input.find('.panel-body:eq('+level+')').append(`
+            var $panel = $(`
                 <div class="panel panel-default">
                     <div class="panel-heading">` + fields[i].field_name + `</div>
                     <div class="panel-body">
                     </div>
                 </div>
             `);
+            if (isInList) {
+                $panel.append('<button class="btn btn-danger delete_list_item--dict" type="button" generate="">-</button>');
+            }
+            $input.find('.panel-body:eq('+level+')').append($panel);
             extractFields($input, parent + '[' + fields[i].field_name + ']', fields[i].dict, level+1);
         } else if (fields[i].field_type === 'list') {
             listCount[parent + '[' + fields[i].field_name + ']'] = 0;
@@ -86,7 +90,8 @@ $('.add_list_item').click(function() {
                 </div>
             </div>
         `);
-        extractFields($item, field_name + '[' + listCount[field_name] + ']', fieldInfo[field_name].dict, 0);
+        extractFields($item, field_name + '[' + listCount[field_name] + ']', fieldInfo[field_name].dict, 0, true);
+        $item.find('.panel-body').append('<br><button class="btn btn-danger delete_list_item--dict" type="button" generate="">-</button>');
     } else {
         $item = $(`
             <div class="list_item" field_name="` + field_name + `">
@@ -108,6 +113,7 @@ $('.add_list_item').click(function() {
 
 function bindDeleteItemButton() {
     $('.delete_list_item').unbind();
+    $('.delete_list_item--dict').unbind();
     $('.delete_list_item').click(function() {
         var field_name = $(this).parent().attr('field_name');
         var $panelBody = $(this).parent().parent();
@@ -117,5 +123,8 @@ function bindDeleteItemButton() {
             $(this).find('input').attr('id', field_name + '[' + index + ']').attr('name', field_name + '[' + index + ']');
             listCount[field_name]++;
         });
+    });
+    $('.delete_list_item--dict').click(function() {
+        $(this).parent().parent().remove();
     });
 }
