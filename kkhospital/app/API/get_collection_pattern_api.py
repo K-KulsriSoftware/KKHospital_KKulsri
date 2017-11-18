@@ -527,11 +527,11 @@ class get_collection_pattern_api :
 		return self.permissions[collection_name][permission_name], 'collection and permission found'
 
 	def encode_thai_value(self, domain, thai_word) :
-		if domain == 'patient_name_title' :
-			return True, self.name_title_list.index(thai_word) + 1
-		elif domain == 'doctor_name_title' :
-			return True, self.doctor_title_list.index(thai_word) + 1
-		elif domain == 'gender' :
+		#if domain == 'patient_name_title' :
+		#	return True, self.name_title_list.index(thai_word) + 1
+		#elif domain == 'doctor_name_title' :
+		#	return True, self.doctor_title_list.index(thai_word) + 1
+		if domain == 'gender' :
 			if thai_word == 'ชาย' :
 				return True, True
 			elif thai_word == 'หญิง' :
@@ -548,13 +548,18 @@ class get_collection_pattern_api :
 			return False, thai_word
 
 	def decode_thai_value(self, domain, code) :
+		if type(code) != type('') :
+			return False, code
+		if not code.isdigit() :
+			return False, code
+		code = int(code)
 		if code == 0 :
 			return True, 'None'
-		if domain == 'patient_name_title' :
-			return True, self.name_title_list[code]
-		elif domain == 'doctor_name_title' :
-			return True, self.doctor_title_list[code]
-		elif domain == 'gender' :
+		#if domain == 'patient_name_title' :
+		#	return True, self.name_title_list[code]
+		#elif domain == 'doctor_name_title' :
+		#	return True, self.doctor_title_list[code]
+		if domain == 'gender' :
 			if code == True :
 				return True, 'ชาย'
 			elif code == False :
@@ -562,10 +567,16 @@ class get_collection_pattern_api :
 			else :
 				return False, code
 		elif domain == 'blood_group_abo' :
-			return True, self.blood_abo_list[code]
+			if 0 <= code < len(self.blood_abo_list) : 
+				return True, self.blood_abo_list[code]
+			return False, code
 		elif domain == 'blood_group_rh' :
-			return True, self.blood_rh_list[code]
+			if 0 <= code < len(self.blood_rh_list) : 
+				return True, self.blood_rh_list[code]
+			return False, code
 		elif domain == 'status' :
-			return True, self.status_list[code]
+			if 0 <= code < len(self.status_list) : 
+				return True, self.status_list[code]
+			return False, code
 		else :
 			return False, code
