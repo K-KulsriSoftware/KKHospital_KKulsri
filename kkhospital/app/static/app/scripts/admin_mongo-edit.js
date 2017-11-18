@@ -227,3 +227,8 @@ function bindDeleteItemButton() {
         $(this).parent().parent().remove();
     });
 }
+
+$('form').submit(function() {
+    var isConfirmed = confirm('ยืนยันการแก้ไขข้อมูล');
+    return isConfirmed;
+});
