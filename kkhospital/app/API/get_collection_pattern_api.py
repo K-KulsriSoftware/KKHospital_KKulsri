@@ -521,9 +521,9 @@ class get_collection_pattern_api :
 
 	def get_collection_permission(self, collection_name, permission_name) :
 		if not collection_name in self.permissions :
-			return False, f'No collection name, {collection_name}'
+			return False, 'No collection name : ' + collection_name
 		if not permission_name in ['delete', 'insert', 'update'] :
-			return False, f'No permission name, {permission_name}'
+			return False, 'No permission name : ' + permission_name
 		return self.permissions[collection_name][permission_name], 'collection and permission found'
 
 	def encode_thai_value(self, domain, thai_word) :
