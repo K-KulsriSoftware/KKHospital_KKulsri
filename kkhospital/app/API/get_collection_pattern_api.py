@@ -550,10 +550,12 @@ class get_collection_pattern_api :
 	def decode_thai_value(self, domain, code) :
 		if type(code) == type(True) :
 			if domain == 'gender' :
-			if code == True :
-				return True, 'ชาย'
-			elif code == False :
-				return True, 'หญิง'
+				if code == True :
+					return True, 'ชาย'
+				elif code == False :
+					return True, 'หญิง'
+				else :
+					return False, code
 			else :
 				return False, code	
 		elif type(code) != type('') :
