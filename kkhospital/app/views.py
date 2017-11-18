@@ -361,11 +361,9 @@ def decode_data(data):
         if type(v) == type({}):
             pass
         elif type(v) == type([]):
-            for item in v:
-                pass
+            pass
         else:
-            print(v)
-            print(api.decode_thai_value(k, v))
+            data[k] = api.decode_thai_value(k, v)[1]
 
 
 # @staff_member_required(login_url='/accounts/login')
