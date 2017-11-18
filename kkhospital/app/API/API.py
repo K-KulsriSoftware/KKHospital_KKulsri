@@ -114,9 +114,10 @@ class API :
 			return False, 'Incomplete input: package_id'
 		return self.find_doctors_api.find_doctors(package_id,days,time,doctor_firstname,doctor_lastname,gender)
 
-	def auto_find_doctors(self, package_id=None, user_id=None) :
-		# use user_id in phase II
-		return self.find_doctors(package_id=package_id)
+	def auto_find_doctors(self, package_id=None, username=None) :
+		if username == None :
+			return self.find_doctors(package_id=package_id)
+		return self.auto_find_doctors(package_id, username)
 
 	def show_profile(self, username=None) :
 		check, result = self.incomplete_input(locals())
