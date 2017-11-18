@@ -1,5 +1,7 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
+import sys
+sys.path.append('../..')
 
 try:
    from config import MONGO_PATH
@@ -63,14 +65,6 @@ from verify_password_api import verify_password_api
 class API :
 
 	def __init__(self) :
-		#for test api
-		# with open('./config.json', 'r') as json_file :
-		#for website
-		# with open('./app/API/config.json', 'r') as json_file :
-		# 	data = json.load(json_file)
-		# 	username = urllib.parse.quote_plus(data['username'])
-		# 	password = urllib.parse.quote_plus(data['password'])
-		# 	db = data['db']
 		self.client = MongoClient(MONGO_PATH)
 		self.db = self.client.kk_db
 		self.find_doctors_api = find_doctors_api(self.db)
@@ -193,7 +187,7 @@ class API :
 	def delete_doctor(self, doctor_id=None) :
 		check, result = self.incomplete_input(locals())
 		if check : return True, result
-		return self.delete_doctor(self, doctor_id)
+		return self.doctor_query_api.delete_doctor(doctor_id)
 
 	def insert_doctor(self, data=None) :
 		check, result = self.incomplete_input(locals())
@@ -213,12 +207,12 @@ class API :
 		return self.department_query_api.get_department_detail(department_id)
 
 	def get_all_departments_name(self) :
-		return self.department_query_api.get_all_departments()
+		return self.department_query_api.get_all_departments_name()
 
-	def update_department_profile(self, department_id=None, data=None) :
+	def update_department(self, department_id=None, data=None) :
 		check, result = self.incomplete_input(locals())
 		if check : return True, result
-		return self.department_query_api.update_department_profile(department_id, data['department_name'], data['department_description'])
+		return self.department_query_api.update_department(department_id, data['department_name'], data['department_description'])
 
 	def delete_department(self, department_id=None) :
 		check, result = self.incomplete_input(locals())
@@ -258,16 +252,18 @@ class API :
 	def get_all_buildings(self) :
 		return self.building_query_api.get_all_buildings()
 
-	def get_building_detail(self) :
-		return self.building_query_api.get_building_detail()
-
-	def get_all_buildings_name(self) :
-		return self.building_query_api.get_all_buildings()
-
-	def update_building_profile(self, building_id=None, data=None) :
+	def get_building_detail(self, building_id=None) :
 		check, result = self.incomplete_input(locals())
 		if check : return True, result
-		return self.building_query_api.update_building_profile(building_id, data['building_name'])
+		return self.building_query_api.get_building_detail(building_id)
+
+	def get_all_buildings_name(self) :
+		return self.building_query_api.get_all_buildings_name()
+
+	def update_building(self, building_id=None, data=None) :
+		check, result = self.incomplete_input(locals())
+		if check : return True, result
+		return self.building_query_api.update_building(building_id, data['building_name'])
 
 	def delete_building(self, building_id=None) :
 		check, result = self.incomplete_input(locals())
@@ -284,10 +280,10 @@ class API :
 	def get_all_patients(self) :
 		return self.patients_query_api.get_all_patients()
 
-	def get_patients_detail(self,patient_id=None) :
+	def get_patient_detail(self,patient_id=None) :
 		check, result = self.incomplete_input(locals())
 		if check : return True, result
-		return self.patients_query_api.get_patients_detail(patient_id)
+		return self.patients_query_api.get_patient_detail(patient_id)
 
 	def get_all_patients_name(self) :
 		return self.patients_query_api.get_all_patients_name()
@@ -298,7 +294,7 @@ class API :
 		return self.patients_query_api.update_patient(patient_id, data['username'], data['patient_name_title'], 
 			data['patient_name'], data['patient_surname'], data['patient_img'], data['id_card_number'], data['gender'], 
 			data['birthday'], data['blood_group_abo'], data['blood_group_rh'], data['race'], data['nationallity'], 
-			data['religion'], data['status'], data['patient_address'], data['occupy'], data['telephone_number'], 
+			data['religion'], data['status'], data['patient_address'], data['occupy'], data['telphone_number'], 
 			data['father_name'], data['mother_name'], data['emergency_name'], data['emergency_phone'], 
 			data['emergency_address'], data['email'], data['congenital_disease'])
 
@@ -313,7 +309,7 @@ class API :
 		return self.patients_query_api.insert_patient(data['username'], data['patient_name_title'], 
 			data['patient_name'], data['patient_surname'], data['patient_img'], data['id_card_number'], data['gender'], 
 			data['birthday'], data['blood_group_abo'], data['blood_group_rh'], data['race'], data['nationallity'], 
-			data['religion'], data['status'], data['patient_address'], data['occupy'], data['telephone_number'], 
+			data['religion'], data['status'], data['patient_address'], data['occupy'], data['telphone_number'], 
 			data['father_name'], data['mother_name'], data['emergency_name'], data['emergency_phone'], 
 			data['emergency_address'], data['email'], data['congenital_disease'])
 
@@ -395,9 +391,9 @@ class API :
 			'departments' : self.get_all_departments,
 			'doctors' : self.get_all_doctors,
 			'orders' : self.get_all_orders,
-			'packages' : self.get_all_packages,
 			'patients' : self.get_all_patients,
-			'users' : self.get_all_users
+			'packages' : self.get_all_packages
+			#'users' : self.get_all_users
 		}
 		if collection_name in functions :
 			return functions[collection_name]()
@@ -410,9 +406,9 @@ class API :
 			'departments' : self.get_all_departments_name,
 			'doctors' : self.get_all_doctors_name,
 			'orders' : self.get_all_orders_name,
-			'packages' : self.get_all_packages_name,
 			'patients' : self.get_all_patients_name,
-			'users' : self.get_all_users_name
+			'packages' : self.get_all_packages_name
+			#'users' : self.get_all_users_name
 		}
 		if collection_name in functions :
 			return functions[collection_name]()
@@ -425,9 +421,9 @@ class API :
 			'departments' : self.get_department_detail,
 			'doctors' : self.get_doctor_detail,
 			'orders' : self.get_order_detail,
-			'packages' : self.get_package_detail,
 			'patients' : self.get_patient_detail,
-			'users' : self.get_user_detail
+			'packages' : self.get_package_detail
+			#'users' : self.get_user_detail
 		}
 		if collection_name in functions :
 			return functions[collection_name](oid)
@@ -438,11 +434,11 @@ class API :
 		functions = {
 			'buildings' : self.delete_building,
 			'departments' : self.delete_department,
-			'doctors' : self.delete_doctor,
-			'orders' : self.delete_order,
-			'packages' : self.delete_package,
-			'patients' : self.delete_patient,
-			'users' : self.delete_user
+			#'doctors' : self.delete_doctor,
+			#'orders' : self.delete_order,
+			#'patients' : self.delete_patient,
+			'packages' : self.delete_package
+			#'users' : self.delete_user
 		}
 		if collection_name in functions :
 			return functions[collection_name](oid)
@@ -454,10 +450,10 @@ class API :
 			'buildings' : self.update_building,
 			'departments' : self.update_department,
 			'doctors' : self.update_doctor,
-			'orders' : self.update_order,
-			'packages' : self.update_package,
+			#'orders' : self.update_order,
 			'patients' : self.update_patient,
-			'users' : self.update_user
+			'packages' : self.update_package
+			#'users' : self.update_user
 		}
 		if collection_name in functions :
 			return functions[collection_name](oid, data_dict)
@@ -468,11 +464,11 @@ class API :
 		functions = {
 			'buildings' : self.insert_building,
 			'departments' : self.insert_department,
-			'doctors' : self.insert_doctor,
-			'orders' : self.insert_order,
-			'packages' : self.insert_package,
-			'patients' : self.insert_patient,
-			'users' : self.insert_user
+			#'doctors' : self.insert_doctor,
+			#'orders' : self.insert_order,
+			#'patients' : self.insert_patient,
+			'packages' : self.insert_package
+			#'users' : self.insert_user
 		}
 		if collection_name in functions :
 			return functions[collection_name](data_dict)
@@ -489,6 +485,21 @@ class API :
 		check, result = self.incomplete_input(locals())
 		if check : return True, result
 		return self.get_collection_pattern_api.get_collection_pattern(collection_name)
+
+	def get_collection_permission(self, collection_name=None, request_permission=None) :
+		check, result = self.incomplete_input(locals())
+		if check : return True, result
+		return self.get_collection_pattern_api.get_collection_permission(collection_name, request_permission)		
+
+	def encode_thai_value(self, domain=None, thai_word=None) :
+		check, result = self.incomplete_input(locals())
+		if check : return True, result
+		return self.get_collection_pattern_api.encode_thai_value(domain, thai_word)
+
+	def decode_thai_value(self, domain=None, code=None) :
+		check, result = self.incomplete_input(locals())
+		if check : return True, result
+		return self.get_collection_pattern_api.decode_thai_value(domain, code)
 
 	def get_patient_orders(self, patient_username) :
 		check, result = self.incomplete_input(locals())

@@ -39,7 +39,10 @@ class orders_query_api :
             },
             {
                 '$project' : {
-                    'order_id' : '$_id'
+                    '_id' : 1,
+                    'package_id' : 1,
+                    'doctor_id' : 1,
+                    'patient_id' : 1
                 }
             }
         ])
@@ -100,7 +103,7 @@ class orders_query_api :
 		return True, 'Successfully Removed'
 
 	def insert_order(self, package_id, doctor_id, patient_id, cost, time, bought_time, notice) :
-		self.db.orders.insert(
+		self.db.orders.insert_one(
 			{
                 'package_id' : ObjectId(package_id),
                 'doctor_id' : ObjectId(doctor_id),

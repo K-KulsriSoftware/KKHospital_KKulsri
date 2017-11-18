@@ -3,9 +3,24 @@
 from datetime import datetime
 
 class get_collection_pattern_api :
-
+	
 	def __init__(self, db) :
 		self.db = db
+		self.name_title_list = ['none', 'นาย', 'นาง', 'นางสาว']
+		self.doctor_title_list = ['none', 'นายแพทย์', 'นายแพทย์หญิง']
+		self.gender_list = ['none', 'ชาย', 'หญิง']
+		self.hour_list = list(range(7, 23))
+		self.blood_abo_list = ['none', 'A', 'B', 'O', 'AB']
+		self.blood_rh_list = ['none', 'RH+', 'RH-']
+		self.status_list = ['none', 'โสด', 'แต่งงาน', 'หย่าร้าง', 'หม้าย', 'แยกกันอยู่']
+		self.permissions = {
+							'buildings' : {'delete' : True, 'insert' : True, 'update' : True},
+							'departments' : {'delete' : True, 'insert' : True, 'update' : True},
+							'doctors' : {'delete' : False, 'insert' : False, 'update' : True},
+							'patients' : {'delete' : False, 'insert' : False, 'update' : True},
+							'packages' : {'delete' : True, 'insert' : True, 'update' : True},
+							'orders' : {'delete' : False, 'insert' : False, 'update' : False}
+							}
 	'''
 	def str_type_name(self, field_type) :
 		#print(field_type)
@@ -104,7 +119,8 @@ class get_collection_pattern_api :
 			},
 			{
 				'field_name' : 'doctor_name_title',
-				'field_type' : 'string'
+				'field_type' : 'string',
+				'note' : self.doctor_title_list
 			},
 			{
 				'field_name' : 'doctor_name',
@@ -116,11 +132,13 @@ class get_collection_pattern_api :
 			},
 			{
 				'field_name' : 'gender',
-				'field_type' : 'bool'
+				'field_type' : 'bool',
+				'note' : self.gender_list
 			},
 			{
 				'field_name' : 'birthday',
-				'field_type' : 'date'
+				'field_type' : 'date',
+				'note' : 'without hour'
 			},
 			{
 				'field_name' : 'office_phone_number',
@@ -165,11 +183,13 @@ class get_collection_pattern_api :
 						[
 							{
 								'field_name' : 'start',
-								'field_type' : 'string'
+								'field_type' : 'int',
+								'note' : self.hour_list
 							},
 							{
 								'field_name' : 'finish',
-								'field_type' : 'string'
+								'field_type' : 'int',
+								'note' : self.hour_list
 							}
 						]
 					},
@@ -181,11 +201,13 @@ class get_collection_pattern_api :
 						[
 							{
 								'field_name' : 'start',
-								'field_type' : 'string'
+								'field_type' : 'int',
+								'note' : self.hour_list
 							},
 							{
 								'field_name' : 'finish',
-								'field_type' : 'string'
+								'field_type' : 'int',
+								'note' : self.hour_list
 							}
 						]
 					},
@@ -197,11 +219,13 @@ class get_collection_pattern_api :
 						[
 							{
 								'field_name' : 'start',
-								'field_type' : 'string'
+								'field_type' : 'int',
+								'note' : self.hour_list
 							},
 							{
 								'field_name' : 'finish',
-								'field_type' : 'string'
+								'field_type' : 'int',
+								'note' : self.hour_list
 							}
 						]
 					},
@@ -213,11 +237,13 @@ class get_collection_pattern_api :
 						[
 							{
 								'field_name' : 'start',
-								'field_type' : 'string'
+								'field_type' : 'int',
+								'note' : self.hour_list
 							},
 							{
 								'field_name' : 'finish',
-								'field_type' : 'string'
+								'field_type' : 'int',
+								'note' : self.hour_list
 							}
 						]
 					},
@@ -229,11 +255,13 @@ class get_collection_pattern_api :
 						[
 							{
 								'field_name' : 'start',
-								'field_type' : 'string'
+								'field_type' : 'int',
+								'note' : self.hour_list
 							},
 							{
 								'field_name' : 'finish',
-								'field_type' : 'string'
+								'field_type' : 'int',
+								'note' : self.hour_list
 							}
 						]
 					},
@@ -245,11 +273,13 @@ class get_collection_pattern_api :
 						[
 							{
 								'field_name' : 'start',
-								'field_type' : 'string'
+								'field_type' : 'int',
+								'note' : self.hour_list
 							},
 							{
 								'field_name' : 'finish',
-								'field_type' : 'string'
+								'field_type' : 'int',
+								'note' : self.hour_list
 							}
 						]
 					},
@@ -261,11 +291,13 @@ class get_collection_pattern_api :
 						[
 							{
 								'field_name' : 'start',
-								'field_type' : 'string'
+								'field_type' : 'int',
+								'note' : self.hour_list
 							},
 							{
 								'field_name' : 'finish',
-								'field_type' : 'string'
+								'field_type' : 'int',
+								'note' : self.hour_list
 							}
 						]
 					},
@@ -285,7 +317,8 @@ class get_collection_pattern_api :
 			},
 			{
 				'field_name' : 'patient_name_title',
-				'field_type' : 'string'
+				'field_type' : 'string',
+				'note' : self.name_title_list
 			},
 			{
 				'field_name' : 'patient_name',
@@ -305,19 +338,23 @@ class get_collection_pattern_api :
 			},
 			{
 				'field_name' : 'gender',
-				'field_type' : 'bool'
+				'field_type' : 'bool',
+				'note' : self.gender_list
 			},
 			{
 				'field_name' : 'birthday',
-				'field_type' : 'date'
+				'field_type' : 'date',
+				'note' : 'without hour'
 			},
 			{
 				'field_name' : 'blood_group_abo',
-				'field_type' : 'int'
+				'field_type' : 'int',
+				'note' : self.blood_abo_list
 			},
 			{
 				'field_name' : 'blood_group_rh',
 				'field_type' : 'int',
+				'note' : self.blood_rh_list
 			},
 			{
 				'field_name' : 'race',
@@ -333,7 +370,8 @@ class get_collection_pattern_api :
 			},
 			{
 				'field_name' : 'status',
-				'field_type' : 'int'
+				'field_type' : 'int',
+				'note' : self.status_list
 			},
 			{
 				'field_name' : 'patient_address',
@@ -407,17 +445,20 @@ class get_collection_pattern_api :
 				[
 					{
 						'field_name' : 'start',
-						'field_type' : 'date'
+						'field_type' : 'date',
+						'note' : 'with hour'
 					},
 					{
 						'field_name' : 'finish',
-						'field_type' : 'date'
+						'field_type' : 'date',
+						'note' : 'with hour'
 					}
 				]
 			},
 			{
 				'field_name' : 'bought_time',
-				'field_type' : 'date'
+				'field_type' : 'date',
+				'note' : 'with hour,min'
 			},
 			{
 				'field_name' : 'notice',
@@ -477,3 +518,67 @@ class get_collection_pattern_api :
 			return True, self.get_packages_pattern()
 		else :
 			return False, 'No collection name : ' + collection_name
+
+	def get_collection_permission(self, collection_name, permission_name) :
+		if not collection_name in self.permissions :
+			return False, f'No collection name, {collection_name}'
+		if not permission_name in ['delete', 'insert', 'update'] :
+			return False, f'No permission name, {permission_name}'
+		return self.permissions[collection_name][permission_name], 'collection and permission found'
+
+	def encode_thai_value(self, domain, thai_word) :
+		#if domain == 'patient_name_title' :
+		#	return True, self.name_title_list.index(thai_word) + 1
+		#elif domain == 'doctor_name_title' :
+		#	return True, self.doctor_title_list.index(thai_word) + 1
+		if domain == 'gender' :
+			if thai_word == 'ชาย' :
+				return True, True
+			elif thai_word == 'หญิง' :
+				return True, False
+			else :
+				return thai_word 
+		elif domain == 'blood_group_abo' :
+			return True, self.blood_abo_list.index(thai_word)
+		elif domain == 'blood_group_rh' :
+			return True, self.blood_rh_list.index(thai_word)
+		elif domain == 'status' :
+			return True, self.status_list.index(thai_word)
+		else :
+			return False, thai_word
+
+	def get_value_from_index(self, mylist, index) :
+		if type(index) == type(1) and 0 <= index < len(mylist) :
+			return True, mylist[index]
+		elif type(index) == type(1) :
+			return False, str(index)
+		return False, index
+	def decode_thai_value(self, domain, code) :
+		if type(code) == type('') and code.isdigit() :
+			code = int(code)
+
+		if code == 0 :
+			return True, 'None'
+		
+		if domain == 'gender' :
+				if code == True :
+					return True, 'ชาย'
+				elif code == False :
+					return True, 'หญิง'
+				else :
+					return False, code
+		elif domain == 'blood_group_abo' :
+			return self.get_value_from_index(self.blood_abo_list, code)
+			# if type(code) == type(1) and 0 <= code < len(self.blood_abo_list) : 
+			# 	return True, self.blood_abo_list[code]
+			# return False, code
+		elif domain == 'blood_group_rh' :
+			if type(code) == type(1) and 0 <= code < len(self.blood_rh_list) : 
+				return True, self.blood_rh_list[code]
+			return False, code
+		elif domain == 'status' :
+			if type(code) == type(1) and 0 <= code < len(self.status_list) : 
+				return True, self.status_list[code]
+			return False, code
+		else :
+			return False, code

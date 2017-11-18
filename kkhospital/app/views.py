@@ -6,6 +6,7 @@ from django.contrib.admin.views.decorators import staff_member_required
 from datetime import datetime
 from django.template.defaulttags import register
 from html_json_forms import parse_json_form
+from bson.objectid import ObjectId
 import json
 # Create your views here.
 from .API.API import API
@@ -90,7 +91,7 @@ def doctor_detail(request):
                     for i in range(int(time['start']), int(time['finish'])):
                         working_times[day].append(
                             {'start': i, 'finish': i + 1})
-        print(working_times)
+        # print(working_times)
         return render(
             request,
             'app/doctor-detail.html',
@@ -246,7 +247,7 @@ def special_packages(request, package_id):
         request.session['selected_package'] = request.POST['package']
         return redirect('/doctor-search/')
     status, result = api.show_special_package_info(package_id)
-    print(result)
+    # print(result)
     return render(
         request,
         'app/special_packages.html',
@@ -266,7 +267,7 @@ def search_for_doctor(request):
     if request.method == 'POST':
         request.session['selected_doctor'] = request.POST['doctor_id']
         return redirect('/doctor-detail/')
-    print(request.session['selected_package'])
+    # print(request.session['selected_package'])
     assert isinstance(request, HttpRequest)
     return render(
         request,
@@ -283,7 +284,7 @@ def doctor_search_api(request):
     days = request.GET.get('days').split(
         ',') if request.GET.get('days') != None else None
     time = request.GET.get('time')
-    print(time)
+    # print(time)
     doctor_firstname = request.GET.get('doctor_firstname')
     doctor_lastname = request.GET.get('doctor_surname')
     gender = request.GET.get('gender')
@@ -306,7 +307,7 @@ def doctor(request):
         request.session['selected_doctor'] = request.POST['doctor_id']
         return redirect('/doctor-detail/')
     status, result = api.show_doctor_in_department()
-    print(result)
+    # print(result)
     return render(
         request,
         'app/doctor.html',
@@ -379,7 +380,7 @@ def payment(request):
     )
 
 
-# @staff_member_required(login_url='/accounts/login')
+@staff_member_required(login_url='/accounts/login')
 def admin_mongo(request):
     assert isinstance(request, HttpRequest)
     status, result = api.get_all_collections_name()
@@ -393,23 +394,40 @@ def admin_mongo(request):
             'collections': result,
             'DATABASE': True,
             'logo_link': '/admin-mongo',
-            'logged_user': request.session.get('user')
+            'logged_user': request.session.get('user'),
+            'NO_NAV': True
         }
     )
 
+def decode_data(data):
+    for k, v in data.items():
+        if type(v) == type({}):
+            pass
+        elif type(v) == type([]):
+            pass
+        else:
+            data[k] = api.decode_thai_value(k, v)[1]
 
-# @staff_member_required(login_url='/accounts/login')
+
+@staff_member_required(login_url='/accounts/login')
 def admin_mongo_collection(request, collection_name):
     assert isinstance(request, HttpRequest)
-    status, result = {
-        'buildings': api.get_all_buildings_name(),
-        'departments': api.get_all_departments_name(),
-        'doctors': api.get_all_doctors_name(),
-        'orders': api.get_all_orders(),
-        'patients': api.get_all_patients_name(),
-        'users': api.get_all_users_name(),
-        'packages': api.get_all_packages_name()
-    }.get(collection_name)
+    permissions = {}
+    permissions['insert'] = 1 if api.get_collection_permission(collection_name, 'insert')[0] else 0
+    permissions['delete'] = 1 if api.get_collection_permission(collection_name, 'delete')[0] else 0
+    permissions['update'] = 1 if api.get_collection_permission(collection_name, 'update')[0] else 0
+    # print(collection_name)
+    # print(permissions)
+    status, data = api.admin_get_all_documents(collection_name)
+    result = []
+    for doc in data:
+        tmp = {}
+        for k, v in doc.items():
+            if k == '_id':
+                k = 'object_id'
+            tmp[k] = v
+        decode_data(tmp)
+        result.append(tmp)
     return render(
         request,
         'app/admin_mongo.html',
@@ -417,11 +435,13 @@ def admin_mongo_collection(request, collection_name):
             'title': 'mongoDB Admin',
             'header_title': 'mongoDB Admin',
             'collection_name': collection_name,
+            'permissions': permissions,
             'data': result,
             'COLLECTION': True,
             'toolbar': True,
             'logo_link': '/admin-mongo',
-            'logged_user': request.session.get('user')
+            'logged_user': request.session.get('user'),
+            'NO_NAV': True
         }
     )
 
@@ -440,32 +460,30 @@ def clean_field(org, res, name=''):
                 this_field['value'] = field['value']
             res.append(this_field)
 
+@staff_member_required(login_url='/accounts/login')
 def admin_mongo_add(request, collection_name):
     if request.method == 'POST':
         tmp = dict(request.POST)
         for key in tmp:
             tmp[key] = tmp[key][0]
         del tmp['csrfmiddlewaretoken']
+        # return JsonResponse(parse_json_form(tmp))
         # print(parse_json_form(tmp))
         status, result = api.admin_insert_document(collection_name, parse_json_form(tmp))
         if status:
             return redirect('..')
         else:
             return redirect('.')
-    status, result = api.get_collection_pattern(collection_name)
+    status, fields = api.get_collection_pattern(collection_name)
     found_id = False
-    for i in range(len(result)):
-        if result[i]['field_name'] == '_id':
+    for i in range(len(fields)):
+        if fields[i]['field_name'] == '_id':
             found_id = True
             index = i
             break
     if found_id:
-        del result[index]
-    print(result)
-    fields = []
-    clean_field(result, fields)
-    print(fields)
-    type_map = {'int': 'number', 'double': 'number', 'string': 'text', 'date': 'date'}
+        del fields[index]
+    # print(fields)
     return render(
         request,
         'app/admin_mongo-add.html',
@@ -473,11 +491,135 @@ def admin_mongo_add(request, collection_name):
             'title': 'mongoDB Admin',
             'header_title': 'mongoDB Admin',
             'collection_name': collection_name,
-            'fields': fields,
-            'type_map': type_map,
+            'fields': json.dumps(fields),
             'logo_link': '/admin-mongo',
+            'NO_NAV': True
         }
     )
+
+def clean_datatype(data):
+    for k, v in data.items():
+        if type(v) == type(datetime.now()) or type(v) == type(ObjectId()):
+            data[k] = str(v)
+        elif type(v) == type({}):
+            clean_datatype(data[k])
+        elif type(v) == type([]):
+            for i in range(len(v)):
+                if type(v) == type(datetime.now()) or type(v) == type(ObjectId()):
+                    data[k] = str(v)
+                elif type(v) == type({}):
+                    clean_datatype(v[i])
+
+def fill_field(fields, data):
+    for field in fields:
+        if data == None or data.get(field['field_name']) == None:
+            if field['field_type'] == 'dict':
+                fill_field(field['dict'], None)
+            else:
+                data[field['field_name']] = None
+        elif field['field_type'] == 'date':
+            tmp = data[field['field_name']].split('-')
+            data[field['field_name']] = {
+                'year': tmp[0],
+                'month': tmp[1],
+                'day': tmp[2]
+            }
+
+@staff_member_required(login_url='/accounts/login')
+def admin_mongo_edit(request, collection_name, object_id):
+    if request.method == 'POST':
+        tmp = dict(request.POST)
+        for key in tmp:
+            tmp[key] = tmp[key][0]
+        del tmp['csrfmiddlewaretoken']
+        # return JsonResponse(parse_json_form(tmp))
+        data = parse_json_form(tmp)
+        status, fields = api.get_collection_pattern(collection_name)
+        fill_field(fields, data)
+        status, result = api.admin_update_document(collection_name, object_id, data)
+        if status:
+            return redirect('..')
+        else:
+            return redirect('.')
+    status, fields = api.get_collection_pattern(collection_name)
+    status, data = api.admin_get_detail(collection_name, object_id)
+    clean_datatype(data)
+    found_id = False
+    for i in range(len(fields)):
+        if fields[i]['field_name'] == '_id':
+            found_id = True
+            index = i
+            break
+    if found_id:
+        del fields[index]
+    return render(
+        request,
+        'app/admin_mongo-add.html',
+        {
+            'title': 'mongoDB Admin',
+            'header_title': 'mongoDB Admin',
+            'collection_name': collection_name,
+            'fields': json.dumps(fields).replace('"', '\\"').replace("'", "\\'"),
+            'data': json.dumps(data).replace('"', '\\"').replace("'", "\\'"),
+            'logo_link': '/admin-mongo',
+            'NO_NAV': True
+        }
+    )
+
+@staff_member_required(login_url='/accounts/login')
+def admin_mongo_delete(request, collection_name, object_id):
+    if request.method == 'POST':
+        status, result = api.admin_delete_document(collection_name, object_id)
+        respose = {'ok': 1 if status else 0}
+        return JsonResponse(respose)
+    else:
+        pass
+
+def login(request):
+    assert isinstance(request, HttpRequest)
+    if request.method == 'POST':
+        status, username = api.verify_password(
+            request.POST['username'], request.POST['password'])
+        if status:
+            status, result = api.check_already_used_this_username(
+                request.POST['username'])
+            if not status:
+                request.session['just_regis'] = True
+            request.session['user'] = {
+                'username': request.POST['username'], 'is_authenticated': True}
+            return redirect(request.POST['next'])
+
+        else:
+            return render(
+                request,
+                'app/login.html',
+                {
+                    'title': 'Log in',
+                    'error': True
+                }
+            )
+    if 'user' in request.session:  # mind add
+        if request.session['user'].get('is_authenticated'):  # mind one tab
+            return redirect('/')  # mind one tab
+    next_page = '/'
+    if 'next' in request.GET:
+        next_page = request.GET['next']
+    return render(
+        request,
+        'app/login.html',
+        {
+            'title': 'Log in',
+            'next': next_page
+        }
+    )
+
+
+def logout(request):
+    assert isinstance(request, HttpRequest)
+    request.session['user'] = {'is_authenticated': False}
+    # print(request.session['user'])
+    return redirect('/')
+
 
 def register(request):
     """Renders the about page."""
@@ -520,7 +662,7 @@ def register(request):
                                                     emergency_phone, emergency_addr, email, congenital_disease)
         if status:
             del request.session['just_regis']
-            print(request.session['user'])
+            # print(request.session['user'])
             return redirect('/')
         else:
             return render(

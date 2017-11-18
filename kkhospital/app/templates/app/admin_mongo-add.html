@@ -13,23 +13,23 @@
         <form action="" method="POST" enctype='application/json'>
             {% csrf_token %}
             <input type="hidden" name="collection" value="{{ collection_name }}">
-            {% for field in fields %}
-                {% if field.field_type == 'dict' %}
-                    {% for f in field.dict %}
-                        <div class="form-group">
-                            <label for="{{ field.field_name }}[{{ f.field_name }}]">{{ field.field_name }}[{{ f.field_name }}]</label>
-                            <input type="{{ type_map|get_item:f.field_type }}" class="form-control" id="{{ field.field_name }}[{{ f.field_name }}]" name="{{ field.field_name }}[{{ f.field_name }}]">
-                        </div>
-                    {% endfor %}
-                {% else %}
-                    <div class="form-group">
-                        <label for="{{ field.field_name }}">{{ field.field_name }}</label>
-                        <input type="{{ type_map|get_item:field.field_type }}" class="form-control" id="{{ field.field_name }}" name="{{ field.field_name }}">
-                    </div>
-                {% endif %}
-            {% endfor %}
+            <div class="input-wrapper"></div>
             <input type="submit" class="btn btn-default">
         </form>
         <br>
     {% endif %}
+{% endblock %}
+
+{% block scripts %}
+<script>
+    var fields = JSON.parse('{{ fields|safe }}');
+    {% if data %}
+        var data = JSON.parse('{{ data|safe }}');
+    {% endif %}
+</script>
+{% if data %}
+    <script src="{% static 'app/scripts/admin_mongo-edit.js' %}"></script>
+{% else %}
+    <script src="{% static 'app/scripts/admin_mongo-add.js' %}"></script>
+{% endif %}
 {% endblock %}

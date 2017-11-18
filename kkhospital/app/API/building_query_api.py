@@ -38,8 +38,8 @@ class building_query_api :
         	},
         	{
         		'$project' : {
-        			'building_id' : '$_id',
-        			'building_name' : '$building_name',
+        			'_id' : 1,
+        			'building_name' : 1,
         		}
         	}
 		])
@@ -48,7 +48,7 @@ class building_query_api :
 			buildings.append(building)
 		return True, buildings
 
-	def update_building_profile(self, building_id, building_name) :
+	def update_building(self, building_id, building_name) :
 		self.db.buildings.update_one(
 			{
         		'_id': ObjectId(building_id)
@@ -56,7 +56,7 @@ class building_query_api :
     		{
         		'$set': 
         		{
-        			'building_name' : building_name,
+        			'building_name' : building_name
         		}
     		}
 		)
@@ -71,7 +71,7 @@ class building_query_api :
 		return True, 'Successfully Removed'
 
 	def insert_building(self, building_name) :
-		self.db.buildings.insert(
+		self.db.buildings.insert_one(
 			{
 				'building_name' : building_name
 			}

@@ -19,7 +19,7 @@ class patients_query_api :
 			patients.append(patient)
 		return True, patients
 
-	def get_patients_detail(self,patient_id) :
+	def get_patient_detail(self,patient_id) :
 		cursor = self.db.patients.aggregate([
 			{
             	'$match' :
@@ -40,23 +40,23 @@ class patients_query_api :
         	},
         	{
         		'$project' : {
-        			'username' : '$username',
-        			'patient_name_title' : '$patient_name_title',
-        			'patient_first_name' : '$patient_name',
-        			'patient_surname' : '$patient_surname'
+        			'_id' : 1,
+        			'username' : 1,
+        			'patient_name_title' : 1,
+        			'patient_first_name' : 1,
+        			'patient_surname' : 1
         		}
         	}
 		])
 		patients = []
 		for patient in cursor :
-			patient.pop('_id', None)
 			patients.append(patient)
 		return True, patients
 
 
 	def update_patient(self, patient_id, username, patient_name_title, patient_name, patient_surname, patient_img, 
 		id_card_number, gender, birthday, blood_group_abo, blood_group_rh, race, nationallity, religion, status, 
-		patient_address, occupy, telephone_number, father_name, mother_name, emergency_name, emergency_phone, 
+		patient_address, occupy, telphone_number, father_name, mother_name, emergency_name, emergency_phone, 
 		emergency_address, email, congenital_disease) :
 		self.db.patients.update_one(
     		{
@@ -72,7 +72,7 @@ class patients_query_api :
         			'patient_img' : patient_img,
         			'id_card_number' : id_card_number,
         			'gender' : gender,
-    				'birthday' : datetime(birthday['year'], birthday['month'], birthday['day']),
+    				'birthday' : datetime(int(birthday['year']), int(birthday['month']), int(birthday['day'])),
     				'blood_group_abo' : blood_group_abo,
     				'blood_group_rh' : blood_group_rh,
     				'race' : race,
@@ -81,7 +81,7 @@ class patients_query_api :
     				'status' : status,
     				'patient_address' : patient_address,
     				'occupy' : occupy,
-    				'telephone_number' : telephone_number,
+    				'telephone_number' : telphone_number,
     				'father_name' : father_name,
     				'mother_name' : mother_name,
     				'emergency_name' : emergency_name,
@@ -104,7 +104,7 @@ class patients_query_api :
 
 	def insert_patient(self, username, patient_name_title, patient_name, patient_surname, patient_img, 
 		id_card_number, gender, birthday, blood_group_abo, blood_group_rh, race, nationallity, religion, status, 
-		patient_address, occupy, telephone_number, father_name, mother_name, emergency_name, emergency_phone, 
+		patient_address, occupy, telphone_number, father_name, mother_name, emergency_name, emergency_phone, 
 		emergency_address, email, congenital_disease) :
 		self.db.patients.insert(
 			{

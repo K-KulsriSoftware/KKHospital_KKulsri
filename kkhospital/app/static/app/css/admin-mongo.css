@@ -20,3 +20,10 @@ div.toolbar button{
   margin-left:5px;
 }
 
+div.list_item > * {
+  display: inline-block;
+}
+
+.data-table-wrapper {
+  overflow: auto;
+}

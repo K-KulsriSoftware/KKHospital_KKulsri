@@ -16,7 +16,6 @@ class doctor_query_api :
 		])
 		doctors = []
 		for doctor in cursor :
-			doctor.pop('_id', None)
 			doctors.append(doctor)
 		return True, doctors
 
@@ -30,7 +29,6 @@ class doctor_query_api :
         	}
 		])
 		for doctor in cursor :
-			doctor.pop('_id', None)
 			return True, doctor
 		return False, "No match profile"
 
@@ -41,18 +39,33 @@ class doctor_query_api :
         	},
         	{
         		'$project' : {
-        			'username' : '$username',
-        			'doctor_name_title' : '$doctor_name_title',
-        			'doctor_first_name' : '$doctor_name',
-        			'doctor_surname' : '$doctor_surname'
+        			'_id' : 1,
+        			'username' : 1,
+        			'doctor_name_title' : 1,
+        			'doctor_name' : 1,
+        			'doctor_surname' : 1
         		}
         	}
 		])
 		doctors = []
 		for doctor in cursor :
-			doctor.pop('_id', None)
 			doctors.append(doctor)
 		return True, doctors
+
+	def edited_working_time(self, working_time) :
+		result = {}
+		for i in working_time :
+			result[i] = []
+			for j in working_time[i] :
+				result[i].append({'start' : int(j['start']), 'finish' : int(j['finish'])})
+		return result
+
+	def edited_gender(self, gender_string) :
+		if gender_string == 'ชาย' :
+			return True
+		elif gender_string == 'หญิง' :
+			return False
+		return gender_string
 
 	def update_doctor(self, doctor_id, username, doctor_name_title, doctor_name, doctor_surname, gender, birthday, 
 		office_phone_number, email, department_id, doctor_img, position, expertises, educations, working_time) :
@@ -67,16 +80,16 @@ class doctor_query_api :
         			'doctor_name_title' : doctor_name_title,
         			'doctor_name' : doctor_name,
         			'doctor_surname' : doctor_surname,
-        			'gender' : gender,
-        			'birthday' : datetime(birthday['year'], birthday['month'], birthday['day']),
+        			'gender' : self.edited_gender(gender),
+        			'birthday' : datetime(int(birthday['year']), int(birthday['month']), int(birthday['day'])),
         			'office_phone_number' : office_phone_number,
 	               	'email': email,
-	               	'department_id' : department_id,
+	               	'department_id' : ObjectId(department_id),
 	               	'doctor_img' : doctor_img,
 	               	'position' : position,
 	               	'expertises' : expertises,
 	               	'educations' : educations,
-	               	'working_time' : working_time,
+	               	'working_time' : self.edited_working_time(working_time)
         		}
     		}
 		)
@@ -90,49 +103,28 @@ class doctor_query_api :
 		)
 		return True, 'Successfully Removed'
 
-	def get_new_doctor_id(self) :
-		cursor = self.db.doctors.aggregate([
-			{
-				'$match' : {}
-			},
-			{
-				'$sort' : 
-				{
-					'username' : -1
-				}
-			},
-			{
-				'$limit' : 1
-			}
-		])
-		for i in cursor :
-			i = int(i['username'][1:])
-			if i < 10 :
-				return 'd00' + str(i)
-			elif i < 100 :
-				return 'd0' + str(i)
-			elif i < 1000 :
-				return 'd' + str(i)
-		return 'd000'
+	def edited_birthday(self, birthday_string) :
+		birthday_list = birthday_string.split('-')
+		return datetime(int(birthday_list[0]), int(birthday_list[1]), int(birthday_list[2]))
 
 	def insert_doctor(self, username, doctor_name_title, doctor_name, doctor_surname, gender, birthday, 
 		office_phone_number, email, department_id, doctor_img, position, expertises, educations, working_time) :
-		self.db.doctors.insert(
+		self.db.doctors.insert_one(
 			{
 				'username' : username,
-				'doctor_name_title' : doctor_name_title, 
-				'doctor_name' : doctor_name,
-				'doctor_surname' : doctor_surname,
-				'gender' : gender, 
-				'birthday' : datetime(birthday['year'], birthday['month'], birthday['day']),
-				'office_phone_number' : office_phone_number, 
-				'email' : email, 
-				'department_id' : department_id, 
-				'doctor_img' : doctor_img, 
-				'position' : position, 
-				'expertises' : expertises, 
-		        'educations' : educations, 
-		        'working_time' : working_time,
+        		'doctor_name_title' : doctor_name_title,
+        		'doctor_name' : doctor_name,
+        		'doctor_surname' : doctor_surname,
+       			'gender' : self.edited_gender(gender),
+       			'birthday' : self.edited_birthday(birthday),
+       			'office_phone_number' : office_phone_number,
+       			'email': email,
+       			'department_id' : ObjectId(department_id),
+       			'doctor_img' : doctor_img,
+       			'position' : position,
+       			'expertises' : expertises,
+       			'educations' : educations,
+       			'working_time' : self.edited_working_time(working_time),
 			}
 		)
 		return True, 'Successfully Inserted'

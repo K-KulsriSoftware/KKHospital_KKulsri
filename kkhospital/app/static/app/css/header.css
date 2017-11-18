@@ -4,6 +4,7 @@ ul.nav.navbar-nav.links{
 
 nav.navbar.navbar-default.custom-header{
   background-color:white;
+  min-height: 103px;  
 }
 
 .custom-header ul.nav.navbar-nav.links li {
