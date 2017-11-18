@@ -356,6 +356,17 @@ def admin_mongo(request):
         }
     )
 
+def decode_data(data):
+    for k, v in data.items():
+        if type(v) == type({}):
+            pass
+        elif type(v) == type([]):
+            for item in v:
+                pass
+        else:
+            print(v)
+            print(api.decode_thai_value(k, v))
+
 
 # @staff_member_required(login_url='/accounts/login')
 def admin_mongo_collection(request, collection_name):
@@ -374,6 +385,7 @@ def admin_mongo_collection(request, collection_name):
             if k == '_id':
                 k = 'object_id'
             tmp[k] = v
+        decode_data(tmp)
         result.append(tmp)
     return render(
         request,
