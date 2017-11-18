@@ -57,6 +57,9 @@ docs/_build/
 # PyBuilder
 target/
 kkhospital/config.py
+<<<<<<< HEAD
 KKulsri_Hospital/
 .vscode/settings.json
+=======
+>>>>>>> master
 *.pyc
