@@ -1,5 +1,6 @@
 from django.shortcuts import render
 from django.http import HttpRequest, Http404, JsonResponse
+from django.core.exceptions import PermissionDenied
 from django.shortcuts import redirect
 from django.contrib.auth.decorators import login_required
 from django.contrib.admin.views.decorators import staff_member_required
@@ -379,9 +380,16 @@ def payment(request):
         }
     )
 
+def check_user_group(group_name, user):
+    groups = user.groups.all()
+    print(groups)
+    return len(groups) > 0 and groups[0].name == group_name
 
-@staff_member_required(login_url='/accounts/login')
+
+@login_required(login_url='/accounts/login')
 def admin_mongo(request):
+    if not check_user_group('staff', request.user):
+        raise PermissionDenied
     assert isinstance(request, HttpRequest)
     status, result = api.get_all_collections_name()
     result.sort()
@@ -409,8 +417,10 @@ def decode_data(data):
             data[k] = api.decode_thai_value(k, v)[1]
 
 
-@staff_member_required(login_url='/accounts/login')
+@login_required(login_url='/accounts/login')
 def admin_mongo_collection(request, collection_name):
+    if not check_user_group('staff', request.user):
+        raise PermissionDenied
     assert isinstance(request, HttpRequest)
     permissions = {}
     permissions['insert'] = 1 if api.get_collection_permission(collection_name, 'insert')[0] else 0
@@ -460,8 +470,10 @@ def clean_field(org, res, name=''):
                 this_field['value'] = field['value']
             res.append(this_field)
 
-@staff_member_required(login_url='/accounts/login')
+@login_required(login_url='/accounts/login')
 def admin_mongo_add(request, collection_name):
+    if not check_user_group('staff', request.user):
+        raise PermissionDenied
     if request.method == 'POST':
         tmp = dict(request.POST)
         for key in tmp:
@@ -525,8 +537,10 @@ def fill_field(fields, data):
                 'day': tmp[2]
             }
 
-@staff_member_required(login_url='/accounts/login')
+@login_required(login_url='/accounts/login')
 def admin_mongo_edit(request, collection_name, object_id):
+    if not check_user_group('staff', request.user):
+        raise PermissionDenied
     if request.method == 'POST':
         tmp = dict(request.POST)
         for key in tmp:
@@ -566,8 +580,10 @@ def admin_mongo_edit(request, collection_name, object_id):
         }
     )
 
-@staff_member_required(login_url='/accounts/login')
+@login_required(login_url='/accounts/login')
 def admin_mongo_delete(request, collection_name, object_id):
+    if not check_user_group('staff', request.user):
+        raise PermissionDenied
     if request.method == 'POST':
         status, result = api.admin_delete_document(collection_name, object_id)
         respose = {'ok': 1 if status else 0}
