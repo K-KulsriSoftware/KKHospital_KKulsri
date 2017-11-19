@@ -123,10 +123,10 @@ class API :
 		if check : return True, result
 		return self.show_doctor_detail_api.show_doctor_detail(doctor_id)
 
-	def edit_profile(self, username=None, email=None, telphone_number=None, emergency_phone=None, submit=False) :
+	def edit_profile(self, username=None, email=None, telephone_number=None, emergency_phone=None, submit=False) :
 		check, result = self.incomplete_input(locals())
 		if check : return True, result
-		return self.edit_profile_api.edit_profile(username,email,telphone_number,emergency_phone,submit)
+		return self.edit_profile_api.edit_profile(username,email,telephone_number,emergency_phone,submit)
 
 	def register(self, username=None, patient_name_title=None, patient_name=None, patient_surname=None, 
 		         patient_img=None, id_card_number=None, gender=None, birthday_year=None, 
@@ -299,7 +299,7 @@ class API :
 		return self.patients_query_api.update_patient(patient_id, data['username'], data['patient_name_title'], 
 			data['patient_name'], data['patient_surname'], data['patient_img'], data['id_card_number'], data['gender'], 
 			data['birthday'], data['blood_group_abo'], data['blood_group_rh'], data['race'], data['nationallity'], 
-			data['religion'], data['status'], data['patient_address'], data['occupy'], data['telphone_number'], 
+			data['religion'], data['status'], data['patient_address'], data['occupy'], data['telephone_number'], 
 			data['father_name'], data['mother_name'], data['emergency_name'], data['emergency_phone'], 
 			data['emergency_address'], data['email'], data['congenital_disease'])
 
@@ -314,7 +314,7 @@ class API :
 		return self.patients_query_api.insert_patient(data['username'], data['patient_name_title'], 
 			data['patient_name'], data['patient_surname'], data['patient_img'], data['id_card_number'], data['gender'], 
 			data['birthday'], data['blood_group_abo'], data['blood_group_rh'], data['race'], data['nationallity'], 
-			data['religion'], data['status'], data['patient_address'], data['occupy'], data['telphone_number'], 
+			data['religion'], data['status'], data['patient_address'], data['occupy'], data['telephone_number'], 
 			data['father_name'], data['mother_name'], data['emergency_name'], data['emergency_phone'], 
 			data['emergency_address'], data['email'], data['congenital_disease'])
 
