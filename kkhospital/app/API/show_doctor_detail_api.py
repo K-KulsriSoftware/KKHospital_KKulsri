@@ -7,6 +7,7 @@ class show_doctor_detail_api :
 
 	def __init__(self, db) :
 		self.db = db
+		self.max_per_period = 10
 
 	def get_doctor_query(self, doctor_id) :
 		return self.db.doctors.aggregate([
