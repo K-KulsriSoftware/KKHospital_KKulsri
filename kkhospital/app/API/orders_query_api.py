@@ -155,7 +155,7 @@ class orders_query_api :
         return True, orders
 
     def insert_note(self, order_id, note) :
-        self.db.orders.update(
+        self.db.orders.update_one(
             {
                 '_id' : ObjectId(order_id)
             },
