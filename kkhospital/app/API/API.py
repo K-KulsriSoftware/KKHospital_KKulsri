@@ -197,6 +197,10 @@ class API :
 			data['doctor_surname'], data['gender'], data['birthday'], data['office_phone_number'], data['email'], 
 			data['department_id'], data['doctor_img'], data['position'], data['expertises'], data['educations'], data['working_time'])
 
+	def get_doctor_id(self, doctor_username=None) :
+		check, result = self.incomplete_input(locals())
+		if check : return True, result
+		return self.doctor_query_api.get_doctor_id(doctor_username)
 ###############
 
 	def get_all_departments(self) :

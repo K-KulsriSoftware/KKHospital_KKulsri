@@ -128,3 +128,22 @@ class doctor_query_api :
 			}
 		)
 		return True, 'Successfully Inserted'
+
+	def get_doctor_id(self, doctor_username):
+        cursor = self.db.doctors.aggregate([
+            {
+                '$match' : 
+                {
+                    'username' : doctor_username
+                }
+            },
+            {
+                '$project' : 
+                {
+                    'doctor_id' : '$_id'
+                }
+            },
+        ])
+        for temp in cursor:
+            return True, str(temp['doctor_id'])
+        return False, 'doctor error'

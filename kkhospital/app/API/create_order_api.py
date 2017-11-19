@@ -51,7 +51,7 @@ class create_order_api :
             },
         ])
         for temp in cursor:
-            return True, temp['patient_id']
+            return True, str(temp['patient_id'])
         return False, 'patient error'
     
     def insert_query(self, package_id, doctor_id, patient_id, package_cost, notice, time, bought_time) :
