@@ -688,7 +688,7 @@ def register(request):
                 request,
                 'app/register.html',
                 {
-                    'title': 'สมัครสมาชิก',
+                    'title': 'ข้อมูลผู้ป่วย',
                     'logged_user': request.user.username,
                     'REGISTER_PAGE': True
                 }
@@ -698,7 +698,7 @@ def register(request):
             request,
             'app/register.html',
             {
-                'title': 'สมัครสมาชิก',
+                'title': 'ข้อมูลผู้ป่วย',
                 'logged_user': request.user.username,
                 'REGISTER_PAGE': True
             }
