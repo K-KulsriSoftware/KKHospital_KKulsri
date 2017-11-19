@@ -658,15 +658,13 @@ def register(request):
         blood_rh = ['', '-', '+']
         blood_group_abo = blood_abo.index(
             request.POST['blood_group_abo']) if request.POST['blood_group_abo'] in blood_abo else 0
-        blood_group_rh = blood_rh.index(
-            request.POST['blood_group_rh']) if request.POST['blood_group_rh'] in blood_rh else 0
         race = request.POST['race']
         nationallity = request.POST['nationallity']
-        Religion = request.POST['religion']
-        Status = int(request.POST['Status'])
-        pateint_address = request.POST['pateint_address']
+        religion = request.POST['religion']
+        Status = int(request.POST['status'])
+        patient_address = request.POST['patient_address']
         occupy = request.POST['occupy']
-        telphone_number = request.POST['telphone_number']
+        telephone_number = request.POST['telephone_number']
         father_name = request.POST['father_name']
         mother_name = request.POST['mother_name']
         emergency_name = request.POST['emergency_name']
@@ -676,11 +674,11 @@ def register(request):
         congenital_disease = request.POST['congenital_disease'].split(',')
         # เติมให้ครบ
 
-        status, result = api.update_patient_profile(request.session['user']['username'], patient_name_title, patient_name, patient_surname, '',
+        status, result = api.register(request.user.username, patient_name_title, patient_name, patient_surname, '',
                                                     id_card_number, gender, birthday_year, birthday_month, birthday_day,
-                                                    blood_group_abo, blood_group_rh, race, nationallity, Religion, Status,
-                                                    pateint_address, occupy, telphone_number, father_name, mother_name, emergency_name,
-                                                    emergency_phone, emergency_addr, email, congenital_disease)
+                                                    blood_group_abo, 0, race, nationallity, religion, Status,
+                                                    patient_address, occupy, telephone_number, father_name, mother_name, emergency_name,
+                                                    emergency_phone, emergency_addr, email, congenital_disease, True)
         if status:
             return redirect('/')
         else:
