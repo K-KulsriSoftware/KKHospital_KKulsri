@@ -631,10 +631,7 @@ def register(request):
         birthday_year = int(request.POST['birthday_year'])
         birthday_month = int(request.POST['birthday_month'])
         birthday_day = int(request.POST['birthday_day'])
-        blood_abo = ['-', 'A', 'B', 'O', 'AB']
-        blood_rh = ['', '-', '+']
-        blood_group_abo = blood_abo.index(
-            request.POST['blood_group_abo']) if request.POST['blood_group_abo'] in blood_abo else 0
+        blood_group_abo = int(request.POST['blood_group_abo'])
         race = request.POST['race']
         nationallity = request.POST['nationallity']
         religion = request.POST['religion']
