@@ -52,5 +52,5 @@ urlpatterns = [
     url(r'^member/edit/$', app.views.edit_member_info, name='edit_member_info'),
     url(r'^register/$', app.views.register, name='register'),
     url(r'^doctor-profile/$', app.views.doctor_profile, name='doctor-profile'),
-    url(r'^member/profile/$', app.views.member, name='member-profile'),
+    url(r'^treat/(?P<order_id>\w{0,50})/$', app.views.treat, name='treat'),
 ]

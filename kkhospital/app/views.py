@@ -13,6 +13,9 @@ import json
 from .API.API import API
 api = API()
 
+blood_abo = ['-', 'A', 'B', 'O', 'AB']
+blood_rh = ['', 'RH-', 'RH+']
+
 @register.filter
 def get_item(dictionary, key):
     return dictionary.get(key)
@@ -112,39 +115,25 @@ def doctor_detail(request):
 
 def doctor_profile(request):
     """Renders the about page."""
-    status, doctor = api.show_doctor_detail("59d8a8902b116cf11562a135")
-    if status:
-        status, package = api.show_special_package_info(
-            "59d892817434c9e2a98088eb")
-        working_times = {}
-        for day in doctor['working_time']:
-            if doctor['working_time'][day] != []:
-                working_times[day] = []
-                for time in doctor['working_time'][day]:
-                    for i in range(int(time['start']), int(time['finish'])):
-                        working_times[day].append(
-                            {'start': i, 'finish': i + 1})
-        print(working_times)
-        return render(
-            request,
-            'app/doctor-profile.html',
-            {
-                'title': 'ข้อมูลแพทย์',
-                'doctor': doctor,
-                'selected_package': package,
-                'working_time': working_times,
-            }
-        )
-    else:
-        raise Http404("No doctor found")
+    doctor_id = "59d8a8902b116cf11562a135"
+    status, doctor = api.show_doctor_detail(doctor_id)
+    status, orders = api.get_doctor_orders(request.user.username)
+    return render(
+        request,
+        'app/doctor-profile.html',
+        {
+            'title': 'ข้อมูลแพทย์',
+            'doctor': doctor,
+            'orders': orders,
+        }
+    )
 
 @login_required(login_url='/accounts/login')
 def member(request):
+    global blood_abo, blood_rh
     assert isinstance(request, HttpRequest)
     if not api.get_patient_id(request.user.username)[0]:
         return redirect('/register')
-    blood_abo = ['-', 'A', 'B', 'O', 'AB']
-    blood_rh = ['', 'RH ลบ', 'RH บวก']
     status, patient_id = api.get_patient_id(request.user.username)
     status, member_detail = api.get_patient_detail(patient_id)
     member_detail['blood_group_abo'] = blood_abo[member_detail['blood_group_abo']]
@@ -162,22 +151,21 @@ def member(request):
     )
 
 @login_required(login_url='/accounts/login')
-def member_profile(request):
+def treat(request, order_id):
+    global blood_abo, blood_rh
     assert isinstance(request, HttpRequest)
-    blood_abo = ['-', 'A', 'B', 'O', 'AB']
-    blood_rh = ['', 'RH ลบ', 'RH บวก']
-    status, member_detail = api.get_patients_detail(
-        request.session['user']['username'])
-    member_detail['blood_group_abo'] = blood_abo[member_detail['blood_group_abo']]
-    member_detail['blood_group_rh'] = blood_rh[member_detail['blood_group_rh']]
-    status, orders = api.get_patient_orders(member_id)
+    order_detail = api.get_order_detail(order_id)[1]
+    status, patient_detail = api.get_patient_detail(order_detail['patient_id'])
+    patient_detail['blood_group_abo'] = blood_abo[patient_detail['blood_group_abo']]
+    patient_detail['blood_group_rh'] = blood_rh[patient_detail['blood_group_rh']]
+    # member_detail['blood_group_abo'] = blood_abo[member_detail['blood_group_abo']]
+    # member_detail['blood_group_rh'] = blood_rh[member_detail['blood_group_rh']]
     return render(
         request,
         'app/member-profile.html',
         {
-            'title': 'ข้อมูลสมาชิก',
-            'member_detail': member_detail,
-            'orders': orders,
+            'title': 'การรักษา',
+            'member_detail': patient_detail
         }
     )
 

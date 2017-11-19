@@ -63,7 +63,7 @@
         <div class="row schedule-container round-border row-top-margin">
                 <div class="col-xs-12">
                     <div class="table-responsive">
-                        <table class="table" style="text-align: center;">
+                        <table class="table" style="">
                             <thead>
                                 <tr>
                                     <th>ชื่อแพ็กเกจ </th>
@@ -76,10 +76,10 @@
                                 {% if orders %}
                                     {% for order in orders %}
                                         <tr>
-                                            <td><!-- ชื่อแพคเกจ --></td>
-                                            <td><!-- ชื่อผู้ป่วย --></td>
-                                            <td><!-- วันที่นัดหมาย --></td>
-                                            <td><button style="width: 60px;"><a href="#"></a>ข้อมูล</a></button></td> <!-- ใส่ลิ้งไปหน้าผู้ป่วย -->
+                                            <td>{{ order.package_name }}</td>
+                                            <td>{{ order.patient_name }} {{ order.patient_surname }}</td>
+                                            <td>{{ order.start_time }} - {{ order.finish_time }}</td>
+                                            <td><a href="/treat/{{ order.order_id }}"><button style="width: 60px;" class="btn btn-default">ข้อมูล</button></a></td> <!-- ใส่ลิ้งไปหน้าผู้ป่วย -->
                                         </tr>
                                     {% endfor %}
                                 {% endif %}
