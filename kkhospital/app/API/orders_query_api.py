@@ -143,7 +143,8 @@ class orders_query_api :
                     'doctor_id' : 1,
                     'patient_id' : 1,
                     'time' : 1,
-                    'notice' : 1
+                    'notice' : 1,
+                    'note' : 1
                 }
             }
         ])
@@ -152,3 +153,17 @@ class orders_query_api :
             order.pop('_id', None)
             orders.append(order)
         return True, orders
+
+    def insert_note(self, order_id, note) :
+        self.db.orders.update(
+            {
+                '_id' : ObjectId(order_id)
+            },
+            {
+                '$set' :
+                {
+                    'note' : note
+                }
+            }
+        )
+        return True, 'Successfully Updated'

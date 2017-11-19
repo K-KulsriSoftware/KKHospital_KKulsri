@@ -393,6 +393,10 @@ class API :
 	 	return self.orders_query_api.create_order(data['package_id'], data['doctor_id'], data['patient_id'], 
 	 		data['cost'], data['time'], data['bought_time'], data['notice'])
 
+	def insert_note(self, order_id=None, note=None) :
+		check, result = self.incomplete_input(locals())
+		if check : return True, result
+		return self.orders_query_api.insert_note(order_id, note)
 #############
 
 	def admin_get_all_documents(self, collection_name=None) :
