@@ -72,7 +72,9 @@
     <script src="{% static 'app/scripts/jquery-1.10.2.js' %}"></script>
     <script src="{% static 'app/scripts/bootstrap.js' %}"></script>
     <script src="{% static 'app/scripts/respond.js' %}"></script>
-    <script src="{% static 'app/scripts/check-user-information.js' %}"></script>
+    {% if not REGISTER_PAGE %}
+        <script src="{% static 'app/scripts/check-user-information.js' %}"></script>
+    {% endif %}
 {% block scripts %}{% endblock %}
 
 </body>

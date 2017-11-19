@@ -682,8 +682,6 @@ def register(request):
                                                     pateint_address, occupy, telphone_number, father_name, mother_name, emergency_name,
                                                     emergency_phone, emergency_addr, email, congenital_disease)
         if status:
-            del request.session['just_regis']
-            # print(request.session['user'])
             return redirect('/')
         else:
             return render(
@@ -691,7 +689,8 @@ def register(request):
                 'app/register.html',
                 {
                     'title': 'สมัครสมาชิก',
-                    'logged_user': request.session.get('user')
+                    'logged_user': request.user.username,
+                    'REGISTER_PAGE': True
                 }
             )
     else:
@@ -700,6 +699,7 @@ def register(request):
             'app/register.html',
             {
                 'title': 'สมัครสมาชิก',
-                'logged_user': request.session.get('user')
+                'logged_user': request.user.username,
+                'REGISTER_PAGE': True
             }
         )
