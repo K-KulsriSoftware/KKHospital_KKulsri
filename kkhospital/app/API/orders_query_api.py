@@ -71,7 +71,7 @@ class orders_query_api :
             orders.append(order)
         return True, orders
 
-    def update_order(self, order_id, package_id, doctor_id, patient_id, cost, time, bought_time, notice) :
+    def update_order(self, order_id, package_id, doctor_id, patient_id, cost, time, bought_time, notice, note) :
         self.db.orders.update_one(
     		{
         		'_id': ObjectId(order_id)
@@ -88,8 +88,8 @@ class orders_query_api :
             				'start':datetime(time['year'],time['month'],time['date'],time['start_hr'],0),
             				'finish':datetime(time['year'],time['month'],time['date'],time['finish_hr'],0)
             			},
-            			'notice' : notice
-
+            			'notice' : notice,
+                        'note' : note
         		}
     		}
 		)
@@ -115,7 +115,8 @@ class orders_query_api :
                     'start' : datetime(time['year'],time['month'],time['date'],time['start_hr'],0),
                     'finish' : datetime(time['year'],time['month'],time['date'],time['finish_hr'],0)
                 },
-                'notice' : notice
+                'notice' : notice,
+                'note' : note
 			}
         )
         return True,'Successfully Added'

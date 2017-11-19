@@ -463,6 +463,10 @@ class get_collection_pattern_api :
 			{
 				'field_name' : 'notice',
 				'field_type' : 'string'
+			},
+			{
+				'field_name' : 'note',
+				'field_type' : 'string'	
 			}
 		]
 

@@ -67,7 +67,8 @@ class create_order_api :
                     'finish' : datetime(time['year'], time['month'], time['date'], time['finish_hr'], 0)
                 },
                 'bought_time' : datetime(bought_time['year'], bought_time['month'], bought_time['date'], bought_time['hr'], bought_time['min']),
-                'notice' : notice
+                'notice' : notice,
+                'note' : ''
             }
         )
 
