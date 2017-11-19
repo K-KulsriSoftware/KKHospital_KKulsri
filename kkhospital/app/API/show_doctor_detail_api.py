@@ -1,7 +1,7 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
 from bson.objectid import ObjectId
-from datetime import datetime
+from datetime import datetime, timedelta
 
 class show_doctor_detail_api :
 
@@ -61,7 +61,7 @@ class show_doctor_detail_api :
 					unavailable_time[start] = 1
 				start += timedelta(hours=1)
 		unavailable_list = []
-		today_morning = datetime(int(time.strftime('%Y')),int(time.strftime('%m')),int(time.strftime('%d')),0,0)
+		today_morning = datetime(int(now.strftime('%Y')),int(now.strftime('%m')),int(now.strftime('%d')),0,0)
 		while today_morning <= now :
 			unavailable_list.append(today_morning)
 			today_morning += timedelta(hours=1)
@@ -76,6 +76,6 @@ class show_doctor_detail_api :
 		doctors = self.get_doctor_query(doctor_id)
 		for doctor in doctors :
 			doctor.pop('_id',None)
-			doctor['reserved'] = unavailable(doctor_id)
+			doctor['reserved'] = self.unavailable(doctor_id)
 			return True, doctor
 		return False, 'No Profile'
