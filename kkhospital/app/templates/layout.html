@@ -40,7 +40,7 @@
                         {% else %}
                             {% if user.groups.all.0.name == 'doctor' %}
                                 <li role="presentation"><a href="/doctor-profile">ข้อมูลแพทย์</a></li>
-                            {% else %}
+                            {% elif user.groups.all.0.name != 'staff' and not user.is_superuser %}
                                 <li role="presentation"><a href="/member">ข้อมูลสมาชิก</a></li>
                             {% endif %}
                             <li role="presentation"><a href="/accounts/logout">ออกจากระบบ</a></li>
@@ -72,7 +72,7 @@
     <script src="{% static 'app/scripts/jquery-1.10.2.js' %}"></script>
     <script src="{% static 'app/scripts/bootstrap.js' %}"></script>
     <script src="{% static 'app/scripts/respond.js' %}"></script>
-    {% if not REGISTER_PAGE %}
+    {% if not REGISTER_PAGE and not user.is_superuser and user.group.all.0 != 'staff' and user.group.all.0 != 'doctor' %}
         <script src="{% static 'app/scripts/check-user-information.js' %}"></script>
     {% endif %}
 {% block scripts %}{% endblock %}
