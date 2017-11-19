@@ -217,18 +217,49 @@
                         <div class="col-md-12">
                             <div class="checkbox">
                                 <label class="box-accept-edit">
-                                    <input type="checkbox"> ยืนยันการแก้ไขข้อมูล</label>
+                                    <input type="checkbox" id="confirm-info"> ยืนยันการแก้ไขข้อมูล</label>
                             </div>
                         </div>
                     </div>
                     <div class="row">
                         <div class="col-md-12" style="text-align: center;">
                             {% csrf_token %}
-                            <button class="btn btn-default">แก้ไขข้อมูล</button>
+                            <button class="btn btn-default" id="submit" disabled>แก้ไขข้อมูล</button>
                         </div>
                     </div>
                 </div>
             </form>
         </div>
     </div>
+{% endblock %}
+
+{% block scripts %}
+    <script>
+        $('input#confirm-info').change(function() {
+            alert('haah')
+            if ($(this).prop('checked')) {
+                $('button#submit').prop('disabled', false);
+            } else {
+                $('button#submit').prop('disabled', true);
+            }
+        })
+        $('form').submit(function() {
+            var isConfirmed = $("input#confirm-info").prop('checked');
+            var data = $(this).serializeArray();
+            var formComplete = true;
+            $.each(data, function() {
+                if (this.value === '') {
+                    formComplete = false;
+                }
+            });
+            if (isConfirmed && formComplete) {
+                return true;
+            } else {
+                if (!formComplete) {
+                    alert('กรุณากรอกข้อมูลให้ครบทุกช่อง');
+                }
+                return false;
+            }
+        });
+    </script>
 {% endblock %}
