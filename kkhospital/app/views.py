@@ -185,7 +185,10 @@ def edit_member_info(request):
         # member_detail['status'] = status
         member_detail['telephone_number'] = telephone_number
         member_detail['emergency_phone'] = emergency_phone
+        member_detail['birthday'] = {'day': member_detail['birthday'].day, 'month': member_detail['birthday'].month, 'year': member_detail['birthday'].year}
         query_status, result = api.update_patient(patient_id, member_detail)
+        if query_status:
+            return redirect('..')
     blood_abo = ['-', 'A', 'B', 'O', 'AB']
     blood_rh = ['', 'RH ลบ', 'RH บวก']
     status, patient_id = api.get_patient_id(request.user.username)
