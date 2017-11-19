@@ -49,13 +49,26 @@
     <div class="container body-content">
 {% block content %}{% endblock %}
     </div>
+    <div id="get-info-popup" style="position: fixed; top: -50px; width: 100%; z-index: 100; transition: all 0.4s ease;">
+        <div class="row">
+            <div class="col-md-4 col-md-offset-4">
+                <div style="background-color: white; text-align: center; border: 3px solid #8dd9ca; border-bottom-left-radius: 5px; border-bottom-right-radius: 5px; border-top: 0px; box-shadow: 0px 0px 3px rgba(0,0,0,0.4);">
+                    <a href="/register"><span style="line-height: 40px;">กรอกข้อมูลส่วนตัวสำหรับใช้ในการรักษา</span></a>
+                </div>
+            </div>
+        </div>
+    </div>
     <footer>
         <p>Copyright 2017 K.KULSRI Co., Ltd. All rights reserved.</p>
     </footer>
-
+    <script>
+        var user = '{{ user }}';
+        var group = '{{ user.groups.all.0 }}';
+    </script>
     <script src="{% static 'app/scripts/jquery-1.10.2.js' %}"></script>
     <script src="{% static 'app/scripts/bootstrap.js' %}"></script>
     <script src="{% static 'app/scripts/respond.js' %}"></script>
+    <script src="{% static 'app/scripts/check-user-information.js' %}"></script>
 {% block scripts %}{% endblock %}
 
 </body>

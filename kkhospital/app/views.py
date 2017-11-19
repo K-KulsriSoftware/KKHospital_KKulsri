@@ -25,6 +25,9 @@ def home(request):
     assert isinstance(request, HttpRequest)
     return redirect('/departments')
 
+def check_user_information(request):
+    return JsonResponse({'hasInfo': api.get_patient_id(request.GET.get('username'))[0]})
+
 def departments(request):
     """Renders the about page."""
     if 'selected_package' in request.session:

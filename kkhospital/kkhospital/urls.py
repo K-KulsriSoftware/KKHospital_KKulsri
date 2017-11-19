@@ -44,6 +44,7 @@ urlpatterns = [
         name='doctor_search_api'),
     url(r'^doctor_auto_search_api/', app.views.doctor_auto_search_api,
         name='doctor_auto_search_api'),
+    url(r'^check-user-information/', app.views.check_user_information,name='check_user_information'),
 
     url(r'^admin/', admin.site.urls),
     url(r'^accounts/', include('allauth.urls')),
