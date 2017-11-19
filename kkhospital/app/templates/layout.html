@@ -43,14 +43,17 @@
                             {% elif user.groups.all.0.name != 'staff' and not user.is_superuser %}
                                 <li role="presentation"><a href="/member">ข้อมูลสมาชิก</a></li>
                             {% endif %}
-                            <li role="presentation"><a href="/accounts/logout">ออกจากระบบ</a></li>
+                            <li role="presentation"><a href="#" id="logout">ออกจากระบบ</a></li>
                         {% endif %}
                     {% else %}
                         {% if user.is_authenticated %}
-                            <li role="presentation"><a href="/accounts/logout">ออกจากระบบ</a></li>
+                            <li role="presentation"><a href="#" id="logout">ออกจากระบบ</a></li>
                         {% endif %}
                     {% endif %}
                 </ul>
+                <form id="logout" action="/accounts/logout/" method="POST">
+                    {% csrf_token %}
+                </form>
             </div>
         </div>
     </nav>
@@ -76,6 +79,7 @@
     <script src="{% static 'app/scripts/jquery-1.10.2.js' %}"></script>
     <script src="{% static 'app/scripts/bootstrap.js' %}"></script>
     <script src="{% static 'app/scripts/respond.js' %}"></script>
+    <script src="{% static 'app/scripts/logout.js' %}"></script>
     {% if not REGISTER_PAGE and not user.is_superuser and user.group.all.0 != 'staff' and user.group.all.0 != 'doctor' %}
         <script src="{% static 'app/scripts/check-user-information.js' %}"></script>
     {% endif %}

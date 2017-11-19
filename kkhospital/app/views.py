@@ -614,14 +614,6 @@ def login(request):
         }
     )
 
-
-def logout(request):
-    assert isinstance(request, HttpRequest)
-    request.session['user'] = {'is_authenticated': False}
-    # print(request.session['user'])
-    return redirect('/')
-
-
 def register(request):
     """Renders the about page."""
     if request.method == 'POST':
