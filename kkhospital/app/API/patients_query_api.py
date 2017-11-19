@@ -81,8 +81,7 @@ class patients_query_api :
     				'status' : status,
     				'patient_address' : patient_address,
     				'occupy' : occupy,
-    				'telephone_number' : telephone
-        _number,
+    				'telephone_number' : telephone_number,
     				'father_name' : father_name,
     				'mother_name' : mother_name,
     				'emergency_name' : emergency_name,
