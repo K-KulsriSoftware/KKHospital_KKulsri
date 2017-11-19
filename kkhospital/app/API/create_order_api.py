@@ -59,7 +59,7 @@ class create_order_api :
             {
                 'package_id' : ObjectId(package_id),
                 'doctor_id' : ObjectId(doctor_id),
-                'patient_id' : patient_id,
+                'patient_id' : ObjectId(patient_id),
                 'cost' : package_cost,
                 'time' : 
                 {
