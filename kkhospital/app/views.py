@@ -141,6 +141,8 @@ def doctor_profile(request):
 @login_required(login_url='/accounts/login')
 def member(request):
     assert isinstance(request, HttpRequest)
+    if not api.get_patient_id(request.user.username)[0]:
+        return redirect('/register')
     blood_abo = ['-', 'A', 'B', 'O', 'AB']
     blood_rh = ['', 'RH ลบ', 'RH บวก']
     status, patient_id = api.get_patient_id(request.user.username)
