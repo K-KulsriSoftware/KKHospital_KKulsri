@@ -236,7 +236,6 @@
 {% block scripts %}
     <script>
         $('input#confirm-info').change(function() {
-            alert('haah')
             if ($(this).prop('checked')) {
                 $('button#submit').prop('disabled', false);
             } else {
