@@ -34,7 +34,11 @@
                             <li role="presentation"><a href="/accounts/signup">สมัครสมาชิก</a></li>
                             <li role="presentation"><a href="/accounts/login">เข้าสู่ระบบ</a></li>
                         {% else %}
-                            <li role="presentation"><a href="/member">ข้อมูลสมาชิก</a></li>
+                            {% if user.groups.all.0.name == 'doctor' %}
+                                <li role="presentation"><a href="/doctor-profile">ข้อมูลแพทย์</a></li>
+                            {% else %}
+                                <li role="presentation"><a href="/member">ข้อมูลสมาชิก</a></li>
+                            {% endif %}
                             <li role="presentation"><a href="/accounts/logout">ออกจากระบบ</a></li>
                         {% endif %}
                     </ul>
