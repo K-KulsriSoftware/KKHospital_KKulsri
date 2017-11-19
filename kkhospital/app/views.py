@@ -135,12 +135,12 @@ def doctor_profile(request):
         raise Http404("No doctor found")
 
 @login_required(login_url='/accounts/login')
-def member(request, member_name):
+def member(request):
     assert isinstance(request, HttpRequest)
     blood_abo = ['-', 'A', 'B', 'O', 'AB']
     blood_rh = ['', 'RH ลบ', 'RH บวก']
     status, patient_id = api.get_patient_id(request.user.username)
-    status, member_detail = api.get_patients_detail(patient_id)
+    status, member_detail = api.get_patient_detail(patient_id)
     member_detail['blood_group_abo'] = blood_abo[member_detail['blood_group_abo']]
     member_detail['blood_group_rh'] = blood_rh[member_detail['blood_group_rh']]
     status, orders = api.get_patient_orders(request.user.username)
@@ -176,7 +176,7 @@ def member_profile(request):
     )
 
 @login_required(login_url='/accounts/login')
-def edit_member_info(request, member_name):
+def edit_member_info(request):
     assert isinstance(request, HttpRequest)
     if request.method == 'POST':
         email = request.POST['email']
