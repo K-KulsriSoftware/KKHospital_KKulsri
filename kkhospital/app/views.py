@@ -185,7 +185,10 @@ def edit_member_info(request):
         # member_detail['status'] = status
         member_detail['telephone_number'] = telephone_number
         member_detail['emergency_phone'] = emergency_phone
+        member_detail['birthday'] = {'day': member_detail['birthday'].day, 'month': member_detail['birthday'].month, 'year': member_detail['birthday'].year}
         query_status, result = api.update_patient(patient_id, member_detail)
+        if query_status:
+            return redirect('..')
     blood_abo = ['-', 'A', 'B', 'O', 'AB']
     blood_rh = ['', 'RH ลบ', 'RH บวก']
     status, patient_id = api.get_patient_id(request.user.username)
@@ -385,7 +388,7 @@ def admin_mongo(request):
             'DATABASE': True,
             'logo_link': '/admin-mongo',
             'logged_user': request.session.get('user'),
-            'NO_NAV': True
+            'only_logout': True
         }
     )
 
@@ -433,7 +436,7 @@ def admin_mongo_collection(request, collection_name):
             'toolbar': True,
             'logo_link': '/admin-mongo',
             'logged_user': request.session.get('user'),
-            'NO_NAV': True
+            'only_logout': True
         }
     )
 
@@ -487,7 +490,7 @@ def admin_mongo_add(request, collection_name):
             'collection_name': collection_name,
             'fields': json.dumps(fields),
             'logo_link': '/admin-mongo',
-            'NO_NAV': True
+            'only_logout': True
         }
     )
 
@@ -558,7 +561,7 @@ def admin_mongo_edit(request, collection_name, object_id):
             'fields': json.dumps(fields).replace('"', '\\"').replace("'", "\\'"),
             'data': json.dumps(data).replace('"', '\\"').replace("'", "\\'"),
             'logo_link': '/admin-mongo',
-            'NO_NAV': True
+            'only_logout': True
         }
     )
 
@@ -610,14 +613,6 @@ def login(request):
             'next': next_page
         }
     )
-
-
-def logout(request):
-    assert isinstance(request, HttpRequest)
-    request.session['user'] = {'is_authenticated': False}
-    # print(request.session['user'])
-    return redirect('/')
-
 
 def register(request):
     """Renders the about page."""
