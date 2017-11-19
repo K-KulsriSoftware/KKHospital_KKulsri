@@ -115,7 +115,7 @@ def doctor_detail(request):
 
 def doctor_profile(request):
     """Renders the about page."""
-    doctor_id = "59d8a8902b116cf11562a135"
+    doctor_id = api.get_doctor_id(request.user.username)[1]
     status, doctor = api.show_doctor_detail(doctor_id)
     status, orders = api.get_doctor_orders(request.user.username)
     return render(
