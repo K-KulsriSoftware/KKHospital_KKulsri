@@ -186,33 +186,22 @@ def edit_member_info(request):
     assert isinstance(request, HttpRequest)
     if request.method == 'POST':
         email = request.POST['email']
-        status = request.POST['status']
+        # status = request.POST['status']
         telephone_number = request.POST['telephone_number']
         emergency_phone = request.POST['emergency_phone']
         status, patient_id = api.get_patient_id(request.user.username)
-        status, member_detail = api.get_patients_detail(patient_id)
+        status, member_detail = api.get_patient_detail(patient_id)
 
         # เอาค่า email, status ..... เอาไปใส่ใน field ของ dict member_detail แล้วเอา member_detail แต่ละ field ไปแทนใน paramenter ใน function ข้างล่าง
         member_detail['email'] = email
-        member_detail['status'] = status
+        # member_detail['status'] = status
         member_detail['telephone_number'] = telephone_number
         member_detail['emergency_phone'] = emergency_phone
-        query_status, result = api.update_patient_profile(member_detail['username'], member_detail['patient_name_title'], member_detail['patient_name'],
-                                                          member_detail['patient_surname'], member_detail[
-                                                              'patient_img'], member_detail['id_card_number'], member_detail['gender'],
-                                                          member_detail['birthday'].year, member_detail[
-                                                              'birthday'].month, member_detail['birthday'].day,
-                                                          member_detail['blood_group_abo'], member_detail[
-                                                              'blood_group_rh'], member_detail['race'], member_detail['nationality'],
-                                                          member_detail['religion'], member_detail['status'], member_detail[
-                                                              'patient_address'], member_detail['occupy'], member_detail['telephone_number'],
-                                                          member_detail['father_name'], member_detail[
-                                                              'mother_name'], member_detail['emergency_name'],
-                                                          member_detail['emergency_phone'], member_detail['emergency_address'], member_detail['email'], member_detail['congenital_disease'])
+        query_status, result = api.update_patient(patient_id, member_detail)
     blood_abo = ['-', 'A', 'B', 'O', 'AB']
     blood_rh = ['', 'RH ลบ', 'RH บวก']
     status, patient_id = api.get_patient_id(request.user.username)
-    status, member_detail = api.get_patients_detail(patient_id)
+    status, member_detail = api.get_patient_detail(patient_id)
     member_detail['gender'] = 'ชาย' if member_detail['gender'] else 'หญิง'
     member_detail['blood_group_abo'] = blood_abo[member_detail['blood_group_abo']]
     member_detail['blood_group_rh'] = blood_rh[member_detail['blood_group_rh']]
