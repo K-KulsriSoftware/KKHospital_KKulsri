@@ -388,7 +388,7 @@ def admin_mongo(request):
             'DATABASE': True,
             'logo_link': '/admin-mongo',
             'logged_user': request.session.get('user'),
-            'NO_NAV': True
+            'only_logout': True
         }
     )
 
@@ -436,7 +436,7 @@ def admin_mongo_collection(request, collection_name):
             'toolbar': True,
             'logo_link': '/admin-mongo',
             'logged_user': request.session.get('user'),
-            'NO_NAV': True
+            'only_logout': True
         }
     )
 
@@ -490,7 +490,7 @@ def admin_mongo_add(request, collection_name):
             'collection_name': collection_name,
             'fields': json.dumps(fields),
             'logo_link': '/admin-mongo',
-            'NO_NAV': True
+            'only_logout': True
         }
     )
 
@@ -561,7 +561,7 @@ def admin_mongo_edit(request, collection_name, object_id):
             'fields': json.dumps(fields).replace('"', '\\"').replace("'", "\\'"),
             'data': json.dumps(data).replace('"', '\\"').replace("'", "\\'"),
             'logo_link': '/admin-mongo',
-            'NO_NAV': True
+            'only_logout': True
         }
     )
 
