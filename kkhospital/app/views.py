@@ -153,6 +153,10 @@ def member(request):
 @login_required(login_url='/accounts/login')
 def treat(request, order_id):
     global blood_abo, blood_rh
+    if request.method == 'POST':
+        status, result = api.insert_note(order_id, request.POST.get('treating-detail'))
+        if status:
+            return redirect('/doctor-profile')
     assert isinstance(request, HttpRequest)
     order_detail = api.get_order_detail(order_id)[1]
     status, patient_detail = api.get_patient_detail(order_detail['patient_id'])
@@ -165,7 +169,8 @@ def treat(request, order_id):
         'app/member-profile.html',
         {
             'title': 'การรักษา',
-            'member_detail': patient_detail
+            'member_detail': patient_detail,
+            'note': order_detail['note']
         }
     )
 
