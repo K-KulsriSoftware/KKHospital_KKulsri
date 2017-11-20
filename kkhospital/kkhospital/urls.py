@@ -53,4 +53,5 @@ urlpatterns = [
     url(r'^register/$', app.views.register, name='register'),
     url(r'^doctor-profile/$', app.views.doctor_profile, name='doctor-profile'),
     url(r'^treat/(?P<order_id>\w{0,50})/$', app.views.treat, name='treat'),
+    url(r'^check-reservation/$', app.views.check_reserved_time, name='check_reservation'),
 ]

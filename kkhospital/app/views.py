@@ -78,6 +78,15 @@ def contact(request):
         }
     )
 
+def check_reserved_time(request):
+    doctor = api.show_doctor_detail(request.session['selected_doctor'])[1]
+    free = True
+    for reservation in doctor['reserved']:
+        if reservation.hour == int(request.GET.get('hour')) and reservation.day == int(request.GET.get('day')) and reservation.month == int(request.GET.get('month')) and reservation.year == int(request.GET.get('year')):
+            free = False
+            break
+    return JsonResponse({'free': free})
+
 def doctor_detail(request):
     """Renders the about page."""
     if 'selected_package' not in request.session or 'selected_doctor' not in request.session:
