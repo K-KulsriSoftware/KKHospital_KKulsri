@@ -115,6 +115,8 @@ def doctor_detail(request):
 
 def doctor_profile(request):
     """Renders the about page."""
+    if not check_user_group('doctor', request.user):
+        raise PermissionDenied
     doctor_id = api.get_doctor_id(request.user.username)[1]
     status, doctor = api.show_doctor_detail(doctor_id)
     status, orders = api.get_doctor_orders(doctor_id)
@@ -132,7 +134,7 @@ def doctor_profile(request):
 def member(request):
     global blood_abo, blood_rh
     assert isinstance(request, HttpRequest)
-    if not api.get_patient_id(request.user.username)[0]:
+    if not api.get_patient_id(request.user.username)[0] or len(request.user.groups.all()) > 0:
         return redirect('/register')
     status, patient_id = api.get_patient_id(request.user.username)
     status, member_detail = api.get_patient_detail(patient_id)
@@ -152,6 +154,8 @@ def member(request):
 
 @login_required(login_url='/accounts/login')
 def treat(request, order_id):
+    if not check_user_group('doctor', request.user):
+        raise PermissionDenied
     global blood_abo, blood_rh
     if request.method == 'POST':
         status, result = api.insert_note(order_id, request.POST.get('treating-detail'))
@@ -176,6 +180,10 @@ def treat(request, order_id):
 
 @login_required(login_url='/accounts/login')
 def edit_member_info(request):
+    if len(request.user.groups.all()) > 0 :
+        raise PermissionDenied
+    elif not api.get_patient_id(request.user.username):
+        return redirect('/register')
     assert isinstance(request, HttpRequest)
     if request.method == 'POST':
         email = request.POST['email']
@@ -313,6 +321,10 @@ def doctor(request):
 def confirm(request):
     """Renders the about page."""
     assert isinstance(request, HttpRequest)
+    if len(request.user.groups.all()) > 0:
+        raise PermissionDenied
+    elif not api.get_patient_id(request.user.username):
+        return redirect('/register')
     if 'selected_package' not in request.session or 'selected_doctor' not in request.session or 'selected_date' not in request.session:
         return redirect('/doctor-detail/')
     if request.method == 'POST':
@@ -358,8 +370,10 @@ def confirm(request):
 @login_required(login_url='accounts/login')
 def payment(request):
     """Renders the about page."""
-    if not check_logged_in(request):
-        return redirect('/login/?next=/payment/')
+    if len(request.user.groups.all()) > 0:
+        raise PermissionDenied
+    elif not api.get_patient_id(request.user.username):
+        return redirect('/register')
     assert isinstance(request, HttpRequest)
     return render(
         request,
@@ -619,7 +633,10 @@ def login(request):
         }
     )
 
+@login_required(login_url="/accounts/login")
 def register(request):
+    if len(request.user.groups.all()) > 0:
+        raise PermissionDenied
     """Renders the about page."""
     if request.method == 'POST':
         patient_name_title = request.POST['patient_name_title']
