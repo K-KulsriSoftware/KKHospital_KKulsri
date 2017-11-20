@@ -31,6 +31,14 @@ var start_nextWeek = new Date(timestamp + (1000 * 60 * 60 * 24 * 7));
 var isThisWeek = true;
 var isInit = false;
 
+function checkReservation(hour, day, month, year) {
+    return new Promise(resolve => {
+        $.get('/check-reservation', {hour: hour, day: day, month: month, year: year}, function(data) {
+            resolve(data.free);
+        });
+    })
+}
+
 function getDateForDay() {
     $('.schedule .panel-title').each(function() {
         var old_text = $(this).text().replace(/[\ \n]/g, '');
@@ -38,6 +46,19 @@ function getDateForDay() {
         var date = isThisWeek ? start_thisWeek : start_nextWeek;
         date = new Date(date.getTime() + (1000 * 60 * 60 * 24 * day.indexOf(old_text)))
         $(this).text(old_text + ' ' + new Date(date).getDate() + ' ' + month[new Date(date).getMonth()] + ' ' + new Date(date).getFullYear());
+
+        $(this).closest('.panel').find('ul.time li').each(function() {
+            (function(today, $timeButton) {
+                var hour = $timeButton.text().substring(0, $timeButton.text().indexOf(':'));
+                checkReservation(hour, today.getDate(), today.getMonth() + 1, today.getFullYear()).then(function(status) {
+                    if (status) {
+                        $timeButton.removeClass('hide');
+                    } else {
+                        $timeButton.addClass('hide');
+                    }
+                })
+            })(date, $(this));
+        })
     });
 }
 
