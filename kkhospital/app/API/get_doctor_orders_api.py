@@ -78,24 +78,24 @@ class get_doctor_orders_api :
             	'$project' :
             	{
             		'order_id' : '$_id',
-                    'doctor_id' : '$doctor_id',
+                    'doctor_id' : 1,
                     'doctor_username' : '$doctor.username',
-            		'patient_id' : '$patient_id',
-            		'patient_username' : '$patient.username',
-            		'patient_name_titile' : '$patient.patient_name_title',
-            		'patient_name' : '$patient.patient_name',
-            		'patient_surname' : '$patient.patient_surname',
-            		'package_id' : '$package_id',
-            		'package_name' : '$package.package_name',
-            		'department_id' : '$department._id',
-            		'department_name' : '$department.department_name',
-            		'building_id' : '$building_id',
-            		'building_name' : '$building_name',
-            		'cost' : '$cost',
-            		'start_time' : '$time.start',
-            		'finish_time' : '$time.finish',
-            		'bought_time' : '$bought_time',
-            		'notice' : '$notice'
+                    'patient_id' : 1,
+                    'patient_username' : '$patient.username',
+                    'patient_name_titile' : '$patient.patient_name_title',
+                    'patient_name' : '$patient.patient_name',
+                    'patient_surname' : '$patient.patient_surname',
+                    'package_id' : 1,
+                    'package_name' : '$package.package_name',
+                    'department_id' : '$department._id',
+                    'department_name' : '$department.department_name',
+                    'building_id' : 1,
+                    'building_name' : 1,
+                    'cost' : 1,
+                    'start_time' : '$time.start',
+                    'finish_time' : '$time.finish',
+                    'bought_time' : 1,
+                    'notice' : 1
             	}
             }
         ])
