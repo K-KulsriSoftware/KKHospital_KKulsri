@@ -97,6 +97,12 @@ class get_doctor_orders_api :
                     'bought_time' : 1,
                     'notice' : 1
             	}
+            },
+            {
+                '$sort' : 
+                {
+                    'start_time' : 1
+                }
             }
         ])
 
