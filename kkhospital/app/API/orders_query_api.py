@@ -136,7 +136,9 @@ class orders_query_api :
                     {
                         '$gte' : today_morning
                     }
-                },
+                }
+            },
+            {
                 '$project' :
                 {
                     'order_id' : '$_id',
