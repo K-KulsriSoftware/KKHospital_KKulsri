@@ -520,10 +520,10 @@ class API :
 		if check : return True, result
 		return self.get_patient_orders_api.get_patient_orders(patient_username)
 
-	def get_doctor_orders(self, doctor_username) :
-		check, result = self.incomplete_input(locals())
-		if check : return True, result
-		return self.get_doctor_orders_api.get_doctor_orders(doctor_username)
+	# def get_doctor_orders(self, doctor_username) :
+	# 	check, result = self.incomplete_input(locals())
+	# 	if check : return True, result
+	# 	return self.get_doctor_orders_api.get_doctor_orders(doctor_username)
 
 	def add_account(self, username, password) :
 		check, result = self.incomplete_input(locals())
