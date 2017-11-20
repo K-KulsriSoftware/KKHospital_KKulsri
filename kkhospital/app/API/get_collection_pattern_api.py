@@ -120,7 +120,7 @@ class get_collection_pattern_api :
 			{
 				'field_name' : 'doctor_name_title',
 				'field_type' : 'string',
-				'note' : self.doctor_title_list
+				#'note' : self.doctor_title_list
 			},
 			{
 				'field_name' : 'doctor_name',
@@ -318,7 +318,7 @@ class get_collection_pattern_api :
 			{
 				'field_name' : 'patient_name_title',
 				'field_type' : 'string',
-				'note' : self.name_title_list
+				#'note' : self.name_title_list
 			},
 			{
 				'field_name' : 'patient_name',
