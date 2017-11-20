@@ -79,15 +79,16 @@ class orders_query_api :
     		{
         		'$set':
         		{
-            			'package_id' : package_id,
-            			'doctor_id' : doctor_id,
-            			'patient_id' : patient_id,
-            			'cost' : cost ,
+            			'package_id' : ObjectId(package_id),
+            			'doctor_id' : ObjectId(doctor_id),
+            			'patient_id' : ObjectId(patient_id),
+            			'cost' : float(cost) ,
             			'time' :
             			{
             				'start':datetime(time['year'],time['month'],time['date'],time['start_hr'],0),
             				'finish':datetime(time['year'],time['month'],time['date'],time['finish_hr'],0)
             			},
+                        'bought_time' : bought_time,
             			'notice' : notice,
                         'note' : note
         		}
@@ -103,18 +104,19 @@ class orders_query_api :
         )
         return True, 'Successfully Removed'
 
-    def insert_order(self, package_id, doctor_id, patient_id, cost, time, bought_time, notice) :
+    def insert_order(self, package_id, doctor_id, patient_id, cost, time, bought_time, notice, note) :
         self.db.orders.insert_one(
             {
                 'package_id' : ObjectId(package_id),
                 'doctor_id' : ObjectId(doctor_id),
                 'patient_id' : ObjectId(patient_id),
-                'cost' : cost ,
+                'cost' : float(cost) ,
                 'time' :
                 {
                     'start' : datetime(time['year'],time['month'],time['date'],time['start_hr'],0),
                     'finish' : datetime(time['year'],time['month'],time['date'],time['finish_hr'],0)
                 },
+                'bought_time' : bought_time,
                 'notice' : notice,
                 'note' : note
 			}

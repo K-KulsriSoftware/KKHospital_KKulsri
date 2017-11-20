@@ -390,7 +390,7 @@ class API :
 		return self.orders_query_api.delete_order(order_id)
 
 	def insert_order(self, data=None) :
-	 	return self.orders_query_api.create_order(data['package_id'], data['doctor_id'], data['patient_id'], 
+	 	return self.orders_query_api.insert_order(data['package_id'], data['doctor_id'], data['patient_id'], 
 	 		data['cost'], data['time'], data['bought_time'], data['notice'], data['note'])
 
 	def insert_note(self, order_id=None, note=None) :
