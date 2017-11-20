@@ -52,6 +52,10 @@
                {{ form.password }}
             </div>
           </div>
+          {% if form.errors %}
+            <div style="text-align: center; color: red;">Username หรือ Password ไม่ถูกต้อง</div>
+            <br>
+          {% endif %}
           <div class="fieldWrapper form-inline remember text-center">
             {{ form.remember }}
             <label for="id_remember" class="text-muted">Remember me</label>            
