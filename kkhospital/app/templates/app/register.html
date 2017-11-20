@@ -18,11 +18,11 @@
                                 <div class="col-md-12">
                                     <div class="input-indent-vertical"></div>
                                     <div class="row">
-                                        <div class="col-md-12"><span class="box-span">เลขบัตรประชาชน </span></div>
+                                        <div class="col-md-12"><span class="box-span">เลขประจำตัวประชาชน </span></div>
                                     </div>
                                     <div class="row">
                                         <div class="col-md-12">
-                                            <input type="text" name="id_card_number" class="form-control">
+                                            <input type="number" name="id_card_number" class="form-control">
                                         </div>
                                     </div>
                                     <div class="input-indent-vertical"></div>
@@ -274,19 +274,24 @@
         $('form').submit(function() {
             var isConfirmed = $("input#confirm-info").prop('checked');
             var data = $(this).serializeArray();
+            var formError = false;
             var formComplete = true;
             $.each(data, function() {
                 if (this.value === '') {
                     formComplete = false;
                 }
-                if (this.name === 'email') {
-                    formComplete = is.email(this.value)
+                if (this.name === 'id_card_number') {
+                    if (this.value.length !== 13) {
+                        alert('เลขประจำตัวประชาชนไม่ถูกต้อง');
+                        formError = true;
+                        formComplete = false;
+                    }
                 }
             });
             if (isConfirmed && formComplete) {
                 return true;
             } else {
-                if (!formComplete) {
+                if (!formComplete && !formError) {
                     alert('กรุณากรอกข้อมูลให้ครบทุกช่อง');
                 }
                 return false;
