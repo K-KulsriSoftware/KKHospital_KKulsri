@@ -123,9 +123,9 @@ class orders_query_api :
 
     def get_doctor_orders(self, doctor_id) :
         now_time = datetime.now()
-        year = int(time.strftime('%Y'))
-        month = int(time.strftime('%m'))
-        date = int(time.strftime('%d'))
+        year = int(now_time.strftime('%Y'))
+        month = int(now_time.strftime('%m'))
+        date = int(now_time.strftime('%d'))
         today_morning = datetime(year, month, date, 0, 0)
         cursor = self.db.orders.aggregate([
             {
