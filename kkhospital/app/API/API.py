@@ -205,7 +205,7 @@ class API :
 	def  get_doctor_orders(self, doctor_id=None) :
 		check, result = self.incomplete_input(locals())
 		if check : return True, result
-		return self.order_query_api.get_doctor_orders(doctor_id)
+		return self.orders_query_api.get_doctor_orders(doctor_id)
 ###############
 
 	def get_all_departments(self) :
