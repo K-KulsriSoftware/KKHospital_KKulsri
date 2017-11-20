@@ -185,7 +185,7 @@
                                     </div>
                                     <div class="row">
                                         <div class="col-md-12">
-                                            <input type="tel" name="telephone_number" class="form-control">
+                                            <input type="number" name="telephone_number" class="form-control">
                                         </div>
                                     </div>
                                     <div class="input-indent-vertical"></div>
@@ -221,7 +221,7 @@
                                     </div>
                                     <div class="row">
                                         <div class="col-md-12">
-                                            <input type="tel" name="emergency_phone" class="form-control">
+                                            <input type="number" name="emergency_phone" class="form-control">
                                         </div>
                                     </div>
                                     <div class="input-indent-vertical"></div>
@@ -262,6 +262,7 @@
 {% endblock %}
 
 {% block scripts %}
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/is_js/0.9.0/is.min.js"></script>
     <script>
         $('input#confirm-info').change(function() {
             if ($(this).prop('checked')) {
@@ -277,6 +278,9 @@
             $.each(data, function() {
                 if (this.value === '') {
                     formComplete = false;
+                }
+                if (this.name === 'email') {
+                    formComplete = is.email(this.value)
                 }
             });
             if (isConfirmed && formComplete) {
