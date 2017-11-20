@@ -401,7 +401,7 @@ def check_user_group(group_name, user):
 
 @login_required(login_url='/accounts/login')
 def admin_mongo(request):
-    if not check_user_group('staff', request.user):
+    if not check_user_group('staff', request.user) and not request.user.is_superuser:
         raise PermissionDenied
     assert isinstance(request, HttpRequest)
     status, result = api.get_all_collections_name()
@@ -432,13 +432,16 @@ def decode_data(data):
 
 @login_required(login_url='/accounts/login')
 def admin_mongo_collection(request, collection_name):
-    if not check_user_group('staff', request.user):
+    if not check_user_group('staff', request.user) and not request.user.is_superuser:
         raise PermissionDenied
     assert isinstance(request, HttpRequest)
     permissions = {}
-    permissions['insert'] = 1 if api.get_collection_permission(collection_name, 'insert')[0] else 0
-    permissions['delete'] = 1 if api.get_collection_permission(collection_name, 'delete')[0] else 0
-    permissions['update'] = 1 if api.get_collection_permission(collection_name, 'update')[0] else 0
+    if request.user.is_superuser:
+        permissions = {'insert': 1, 'delete': 1, 'update': 1}
+    else:
+        permissions['insert'] = 1 if api.get_collection_permission(collection_name, 'insert')[0] else 0
+        permissions['delete'] = 1 if api.get_collection_permission(collection_name, 'delete')[0] else 0
+        permissions['update'] = 1 if api.get_collection_permission(collection_name, 'update')[0] else 0
     # print(collection_name)
     # print(permissions)
     status, data = api.admin_get_all_documents(collection_name)
@@ -485,7 +488,7 @@ def clean_field(org, res, name=''):
 
 @login_required(login_url='/accounts/login')
 def admin_mongo_add(request, collection_name):
-    if not check_user_group('staff', request.user):
+    if not check_user_group('staff', request.user) and not request.user.is_superuser:
         raise PermissionDenied
     if request.method == 'POST':
         tmp = dict(request.POST)
@@ -552,7 +555,7 @@ def fill_field(fields, data):
 
 @login_required(login_url='/accounts/login')
 def admin_mongo_edit(request, collection_name, object_id):
-    if not check_user_group('staff', request.user):
+    if not check_user_group('staff', request.user) and not request.user.is_superuser:
         raise PermissionDenied
     if request.method == 'POST':
         tmp = dict(request.POST)
@@ -595,7 +598,7 @@ def admin_mongo_edit(request, collection_name, object_id):
 
 @login_required(login_url='/accounts/login')
 def admin_mongo_delete(request, collection_name, object_id):
-    if not check_user_group('staff', request.user):
+    if not check_user_group('staff', request.user) and not request.user.is_superuser:
         raise PermissionDenied
     if request.method == 'POST':
         status, result = api.admin_delete_document(collection_name, object_id)
