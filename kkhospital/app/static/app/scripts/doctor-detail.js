@@ -40,6 +40,7 @@ function checkReservation(hour, day, month, year) {
 }
 
 function getDateForDay() {
+    var processes = [];
     $('.schedule .panel-title').each(function() {
         var old_text = $(this).text().replace(/[\ \n]/g, '');
         old_text = old_text.substring(0, old_text.match(/[1234567890]/) ? old_text.match(/[1234567890]/).index : old_text.length);
@@ -48,17 +49,24 @@ function getDateForDay() {
         $(this).text(old_text + ' ' + new Date(date).getDate() + ' ' + month[new Date(date).getMonth()] + ' ' + new Date(date).getFullYear());
 
         $(this).closest('.panel').find('ul.time li').each(function() {
-            (function(today, $timeButton) {
+            processes.push((function(today, $timeButton) {
                 var hour = $timeButton.text().substring(0, $timeButton.text().indexOf(':'));
-                checkReservation(hour, today.getDate(), today.getMonth() + 1, today.getFullYear()).then(function(status) {
-                    if (status) {
-                        $timeButton.removeClass('hide');
-                    } else {
-                        $timeButton.addClass('hide');
-                    }
-                })
-            })(date, $(this));
-        })
+                return new Promise(resolve => {
+                    checkReservation(hour, today.getDate(), today.getMonth() + 1, today.getFullYear()).then(function(status) {
+                        if (status) {
+                            $timeButton.removeClass('hide');
+                        } else {
+                            $timeButton.addClass('hide');
+                        }
+                        resolve();
+                    });
+                });
+            })(date, $(this)));
+        });
+    });
+    Promise.all(processes).then(function() {
+        $('.loader').addClass('hide');
+        $('.schedule-container').removeClass('hide');
     });
 }
 
@@ -80,6 +88,8 @@ $('ul.time li').click(function() {
 
 $('.schedule-container .pager li').click(function() {
     $(this).addClass('disabled');
+    $('.schedule-container').addClass('hide');
+    $('.loader').removeClass('hide');
     if($(this).hasClass('previous')) {
         if(!isThisWeek) {
             $('ul.time li').removeClass('selected')
