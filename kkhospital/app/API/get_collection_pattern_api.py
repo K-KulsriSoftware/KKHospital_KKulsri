@@ -446,7 +446,7 @@ class get_collection_pattern_api :
 			 	[
 			 		{
 			 			'field_name' : 'day',
-			 			'field_type' : 'date',
+			 			'field_type' : 'date'
 			 			#'note' : 'with hour'
 			 		},
 			 		{
@@ -464,7 +464,7 @@ class get_collection_pattern_api :
 			 	[
 			 		{
 			 			'field_name' : 'day',
-			 			'field_type' : 'date',
+			 			'field_type' : 'date'
 			 			#'note' : 'with hour'
 			 		},
 			 		{
@@ -482,7 +482,7 @@ class get_collection_pattern_api :
 			 	[
 			 		{
 			 			'field_name' : 'day',
-			 			'field_type' : 'date',
+			 			'field_type' : 'date'
 			 			#'note' : 'with hour'
 			 		},
 			 		{

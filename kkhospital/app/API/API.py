@@ -382,7 +382,7 @@ class API :
 		check, result = self.incomplete_input(locals())
 		if check : return True, result
 		return self.orders_query_api.update_order(order_id, data['package_id'], data['doctor_id'], data['patient_id'], 
-			data['cost'], data['time'], data['bought_time'], data['notice'], data['note'])
+			data['cost'], data['start_time'], data['finish_time'], data['bought_time'], data['notice'], data['note'])
 
 	def delete_order(self, order_id=None) :
 		check, result = self.incomplete_input(locals())
@@ -448,9 +448,9 @@ class API :
 		functions = {
 			'buildings' : self.delete_building,
 			'departments' : self.delete_department,
-			#'doctors' : self.delete_doctor,
-			#'orders' : self.delete_order,
-			#'patients' : self.delete_patient,
+			'doctors' : self.delete_doctor,
+			'orders' : self.delete_order,
+			'patients' : self.delete_patient,
 			'packages' : self.delete_package
 			#'users' : self.delete_user
 		}
@@ -464,7 +464,7 @@ class API :
 			'buildings' : self.update_building,
 			'departments' : self.update_department,
 			'doctors' : self.update_doctor,
-			#'orders' : self.update_order,
+			'orders' : self.update_order,
 			'patients' : self.update_patient,
 			'packages' : self.update_package
 			#'users' : self.update_user
@@ -478,9 +478,9 @@ class API :
 		functions = {
 			'buildings' : self.insert_building,
 			'departments' : self.insert_department,
-			#'doctors' : self.insert_doctor,
-			#'orders' : self.insert_order,
-			#'patients' : self.insert_patient,
+			'doctors' : self.insert_doctor,
+			'orders' : self.insert_order,
+			'patients' : self.insert_patient,
 			'packages' : self.insert_package
 			#'users' : self.insert_user
 		}

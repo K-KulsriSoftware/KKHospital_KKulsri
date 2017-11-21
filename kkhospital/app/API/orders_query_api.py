@@ -1,7 +1,7 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
 from pprint import pprint
-from datetime import datetime
+from datetime import datetime, timedelta
 from bson.objectid import ObjectId
 class orders_query_api :
 
@@ -85,7 +85,16 @@ class orders_query_api :
             orders.append(order)
         return True, orders
 
-    def update_order(self, order_id, package_id, doctor_id, patient_id, cost, time, bought_time, notice, note) :
+    def get_time_from_hour(self, time) :
+        time_list = time['day'].split('-')
+        return datetime(int(time_list[0]),int(time_list[1]),int(time_list[2]),int(time['hour']),0)
+
+    def get_time_from_hour_minute(self, time) :
+        time_list = time['day'].split('-')
+        return datetime(int(time_list[0]),int(time_list[1]),int(time_list[2]),int(time['hour']),int(time['minute']))
+
+    def update_order(self, order_id, package_id, doctor_id, patient_id, cost, start_time, finish_time, bought_time, notice, note) :
+        print(locals())
         self.db.orders.update_one(
     		{
         		'_id': ObjectId(order_id)
@@ -99,10 +108,10 @@ class orders_query_api :
             			'cost' : float(cost) ,
             			'time' :
             			{
-            				'start':datetime(time['year'],time['month'],time['date'],time['start_hr'],0),
-            				'finish':datetime(time['year'],time['month'],time['date'],time['finish_hr'],0)
+                            'start' : self.get_time_from_hour(start_time),
+                            'finish' : self.get_time_from_hour(finish_time)
             			},
-                        'bought_time' : bought_time,
+                        'bought_time' : self.get_time_from_hour_minute(bought_time),
             			'notice' : notice,
                         'note' : note
         		}
