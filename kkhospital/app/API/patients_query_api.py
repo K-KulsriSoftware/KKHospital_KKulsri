@@ -76,31 +76,31 @@ class patients_query_api :
     		{
         		'$set':
         		{
-        			'username' : username,
-        			'patient_name_title' : patient_name_title,
-        			'patient_name' : patient_name,
-        			'patient_surname' : patient_surname,
-        			'patient_img' : patient_img,
-        			'id_card_number' : id_card_number,
-        			'gender' : self.decode('gender', gender)[1],
-    				'birthday' : datetime(int(birthday['year']), int(birthday['month']), int(birthday['day'])),
-    				'blood_group_abo' : blood_group_abo,
-    				'blood_group_rh' : blood_group_rh,
-    				'race' : race,
-    				'nationallity' : nationallity,
-    				'religion' : religion,
-    				'status' : status,
-    				'patient_address' : patient_address,
-    				'occupy' : occupy,
-    				'telephone_number' : telephone_number,
-    				'father_name' : father_name,
-    				'mother_name' : mother_name,
-    				'emergency_name' : emergency_name,
-    				'emergency_phone' : emergency_phone,
-    				'emergency_address' : emergency_address,
-    				'email' : email,
-    				'congenital_disease' : congenital_disease
-        		}
+                    'username' : username,
+                    'patient_name_title' : patient_name_title,
+                    'patient_name' : patient_name,
+                    'patient_surname' : patient_surname,
+                    'patient_img' : patient_img,
+                    'id_card_number' : id_card_number,
+                    'gender' : self.decode('gender', gender)[1],
+                    'birthday' : get_time(birthday),
+                    'blood_group_abo' : self.decode('blood_group_abo', blood_group_abo)[1],
+                    'blood_group_rh' : self.decode('blood_group_rh', blood_group_rh)[1],
+                    'race' : race,
+                    'nationallity' : nationallity,
+                    'religion' : religion,
+                    'status' : self.decode('status', status)[1],
+                    'patient_address' : patient_address,
+                    'occupy' : occupy,
+                    'telephone_number' : telephone_number,
+                    'father_name' : father_name,
+                    'mother_name' : mother_name,
+                    'emergency_name' : emergency_name,
+                    'emergency_phone' : emergency_phone,
+                    'emergency_address' : emergency_address,
+                    'email' : email,
+                    'congenital_disease' : congenital_disease
+                }
     		}
 		)
         return True, 'Successfully Updated'
