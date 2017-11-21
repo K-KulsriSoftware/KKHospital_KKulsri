@@ -35,7 +35,7 @@ function extractFields($input, parent, fields, level, isInList) {
                     <label for="` + fields[i].field_name + `">` + fields[i].field_name + `</label>
                 </div>
             `);
-            if (typeof(fields[i].note) === typeof([])) {
+            if (fields[i].note && Array.isArray(fields[i].note)) {
                 var $select = $(`<select class="form-control" name="` + parent + '[' + fields[i].field_name + `]"></select>`);
                 var note = fields[i].note;
                 for (var j = 0; j < note.length; j++) {
@@ -80,7 +80,7 @@ if (fields) {
                     <label for="` + fields[i].field_name + `">` + fields[i].field_name + `</label>
                 </div>
             `);
-            if (typeof(fields[i].note) === typeof([])) {
+            if (fields[i].note && Array.isArray(fields[i].note)) {
                 var $select = $(`<select class="form-control" name="` + fields[i].field_name + `">` + `</select>`);
                 var note = fields[i].note;
                 for (var j = 0; j < note.length; j++) {
