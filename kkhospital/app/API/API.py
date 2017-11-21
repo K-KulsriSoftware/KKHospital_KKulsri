@@ -391,7 +391,7 @@ class API :
 
 	def insert_order(self, data=None) :
 	 	return self.orders_query_api.insert_order(data['package_id'], data['doctor_id'], data['patient_id'], 
-	 		data['cost'], data['time'], data['bought_time'], data['notice'], data['note'])
+	 		data['cost'], data['start_time'], data['finish_time'], data['bought_time'], data['notice'], data['note'])
 
 	def insert_note(self, order_id=None, note=None) :
 		check, result = self.incomplete_input(locals())

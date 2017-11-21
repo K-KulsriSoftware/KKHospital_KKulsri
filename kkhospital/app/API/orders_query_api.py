@@ -87,18 +87,18 @@ class orders_query_api :
     		{
         		'$set':
         		{
-            			'package_id' : ObjectId(package_id),
-            			'doctor_id' : ObjectId(doctor_id),
-            			'patient_id' : ObjectId(patient_id),
-            			'cost' : float(cost) ,
-            			'time' :
-            			{
-                            'start' : get_time_from_hour(start_time),
-                            'finish' : get_time_from_hour(finish_time)
-            			},
-                        'bought_time' : get_time_from_hour_minute(bought_time),
-            			'notice' : notice,
-                        'note' : note
+        			'package_id' : ObjectId(package_id),
+        			'doctor_id' : ObjectId(doctor_id),
+        			'patient_id' : ObjectId(patient_id),
+        			'cost' : float(cost) ,
+        			'time' :
+        			{
+                        'start' : get_time_from_hour(start_time),
+                        'finish' : get_time_from_hour(finish_time)
+        			},
+                    'bought_time' : get_time_from_hour_minute(bought_time),
+        			'notice' : notice,
+                    'note' : note
         		}
     		}
 		)
@@ -112,7 +112,7 @@ class orders_query_api :
         )
         return True, 'Successfully Removed'
 
-    def insert_order(self, package_id, doctor_id, patient_id, cost, time, bought_time, notice, note) :
+    def insert_order(self, package_id, doctor_id, patient_id, cost, start_time, finish_time, bought_time, notice, note) :
         self.db.orders.insert_one(
             {
                 'package_id' : ObjectId(package_id),
@@ -121,13 +121,13 @@ class orders_query_api :
                 'cost' : float(cost) ,
                 'time' :
                 {
-                    'start' : datetime(time['year'],time['month'],time['date'],time['start_hr'],0),
-                    'finish' : datetime(time['year'],time['month'],time['date'],time['finish_hr'],0)
+                    'start' : get_time_from_hour(start_time),
+                    'finish' : get_time_from_hour(finish_time)
                 },
-                'bought_time' : bought_time,
+                'bought_time' : get_time_from_hour_minute(bought_time),
                 'notice' : notice,
                 'note' : note
-			}
+            }
         )
         return True,'Successfully Added'
 
