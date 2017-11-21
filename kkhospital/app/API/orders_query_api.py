@@ -3,6 +3,8 @@
 from pprint import pprint
 from datetime import datetime, timedelta
 from bson.objectid import ObjectId
+from .commonFunctions import separate_time_hour, separate_time_hour_minute, get_time_from_hour, get_time_from_hour_minute
+
 class orders_query_api :
 
     def __init__(self, db) :
@@ -19,16 +21,7 @@ class orders_query_api :
             orders.append(order)
         return True, orders
 
-    def separate_time_hour(self, time) :
-        day = str(time.date())
-        hour = int(time.strftime('%H'))
-        return {'day':day, 'hour':hour}
 
-    def separate_time_hour_minute(self, time) :
-        day = str(time.date())
-        hour = int(time.strftime('%H'))
-        minute = int(time.strftime('%M'))
-        return {'day':day, 'hour':hour, 'minute':minute}
 
     def get_order_detail(self,order_id) :
         cursor = self.db.orders.aggregate([
@@ -40,9 +33,9 @@ class orders_query_api :
             }
         ])
         for order in cursor :
-            order['start_time'] = self.separate_time_hour(order['time']['start'])
-            order['finish_time'] = self.separate_time_hour(order['time']['finish'])
-            order['bought_time'] = self.separate_time_hour_minute(order['bought_time'])
+            order['start_time'] = separate_time_hour(order['time']['start'])
+            order['finish_time'] = separate_time_hour(order['time']['finish'])
+            order['bought_time'] = separate_time_hour_minute(order['bought_time'])
             return True, order
         return False, "No match order"
 
@@ -85,14 +78,6 @@ class orders_query_api :
             orders.append(order)
         return True, orders
 
-    def get_time_from_hour(self, time) :
-        time_list = time['day'].split('-')
-        return datetime(int(time_list[0]),int(time_list[1]),int(time_list[2]),int(time['hour']),0)
-
-    def get_time_from_hour_minute(self, time) :
-        time_list = time['day'].split('-')
-        return datetime(int(time_list[0]),int(time_list[1]),int(time_list[2]),int(time['hour']),int(time['minute']))
-
     def update_order(self, order_id, package_id, doctor_id, patient_id, cost, start_time, finish_time, bought_time, notice, note) :
         print(locals())
         self.db.orders.update_one(
@@ -108,10 +93,10 @@ class orders_query_api :
             			'cost' : float(cost) ,
             			'time' :
             			{
-                            'start' : self.get_time_from_hour(start_time),
-                            'finish' : self.get_time_from_hour(finish_time)
+                            'start' : get_time_from_hour(start_time),
+                            'finish' : get_time_from_hour(finish_time)
             			},
-                        'bought_time' : self.get_time_from_hour_minute(bought_time),
+                        'bought_time' : get_time_from_hour_minute(bought_time),
             			'notice' : notice,
                         'note' : note
         		}
