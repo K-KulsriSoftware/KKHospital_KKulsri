@@ -95,7 +95,8 @@ class get_doctor_orders_api :
                     'start_time' : '$time.start',
                     'finish_time' : '$time.finish',
                     'bought_time' : 1,
-                    'notice' : 1
+                    'notice' : 1,
+                    'note' : 1
             	}
             },
             {
