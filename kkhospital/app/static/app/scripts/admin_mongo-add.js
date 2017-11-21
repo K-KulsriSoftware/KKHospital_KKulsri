@@ -90,7 +90,11 @@ if (fields) {
                 }
                 $input.append($select);
             } else {
-                $input.append(`<input type="` + type_map[fields[i].field_type] + `" class="form-control" id="` + fields[i].field_name + `" name="` + fields[i].field_name + `">`);
+                var type = type_map[fields[i].field_type];
+                if (fields[i].field_name === 'email') {
+                    type = 'email';
+                }
+                $input.append(`<input type="` + type + `" class="form-control" id="` + fields[i].field_name + `" name="` + fields[i].field_name + `">`);
             }
         }
         $form.find('.input-wrapper').append($input);
