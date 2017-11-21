@@ -19,7 +19,7 @@ function extractFields($input, parent, fields, level, data, isInList) {
             extractFields($input, parent + '[' + fields[i].field_name + ']', fields[i].dict, level+1, data && data[fields[i].field_name] ? data[fields[i].field_name] : null);
         } else if (fields[i].field_type === 'list') {
             listCount[parent + '[' + fields[i].field_name + ']'] = 0;
-            $input.find('.panel-body:eq('+level+')').append(`
+            var $tmp = $(`
                 <div class="panel panel-default">
                     <div class="panel-heading">` + fields[i].field_name + `</div>
                     <div class="panel-body">
@@ -30,7 +30,7 @@ function extractFields($input, parent, fields, level, data, isInList) {
             `);
             fieldInfo[parent + '[' + fields[i].field_name + ']'] = fields[i];
             if (data && data[fields[i].field_name]) {
-                var $parent = $input.find('.panel-body:eq('+(level + 1)+')');
+                var $parent = $tmp.find('.panel-body');
                 var field_name = parent + '[' + fields[i].field_name + ']';
                 var field_type = type_map[fields[i].value];
                 for (var j = 0; j < data[fields[i].field_name].length; j++) {
@@ -63,6 +63,7 @@ function extractFields($input, parent, fields, level, data, isInList) {
                     bindDeleteItemButton();
                 }
             }
+            $input.find('.panel-body:eq('+level+')').append($tmp);
         } else {
             var $tmp = $(`
                 <div class="form-group">
