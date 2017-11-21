@@ -171,8 +171,6 @@ def treat(request, order_id):
     assert isinstance(request, HttpRequest)
     order_detail = api.get_order_detail(order_id)[1]
     status, patient_detail = api.get_patient_detail(order_detail['patient_id'])
-    patient_detail['blood_group_abo'] = blood_abo[patient_detail['blood_group_abo']]
-    patient_detail['blood_group_rh'] = blood_rh[patient_detail['blood_group_rh']]
     # member_detail['blood_group_abo'] = blood_abo[member_detail['blood_group_abo']]
     # member_detail['blood_group_rh'] = blood_rh[member_detail['blood_group_rh']]
     return render(
