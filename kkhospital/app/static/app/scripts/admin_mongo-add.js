@@ -33,9 +33,18 @@ function extractFields($input, parent, fields, level, isInList) {
             $input.find('.panel-body:eq('+level+')').append(`
                 <div class="form-group">
                     <label for="` + fields[i].field_name + `">` + fields[i].field_name + `</label>
-                    <input type="` + type_map[fields[i].field_type] + `" class="form-control" id="` + parent + '[' + fields[i].field_name + `]" name="` + parent + '[' + fields[i].field_name + `]">
                 </div>
             `);
+            if (typeof(fields[i].note) === typeof([])) {
+                var $select = $(`<select class="form-control" name="` + parent + '[' + fields[i].field_name + `]"></select>`);
+                var note = fields[i].note;
+                for (var j = 0; j < note.length; j++) {
+                    $select.append(`<option value="` + note[j] + `">` + note[j] + `</option>`);
+                }
+                $input.find('.panel-body:eq('+level+')').append($select);
+            } else {
+                $input.find('.panel-body:eq('+level+')').append(`<input type="` + type_map[fields[i].field_type] + `" class="form-control" id="` + parent + '[' + fields[i].field_name + `]" name="` + parent + '[' + fields[i].field_name + `]">`);
+            }
         }
     }
 }
@@ -69,9 +78,18 @@ if (fields) {
             $input = $(`
                 <div class="form-group">
                     <label for="` + fields[i].field_name + `">` + fields[i].field_name + `</label>
-                    <input type="` + type_map[fields[i].field_type] + `" class="form-control" id="` + fields[i].field_name + `" name="` + fields[i].field_name + `">
                 </div>
             `);
+            if (typeof(fields[i].note) === typeof([])) {
+                var $select = $(`<select class="form-control" name="` + fields[i].field_name + `">` + `</select>`);
+                var note = fields[i].note;
+                for (var j = 0; j < note.length; j++) {
+                    $select.append(`<option value="` + note[j] + `">` + note[j] + `</option>`);
+                }
+                $input.append($select);
+            } else {
+                $input.append(`<input type="` + type_map[fields[i].field_type] + `" class="form-control" id="` + fields[i].field_name + `" name="` + fields[i].field_name + `">`);
+            }
         }
         $form.find('.input-wrapper').append($input);
     }
