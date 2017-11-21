@@ -30,7 +30,7 @@ function extractFields($input, parent, fields, level, isInList) {
             `);
             fieldInfo[parent + '[' + fields[i].field_name + ']'] = fields[i];
         } else {
-            $input.find('.panel-body:eq('+level+')').append(`
+            var $tmp = $(`
                 <div class="form-group">
                     <label for="` + fields[i].field_name + `">` + fields[i].field_name + `</label>
                 </div>
@@ -41,9 +41,11 @@ function extractFields($input, parent, fields, level, isInList) {
                 for (var j = 0; j < note.length; j++) {
                     $select.append(`<option value="` + note[j] + `">` + note[j] + `</option>`);
                 }
-                $input.find('.panel-body:eq('+level+')').append($select);
+                $tmp.append($select);
+                $input.find('.panel-body:eq('+level+')').append($tmp);
             } else {
-                $input.find('.panel-body:eq('+level+')').append(`<input type="` + type_map[fields[i].field_type] + `" class="form-control" id="` + parent + '[' + fields[i].field_name + `]" name="` + parent + '[' + fields[i].field_name + `]">`);
+                $tmp.append(`<input type="` + type_map[fields[i].field_type] + `" class="form-control" id="` + parent + '[' + fields[i].field_name + `]" name="` + parent + '[' + fields[i].field_name + `]">`);
+                $input.find('.panel-body:eq('+level+')').append($tmp);
             }
         }
     }

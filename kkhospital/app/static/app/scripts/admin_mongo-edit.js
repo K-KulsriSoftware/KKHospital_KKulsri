@@ -77,11 +77,11 @@ function extractFields($input, parent, fields, level, data, isInList) {
                 $.each(fields[i].note, function(index, value) {
                     $options.append(`<option value="` + value + `" ` + (data && data[fields[i].field_name] && data[fields[i].field_name] === value ? 'selected' : '') +`>` + value + `</option`);
                 });
-                $input.find('.panel-body:eq('+level+')').append($options);
+                $tmp.append($options);
+                $input.find('.panel-body:eq('+level+')').append($tmp);
             } else {
-                $input.find('.panel-body:eq('+level+')').append(`
-                    <input type="` + type_map[fields[i].field_type] + `" class="form-control" id="` + parent + '[' + fields[i].field_name + `]" name="` + parent + '[' + fields[i].field_name + `]" value="` + (data && data[fields[i].field_name] ? data[fields[i].field_name] : '') + `">
-                `);
+                $tmp.append(`<input type="` + type_map[fields[i].field_type] + `" class="form-control" id="` + parent + '[' + fields[i].field_name + `]" name="` + parent + '[' + fields[i].field_name + `]" value="` + (data && data[fields[i].field_name] ? data[fields[i].field_name] : '') + `">`);
+                $input.find('.panel-body:eq('+level+')').append($tmp);
             }
         }
     }
