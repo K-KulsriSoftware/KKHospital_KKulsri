@@ -19,6 +19,17 @@ class orders_query_api :
             orders.append(order)
         return True, orders
 
+    def separate_time_hour(self, time) :
+        day = str(time.date())
+        hour = int(time.strftime('%H'))
+        return {'day':day, 'hour':hour}
+
+    def separate_time_hour_minute(self, time) :
+        day = str(time.date())
+        hour = int(time.strftime('%H'))
+        minute = int(time.strftime('%M'))
+        return {'day':day, 'hour':hour, 'minute':minute}
+
     def get_order_detail(self,order_id) :
         cursor = self.db.orders.aggregate([
             {
@@ -29,6 +40,9 @@ class orders_query_api :
             }
         ])
         for order in cursor :
+            order['start_time'] = self.separate_time_hour(order['time']['start'])
+            order['finish_time'] = self.separate_time_hour(order['time']['finish'])
+            order['bought_time'] = self.separate_time_hour_minute(order['bought_time'])
             return True, order
         return False, "No match order"
 
