@@ -383,7 +383,7 @@ class get_collection_pattern_api :
 				'field_type' : 'string'
 			},
 			{
-				'field_name' : 'telphone_number',
+				'field_name' : 'telephone_number',
 				'field_type' : 'string'
 			},
 			{
@@ -630,7 +630,7 @@ class get_collection_pattern_api :
 		elif type(index) == type(1) :
 			return False, str(index)
 		return False, index
-		
+
 	def decode_thai_value(self, domain, code) :
 		if type(code) == type('') and code.isdigit() :
 			code = int(code)
