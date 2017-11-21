@@ -229,7 +229,7 @@ function bindDeleteItemButton() {
     });
 }
 
-$('form').submit(function() {
+$('form:not(#logout)').submit(function() {
     var isConfirmed = confirm('ยืนยันการแก้ไขข้อมูล');
     return isConfirmed;
 });
