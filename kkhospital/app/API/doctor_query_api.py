@@ -3,10 +3,16 @@
 from pprint import pprint
 from datetime import datetime
 from bson.objectid import ObjectId
+from .common_functions import separate_time, get_time
+from .get_collection_pattern_api import get_collection_pattern_api
+
 class doctor_query_api :
 
 	def __init__(self, db) :
 		self.db = db
+		self.get_collection_pattern_api = get_collection_pattern_api(db)
+		self.decode = self.get_collection_pattern_api.decode_thai_value
+		self.encode = self.get_collection_pattern_api.encode_thai_value
 
 	def get_all_doctors(self) :
 		cursor = self.db.doctors.aggregate([
@@ -29,6 +35,9 @@ class doctor_query_api :
         	}
 		])
 		for doctor in cursor :
+			doctor['gender'] = self.decode('gender', doctor['gender'])[1]
+			doctor['birthday'] = separate_time(doctor['birthday'])
+			print(doctor)
 			return True, doctor
 		return False, "No match profile"
 
@@ -60,13 +69,6 @@ class doctor_query_api :
 				result[i].append({'start' : int(j['start']), 'finish' : int(j['finish'])})
 		return result
 
-	def edited_gender(self, gender_string) :
-		if gender_string == 'ชาย' :
-			return True
-		elif gender_string == 'หญิง' :
-			return False
-		return gender_string
-
 	def update_doctor(self, doctor_id, username, doctor_name_title, doctor_name, doctor_surname, gender, birthday, 
 		office_phone_number, email, department_id, doctor_img, position, expertises, educations, working_time) :
 		self.db.doctors.update_one(
@@ -80,8 +82,8 @@ class doctor_query_api :
         			'doctor_name_title' : doctor_name_title,
         			'doctor_name' : doctor_name,
         			'doctor_surname' : doctor_surname,
-        			'gender' : self.edited_gender(gender),
-        			'birthday' : datetime(int(birthday['year']), int(birthday['month']), int(birthday['day'])),
+        			'gender' : self.decode('gender', gender)[1],
+        			'birthday' : get_time(birthday),
         			'office_phone_number' : office_phone_number,
 	               	'email': email,
 	               	'department_id' : ObjectId(department_id),
@@ -112,19 +114,19 @@ class doctor_query_api :
 		self.db.doctors.insert_one(
 			{
 				'username' : username,
-        		'doctor_name_title' : doctor_name_title,
-        		'doctor_name' : doctor_name,
-        		'doctor_surname' : doctor_surname,
-       			'gender' : self.edited_gender(gender),
-       			'birthday' : self.edited_birthday(birthday),
-       			'office_phone_number' : office_phone_number,
-       			'email': email,
-       			'department_id' : ObjectId(department_id),
-       			'doctor_img' : doctor_img,
-       			'position' : position,
-       			'expertises' : expertises,
-       			'educations' : educations,
-       			'working_time' : self.edited_working_time(working_time),
+    			'doctor_name_title' : doctor_name_title,
+    			'doctor_name' : doctor_name,
+    			'doctor_surname' : doctor_surname,
+    			'gender' : self.decode('gender', gender)[1],
+    			'birthday' : get_time(birthday),
+    			'office_phone_number' : office_phone_number,
+               	'email': email,
+               	'department_id' : ObjectId(department_id),
+               	'doctor_img' : doctor_img,
+               	'position' : position,
+               	'expertises' : expertises,
+               	'educations' : educations,
+               	'working_time' : self.edited_working_time(working_time)
 			}
 		)
 		return True, 'Successfully Inserted'
