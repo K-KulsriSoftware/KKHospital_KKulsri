@@ -1,3 +1,8 @@
+ function loadSchedule() {
+    $('.schedule-container').addClass('hide');
+    $('.loader').removeClass('hide');
+ }
+
 var month = [
     'มกราคม' ,
     'กุมภาพันธ์' ,
@@ -88,10 +93,9 @@ $('ul.time li').click(function() {
 
 $('.schedule-container .pager li').click(function() {
     $(this).addClass('disabled');
-    $('.schedule-container').addClass('hide');
-    $('.loader').removeClass('hide');
     if($(this).hasClass('previous')) {
         if(!isThisWeek) {
+            loadSchedule();
             $('ul.time li').removeClass('selected')
             $('div.appointment-detail').addClass('hide');
             $('.schedule-container .pager li.next').removeClass('disabled');
@@ -100,6 +104,7 @@ $('.schedule-container .pager li').click(function() {
         }
     } else if($(this).hasClass('next')) {
         if(isThisWeek) {
+            loadSchedule();
             $('ul.time li').removeClass('selected')
             $('div.appointment-detail').addClass('hide');
             $('.schedule-container .pager li.previous').removeClass('disabled');
