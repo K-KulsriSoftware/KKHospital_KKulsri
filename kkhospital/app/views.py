@@ -425,9 +425,11 @@ def payment_visa(request):
         
         print(charge.status)
 
-        # if(charge.status == "successful"):
-        #     status, result = api.create_order(request.session['selected_package'], request.session['selected_doctor'],
-        #                                     request.user.username, '-', request.session['selected_date'], token.id)
+        if charge.status == "successful":
+            status, result = api.create_order(request.session['selected_package'], request.session['selected_doctor'],
+                                            request.user.username, '-', request.session['selected_date'], token.id)
+            if status:
+                return redirect("/")
     return render(
         request,
         'app/payment_visa.html',
