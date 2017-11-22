@@ -271,7 +271,7 @@
                 $('button#submit').prop('disabled', true);
             }
         })
-        $('form').submit(function() {
+        $('form:not(#logout)').submit(function() {
             var isConfirmed = $("input#confirm-info").prop('checked');
             var data = $(this).serializeArray();
             var formError = false;
