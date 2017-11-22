@@ -409,16 +409,7 @@ def payment_card(request):
         expiration_month = int(card_expiration[0])
         expiration_year = int(str(datetime.now().year)[:2] + card_expiration[1])
         security_code = int(request.POST.get('cardCVC'))
-        price = package_detail['package_cost']
-
-        # payment ส่วนนี้ ###################
-
-
-
-
-
-        #######################################
-
+        price = package_detail['package_cost'] * 100
 
         token = omise.Token.create(
             name=name,
@@ -429,13 +420,12 @@ def payment_card(request):
         )
 
         charge = omise.Charge.create(
-            amount=100000,
+            amount=int(price),
             currency="thb",
             card=token.id
-        )
-        
-        print(charge.status)
+        )        
 
+        # print(charge.status)
         if charge.status == "successful":
             status, result = api.create_order(request.session['selected_package'], request.session['selected_doctor'],
                                             request.user.username, '-', request.session['selected_date'], token.id)
@@ -453,14 +443,24 @@ def payment_card(request):
 def payment_bank(request):
     if request.method == 'POST':
         package_detail = api.show_special_package_info(request.session['selected_package'])[1]
-        price = package_detail['package_cost']
+        price = package_detail['package_cost'] * 100
         bank = request.POST.get('bank')
-        # ยิง api omese ได้ link ใส่ในตัวแปรชื่อ redirect_target
+        source = omise.Source.create(
+            amount=int(price),
+            currency='thb',
+            type=bank
+        )
 
+        charge = omise.Charge.create(
+            amount=int(price) ,
+            currency="thb",
+            return_uri= "http://www.google.com",
+            source=source.id
+        )
 
-
-        ##################################################
+        redirect_target = charge.authorize_uri
         return redirect(redirect_target)
+    
     return render(
         request,
         'app/payment_bank.html',
