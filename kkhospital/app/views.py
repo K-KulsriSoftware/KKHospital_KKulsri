@@ -345,10 +345,7 @@ def confirm(request):
     if 'selected_package' not in request.session or 'selected_doctor' not in request.session or 'selected_date' not in request.session:
         return redirect('/doctor-detail/')
     if request.method == 'POST':
-        status, result = api.create_order(request.session['selected_package'], request.session['selected_doctor'],
-                                          request.user.username, '-', request.session['selected_date'])
-        if status:
-            return redirect('/')
+        return redirect('/payment')
     # print(request.session['selected_date'])
     status, package = api.show_special_package_info(
         request.session['selected_package'])
@@ -411,6 +408,26 @@ def payment_visa(request):
         expiration_month = int(card_expiration[0])
         expiration_year = int(str(datetime.now().year)[:2] + card_expiration[1])
         security_code = int(request.POST.get('cardCVC'))
+
+        token = omise.Token.create(
+            name=name,
+            number=number,
+            expiration_month=expiration_month,
+            expiration_year=expiration_year,
+            security_code=security_code
+        )
+
+        charge = omise.Charge.create(
+            amount=100000,
+            currency="thb",
+            card=token.id
+        )
+        
+        print(charge.status)
+
+        # if(charge.status == "successful"):
+        #     status, result = api.create_order(request.session['selected_package'], request.session['selected_doctor'],
+        #                                     request.user.username, '-', request.session['selected_date'], token.id)
     return render(
         request,
         'app/payment_visa.html',
