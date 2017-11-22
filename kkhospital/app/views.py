@@ -420,6 +420,13 @@ def payment_visa(request):
 
 @login_required(login_url='/accounts/login')
 def payment_bank(request):
+    if request.method == 'POST':
+        # ยิง api omese ได้ link ใส่ในตัวแปรชื่อ redirect_target
+
+
+
+        ##################################################
+        return redirect(redirect_target)
     return render(
         request,
         'app/payment_bank.html',
