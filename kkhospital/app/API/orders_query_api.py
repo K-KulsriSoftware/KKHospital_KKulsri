@@ -78,7 +78,7 @@ class orders_query_api :
             orders.append(order)
         return True, orders
 
-    def update_order(self, order_id, package_id, doctor_id, patient_id, cost, start_time, finish_time, bought_time, notice, note) :
+    def update_order(self, order_id, package_id, doctor_id, patient_id, cost, start_time, finish_time, bought_time, notice, note, payment_token) :
         print(locals())
         self.db.orders.update_one(
     		{
@@ -98,7 +98,8 @@ class orders_query_api :
         			},
                     'bought_time' : get_time_from_hour_minute(bought_time),
         			'notice' : notice,
-                    'note' : note
+                    'note' : note,
+                    'payment_token' : payment_token
         		}
     		}
 		)
@@ -112,7 +113,7 @@ class orders_query_api :
         )
         return True, 'Successfully Removed'
 
-    def insert_order(self, package_id, doctor_id, patient_id, cost, start_time, finish_time, bought_time, notice, note) :
+    def insert_order(self, package_id, doctor_id, patient_id, cost, start_time, finish_time, bought_time, notice, note, payment_token) :
         self.db.orders.insert_one(
             {
                 'package_id' : ObjectId(package_id),
@@ -126,7 +127,8 @@ class orders_query_api :
                 },
                 'bought_time' : get_time_from_hour_minute(bought_time),
                 'notice' : notice,
-                'note' : note
+                'note' : note,
+                'payment_token' : payment_token
             }
         )
         return True,'Successfully Added'
@@ -230,7 +232,8 @@ class orders_query_api :
                     'finish_time' : '$time.finish',
                     'bought_time' : 1,
                     'notice' : 1,
-                    'note' : 1
+                    'note' : 1,
+                    'payment_token' : 1
                 }
             }
         ])
