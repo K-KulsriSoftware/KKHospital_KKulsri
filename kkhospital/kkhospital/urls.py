@@ -31,7 +31,7 @@ urlpatterns = [
     url(r'^doctor/$', app.views.doctor, name='doctor'),
     url(r'^confirm/', app.views.confirm, name='confirm'),
     url(r'^payment/$', app.views.payment, name='payment'),
-    url(r'^payment/visa/$', app.views.payment_visa, name='payment_visa'),
+    url(r'^payment/card/$', app.views.payment_card, name='payment_card'),
     url(r'^payment/bank/$', app.views.payment_bank, name='payment'),
     url(r'^staff/$', app.views.admin_mongo, name='admin_mongo'),
     url(r'^staff/collection/(?P<collection_name>\w{0,50})/$',

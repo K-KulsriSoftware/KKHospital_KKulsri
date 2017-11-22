@@ -392,7 +392,7 @@ def payment(request):
 
 
 @login_required(login_url='/accounts/login')
-def payment_visa(request):
+def payment_card(request):
     """Renders the about page."""
     assert isinstance(request, HttpRequest)
     if len(request.user.groups.all()) > 0:
@@ -402,12 +402,23 @@ def payment_visa(request):
     if request.method == 'POST':
         patient_id = api.get_patient_id(request.user.username)[1]
         patient_detail = api.get_patient_detail(patient_id)[1]
+        package_detail = api.show_special_package_info(request.session['selected_package'])[1]
         name = patient_detail['patient_name'] + ' ' + patient_detail['patient_surname']
         number = request.POST.get('cardNumber')
         card_expiration = request.POST.get('cardExpiry').split('/')
         expiration_month = int(card_expiration[0])
         expiration_year = int(str(datetime.now().year)[:2] + card_expiration[1])
         security_code = int(request.POST.get('cardCVC'))
+        price = package_detail['package_cost']
+
+        # payment ส่วนนี้ ###################
+
+
+
+
+
+        #######################################
+
 
         token = omise.Token.create(
             name=name,
@@ -432,7 +443,7 @@ def payment_visa(request):
                 return redirect("/")
     return render(
         request,
-        'app/payment_visa.html',
+        'app/payment_card.html',
         {
             'title': 'ชำระค่าบริการ',
         }
@@ -440,6 +451,16 @@ def payment_visa(request):
 
 @login_required(login_url='/accounts/login')
 def payment_bank(request):
+    if request.method == 'POST':
+        package_detail = api.show_special_package_info(request.session['selected_package'])[1]
+        price = package_detail['package_cost']
+        bank = request.POST.get('bank')
+        # ยิง api omese ได้ link ใส่ในตัวแปรชื่อ redirect_target
+
+
+
+        ##################################################
+        return redirect(redirect_target)
     return render(
         request,
         'app/payment_bank.html',
