@@ -13,6 +13,18 @@ import json
 from .API.API import API
 api = API()
 
+import omise
+
+try:
+   from config import OMISE_SECRET_KEY, OMISE_PUBLIC_KEY, OMISE_API_VERSION
+except ImportError:
+   pass
+
+
+omise.api_secret = OMISE_SECRET_KEY
+omise.api_public = OMISE_PUBLIC_KEY
+omise.api_version = OMISE_API_VERSION
+
 blood_abo = ['-', 'A', 'B', 'O', 'AB']
 blood_rh = ['', 'RH-', 'RH+']
 
