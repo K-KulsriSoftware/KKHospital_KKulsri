@@ -383,7 +383,7 @@ def payment(request):
 
 
 @login_required(login_url='/accounts/login')
-def payment_visa(request):
+def payment_card(request):
     """Renders the about page."""
     assert isinstance(request, HttpRequest)
     if len(request.user.groups.all()) > 0:
@@ -412,7 +412,7 @@ def payment_visa(request):
 
     return render(
         request,
-        'app/payment_visa.html',
+        'app/payment_card.html',
         {
             'title': 'ชำระค่าบริการ',
         }
