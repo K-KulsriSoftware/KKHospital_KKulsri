@@ -332,11 +332,11 @@ def confirm(request):
         return redirect('/register')
     if 'selected_package' not in request.session or 'selected_doctor' not in request.session or 'selected_date' not in request.session:
         return redirect('/doctor-detail/')
-    if request.method == 'POST':
-        status, result = api.create_order(request.session['selected_package'], request.session['selected_doctor'],
-                                          request.user.username, '-', request.session['selected_date'])
-        if status:
-            return redirect('/')
+    # if request.method == 'POST':
+    #     status, result = api.create_order(request.session['selected_package'], request.session['selected_doctor'],
+    #                                       request.user.username, '-', request.session['selected_date'])
+    #     if status:
+    #         return redirect('/')
     # print(request.session['selected_date'])
     status, package = api.show_special_package_info(
         request.session['selected_package'])
@@ -393,12 +393,23 @@ def payment_visa(request):
     if request.method == 'POST':
         patient_id = api.get_patient_id(request.user.username)[1]
         patient_detail = api.get_patient_detail(patient_id)[1]
+        package_detail = api.show_special_package_info(request.session['selected_package'])[1]
         name = patient_detail['patient_name'] + ' ' + patient_detail['patient_surname']
         number = request.POST.get('cardNumber')
         card_expiration = request.POST.get('cardExpiry').split('/')
         expiration_month = int(card_expiration[0])
         expiration_year = int(str(datetime.now().year)[:2] + card_expiration[1])
         security_code = int(request.POST.get('cardCVC'))
+        price = package_detail['package_cost']
+
+        # payment ส่วนนี้ ###################
+
+
+
+
+
+        #######################################
+
     return render(
         request,
         'app/payment_visa.html',
