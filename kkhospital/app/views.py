@@ -407,6 +407,16 @@ def payment_visa(request):
         }
     )
 
+@login_required(login_url='/accounts/login')
+def payment_bank(request):
+    return render(
+        request,
+        'app/payment_bank.html',
+        {
+            'title': 'ชำระค่าบริการ',
+        }
+    )
+
 def check_user_group(group_name, user):
     groups = user.groups.all()
     print(groups)
