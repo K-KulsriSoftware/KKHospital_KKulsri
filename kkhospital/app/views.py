@@ -421,6 +421,9 @@ def payment_visa(request):
 @login_required(login_url='/accounts/login')
 def payment_bank(request):
     if request.method == 'POST':
+        package_detail = api.show_special_package_info(request.session['selected_package'])[1]
+        price = package_detail['package_cost']
+        bank = request.POST.get('bank')
         # ยิง api omese ได้ link ใส่ในตัวแปรชื่อ redirect_target
 
 
