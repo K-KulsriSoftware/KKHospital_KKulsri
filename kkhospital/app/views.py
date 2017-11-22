@@ -371,21 +371,39 @@ def confirm(request):
         }
     )
 
-
-@login_required(login_url='accounts/login')
+@login_required(login_url='/accounts/login')
 def payment(request):
-    """Renders the about page."""
-    if len(request.user.groups.all()) > 0:
-        raise PermissionDenied
-    elif not api.get_patient_id(request.user.username):
-        return redirect('/register')
-    assert isinstance(request, HttpRequest)
     return render(
         request,
         'app/payment.html',
         {
+            'title': 'เลือกวิธีชำระค่าบริการ',
+        }
+    )
+
+
+@login_required(login_url='/accounts/login')
+def payment_visa(request):
+    """Renders the about page."""
+    assert isinstance(request, HttpRequest)
+    if len(request.user.groups.all()) > 0:
+        raise PermissionDenied
+    elif not api.get_patient_id(request.user.username):
+        return redirect('/register')
+    if request.method == 'POST':
+        patient_id = api.get_patient_id(request.user.username)[1]
+        patient_detail = api.get_patient_detail(patient_id)[1]
+        name = patient_detail['patient_name'] + ' ' + patient_detail['patient_surname']
+        number = request.POST.get('cardNumber')
+        card_expiration = request.POST.get('cardExpiry').split('/')
+        expiration_month = int(card_expiration[0])
+        expiration_year = int(str(datetime.now().year)[:2] + card_expiration[1])
+        security_code = int(request.POST.get('cardCVC'))
+    return render(
+        request,
+        'app/payment_visa.html',
+        {
             'title': 'ชำระค่าบริการ',
-            'logged_user': request.session.get('user')
         }
     )
 
