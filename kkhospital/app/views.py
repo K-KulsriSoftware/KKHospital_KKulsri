@@ -425,10 +425,9 @@ def payment_card(request):
             card=token.id
         )        
 
-        # print(charge.status)
-        if charge.status == "successful":
+        if charge.paid and charge.authorized:
             status, result = api.create_order(request.session['selected_package'], request.session['selected_doctor'],
-                                            request.user.username, '-', request.session['selected_date'], token.id)
+                                            request.user.username, '-', request.session['selected_date'], charge.id)
             if status:
                 return redirect("/")
     return render(
@@ -450,17 +449,25 @@ def payment_bank(request):
             currency='thb',
             type=bank
         )
-
         charge = omise.Charge.create(
             amount=int(price) ,
             currency="thb",
-            return_uri= "http://www.google.com",
+            return_uri= "http://localhost:8000/payment/bank",
             source=source.id
         )
-
-        redirect_target = charge.authorize_uri
-        return redirect(redirect_target)
+        request.session['charge_token'] = charge.id
+        return redirect(charge.authorize_uri)   
     
+    if 'charge_token' in request.session:
+        charge = omise.Charge.retrieve(request.session['charge_token'])
+        if charge and charge.paid and charge.authorized:
+            # print(vars(charge))
+            status, result = api.create_order(request.session['selected_package'], request.session['selected_doctor'],
+                                            request.user.username, '-', request.session['selected_date'], charge.id)
+            if status:
+                del request.session['charge_token']
+                return redirect("/")
+
     return render(
         request,
         'app/payment_bank.html',
