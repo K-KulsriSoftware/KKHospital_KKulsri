@@ -157,10 +157,10 @@ class API :
 		if check : return True, result
 		return self.show_confirmation_info_api.show_confirmation_info(package_id, doctor_id, username, time)
 
-	def create_order(self,package_id=None, doctor_id=None, patient_id=None, notice='', time=None) :
+	def create_order(self,package_id=None, doctor_id=None, patient_id=None, notice='', time=None, payment_token=None) :
 		check, result = self.incomplete_input(locals())
 		if check : return True, result
-		return self.create_order_api.create_order(package_id, doctor_id, patient_id, notice, time)
+		return self.create_order_api.create_order(package_id, doctor_id, patient_id, notice, time, payment_token)
 
 ###############
 
@@ -382,7 +382,7 @@ class API :
 		check, result = self.incomplete_input(locals())
 		if check : return True, result
 		return self.orders_query_api.update_order(order_id, data['package_id'], data['doctor_id'], data['patient_id'], 
-			data['cost'], data['start_time'], data['finish_time'], data['bought_time'], data['notice'], data['note'])
+			data['cost'], data['start_time'], data['finish_time'], data['bought_time'], data['notice'], data['note'], data['payment_token'])
 
 	def delete_order(self, order_id=None) :
 		check, result = self.incomplete_input(locals())
@@ -391,7 +391,7 @@ class API :
 
 	def insert_order(self, data=None) :
 	 	return self.orders_query_api.insert_order(data['package_id'], data['doctor_id'], data['patient_id'], 
-	 		data['cost'], data['start_time'], data['finish_time'], data['bought_time'], data['notice'], data['note'])
+	 		data['cost'], data['start_time'], data['finish_time'], data['bought_time'], data['notice'], data['note'], data['payment_token'])
 
 	def insert_note(self, order_id=None, note=None) :
 		check, result = self.incomplete_input(locals())

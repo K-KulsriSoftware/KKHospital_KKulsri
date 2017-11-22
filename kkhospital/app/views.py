@@ -13,6 +13,18 @@ import json
 from .API.API import API
 api = API()
 
+import omise
+
+try:
+   from config import OMISE_SECRET_KEY, OMISE_PUBLIC_KEY, OMISE_API_VERSION
+except ImportError:
+   pass
+
+
+omise.api_secret = OMISE_SECRET_KEY
+omise.api_public = OMISE_PUBLIC_KEY
+omise.api_version = OMISE_API_VERSION
+
 blood_abo = ['-', 'A', 'B', 'O', 'AB']
 blood_rh = ['', 'RH-', 'RH+']
 
@@ -333,10 +345,7 @@ def confirm(request):
     if 'selected_package' not in request.session or 'selected_doctor' not in request.session or 'selected_date' not in request.session:
         return redirect('/doctor-detail/')
     if request.method == 'POST':
-        status, result = api.create_order(request.session['selected_package'], request.session['selected_doctor'],
-                                          request.user.username, '-', request.session['selected_date'])
-        if status:
-            return redirect('/')
+        return redirect('/payment')
     # print(request.session['selected_date'])
     status, package = api.show_special_package_info(
         request.session['selected_package'])
@@ -383,7 +392,7 @@ def payment(request):
 
 
 @login_required(login_url='/accounts/login')
-def payment_visa(request):
+def payment_card(request):
     """Renders the about page."""
     assert isinstance(request, HttpRequest)
     if len(request.user.groups.all()) > 0:
@@ -393,15 +402,75 @@ def payment_visa(request):
     if request.method == 'POST':
         patient_id = api.get_patient_id(request.user.username)[1]
         patient_detail = api.get_patient_detail(patient_id)[1]
+        package_detail = api.show_special_package_info(request.session['selected_package'])[1]
         name = patient_detail['patient_name'] + ' ' + patient_detail['patient_surname']
         number = request.POST.get('cardNumber')
         card_expiration = request.POST.get('cardExpiry').split('/')
         expiration_month = int(card_expiration[0])
         expiration_year = int(str(datetime.now().year)[:2] + card_expiration[1])
         security_code = int(request.POST.get('cardCVC'))
+        price = package_detail['package_cost'] * 100
+
+        token = omise.Token.create(
+            name=name,
+            number=number,
+            expiration_month=expiration_month,
+            expiration_year=expiration_year,
+            security_code=security_code
+        )
+
+        charge = omise.Charge.create(
+            amount=int(price),
+            currency="thb",
+            card=token.id
+        )        
+
+        if charge.paid and charge.authorized:
+            status, result = api.create_order(request.session['selected_package'], request.session['selected_doctor'],
+                                            request.user.username, '-', request.session['selected_date'], charge.id)
+            if status:
+                return redirect("/")
     return render(
         request,
-        'app/payment_visa.html',
+        'app/payment_card.html',
+        {
+            'title': 'ชำระค่าบริการ',
+        }
+    )
+
+@login_required(login_url='/accounts/login')
+def payment_bank(request):
+    if request.method == 'POST':
+        package_detail = api.show_special_package_info(request.session['selected_package'])[1]
+        price = package_detail['package_cost'] * 100
+        bank = request.POST.get('bank')
+        source = omise.Source.create(
+            amount=int(price),
+            currency='thb',
+            type=bank
+        )
+        charge = omise.Charge.create(
+            amount=int(price) ,
+            currency="thb",
+            return_uri= "http://localhost:8000/payment/bank",
+            source=source.id
+        )
+        request.session['charge_token'] = charge.id
+        return redirect(charge.authorize_uri)   
+    
+    if 'charge_token' in request.session:
+        charge = omise.Charge.retrieve(request.session['charge_token'])
+        if charge and charge.paid and charge.authorized:
+            # print(vars(charge))
+            status, result = api.create_order(request.session['selected_package'], request.session['selected_doctor'],
+                                            request.user.username, '-', request.session['selected_date'], charge.id)
+            if status:
+                del request.session['charge_token']
+                return redirect("/")
+
+    return render(
+        request,
+        'app/payment_bank.html',
         {
             'title': 'ชำระค่าบริการ',
         }
