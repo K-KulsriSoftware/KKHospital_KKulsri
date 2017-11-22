@@ -108,9 +108,10 @@ class API :
 			return False, 'Incomplete input: package_id'
 		return self.find_doctors_api.find_doctors(package_id,days,time,doctor_firstname,doctor_lastname,gender)
 
-	def auto_find_doctors(self, package_id=None, user_id=None) :
-		# use user_id in phase II
-		return self.find_doctors(package_id=package_id)
+	def auto_find_doctors(self, package_id=None, username=None) :
+		if username == None :
+			return self.find_doctors(package_id=package_id)
+		return self.auto_find_doctors(package_id, username)
 
 	def show_profile(self, username=None) :
 		check, result = self.incomplete_input(locals())
@@ -122,10 +123,10 @@ class API :
 		if check : return True, result
 		return self.show_doctor_detail_api.show_doctor_detail(doctor_id)
 
-	def edit_profile(self, username=None, email=None, telphone_number=None, emergency_phone=None, submit=False) :
+	def edit_profile(self, username=None, email=None, telephone_number=None, emergency_phone=None, submit=False) :
 		check, result = self.incomplete_input(locals())
 		if check : return True, result
-		return self.edit_profile_api.edit_profile(username,email,telphone_number,emergency_phone,submit)
+		return self.edit_profile_api.edit_profile(username,email,telephone_number,emergency_phone,submit)
 
 	def register(self, username=None, patient_name_title=None, patient_name=None, patient_surname=None, 
 		         patient_img=None, id_card_number=None, gender=None, birthday_year=None, 
@@ -196,6 +197,15 @@ class API :
 			data['doctor_surname'], data['gender'], data['birthday'], data['office_phone_number'], data['email'], 
 			data['department_id'], data['doctor_img'], data['position'], data['expertises'], data['educations'], data['working_time'])
 
+	def get_doctor_id(self, doctor_username=None) :
+		check, result = self.incomplete_input(locals())
+		if check : return True, result
+		return self.doctor_query_api.get_doctor_id(doctor_username)
+
+	def  get_doctor_orders(self, doctor_id=None) :
+		check, result = self.incomplete_input(locals())
+		if check : return True, result
+		return self.orders_query_api.get_doctor_orders(doctor_id)
 ###############
 
 	def get_all_departments(self) :
@@ -294,7 +304,7 @@ class API :
 		return self.patients_query_api.update_patient(patient_id, data['username'], data['patient_name_title'], 
 			data['patient_name'], data['patient_surname'], data['patient_img'], data['id_card_number'], data['gender'], 
 			data['birthday'], data['blood_group_abo'], data['blood_group_rh'], data['race'], data['nationallity'], 
-			data['religion'], data['status'], data['patient_address'], data['occupy'], data['telphone_number'], 
+			data['religion'], data['status'], data['patient_address'], data['occupy'], data['telephone_number'], 
 			data['father_name'], data['mother_name'], data['emergency_name'], data['emergency_phone'], 
 			data['emergency_address'], data['email'], data['congenital_disease'])
 
@@ -309,7 +319,7 @@ class API :
 		return self.patients_query_api.insert_patient(data['username'], data['patient_name_title'], 
 			data['patient_name'], data['patient_surname'], data['patient_img'], data['id_card_number'], data['gender'], 
 			data['birthday'], data['blood_group_abo'], data['blood_group_rh'], data['race'], data['nationallity'], 
-			data['religion'], data['status'], data['patient_address'], data['occupy'], data['telphone_number'], 
+			data['religion'], data['status'], data['patient_address'], data['occupy'], data['telephone_number'], 
 			data['father_name'], data['mother_name'], data['emergency_name'], data['emergency_phone'], 
 			data['emergency_address'], data['email'], data['congenital_disease'])
 
@@ -372,7 +382,7 @@ class API :
 		check, result = self.incomplete_input(locals())
 		if check : return True, result
 		return self.orders_query_api.update_order(order_id, data['package_id'], data['doctor_id'], data['patient_id'], 
-			data['cost'], data['time'], data['bought_time'], data['notice'])
+			data['cost'], data['start_time'], data['finish_time'], data['bought_time'], data['notice'], data['note'])
 
 	def delete_order(self, order_id=None) :
 		check, result = self.incomplete_input(locals())
@@ -380,9 +390,13 @@ class API :
 		return self.orders_query_api.delete_order(order_id)
 
 	def insert_order(self, data=None) :
-	 	return self.orders_query_api.create_order(data['package_id'], data['doctor_id'], data['patient_id'], 
-	 		data['cost'], data['time'], data['bought_time'], data['notice'])
+	 	return self.orders_query_api.insert_order(data['package_id'], data['doctor_id'], data['patient_id'], 
+	 		data['cost'], data['start_time'], data['finish_time'], data['bought_time'], data['notice'], data['note'])
 
+	def insert_note(self, order_id=None, note=None) :
+		check, result = self.incomplete_input(locals())
+		if check : return True, result
+		return self.orders_query_api.insert_note(order_id, note)
 #############
 
 	def admin_get_all_documents(self, collection_name=None) :
@@ -434,9 +448,9 @@ class API :
 		functions = {
 			'buildings' : self.delete_building,
 			'departments' : self.delete_department,
-			#'doctors' : self.delete_doctor,
-			#'orders' : self.delete_order,
-			#'patients' : self.delete_patient,
+			'doctors' : self.delete_doctor,
+			'orders' : self.delete_order,
+			'patients' : self.delete_patient,
 			'packages' : self.delete_package
 			#'users' : self.delete_user
 		}
@@ -450,7 +464,7 @@ class API :
 			'buildings' : self.update_building,
 			'departments' : self.update_department,
 			'doctors' : self.update_doctor,
-			#'orders' : self.update_order,
+			'orders' : self.update_order,
 			'patients' : self.update_patient,
 			'packages' : self.update_package
 			#'users' : self.update_user
@@ -464,9 +478,9 @@ class API :
 		functions = {
 			'buildings' : self.insert_building,
 			'departments' : self.insert_department,
-			#'doctors' : self.insert_doctor,
-			#'orders' : self.insert_order,
-			#'patients' : self.insert_patient,
+			'doctors' : self.insert_doctor,
+			'orders' : self.insert_order,
+			'patients' : self.insert_patient,
 			'packages' : self.insert_package
 			#'users' : self.insert_user
 		}
@@ -506,7 +520,7 @@ class API :
 		if check : return True, result
 		return self.get_patient_orders_api.get_patient_orders(patient_username)
 
-	def get_doctor_orders(self, doctor_username) :
+	def get_doctor_all_orders(self, doctor_username) :
 		check, result = self.incomplete_input(locals())
 		if check : return True, result
 		return self.get_doctor_orders_api.get_doctor_orders(doctor_username)

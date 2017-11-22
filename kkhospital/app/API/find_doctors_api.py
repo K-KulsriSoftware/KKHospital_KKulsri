@@ -116,3 +116,128 @@ class find_doctors_api :
 				doctor['doctor_id'] = str(doctor['doctor_id'])
 				result_doctors.append(doctor)
 		return True, result_doctors
+
+	def auto_get_doctors_query(package_id, username) :
+		return self.db.packages.aggregate([
+			{
+				'$match' :
+				{
+					'_id' : ObjectId('59d890e99cb6f0707faf7034')
+				}
+			},
+			{
+				'$lookup' :
+				{
+					'from' : 'doctors',
+					'localField' : 'department_id',
+					'foreignField' : 'department_id',
+					'as' : 'doctor'
+				}
+			},
+			{
+				'$lookup' :
+				{
+					'from' : 'departments',
+					'localField' : 'department_id',
+					'foreignField' : '_id',
+					'as' : 'department'
+				}
+			},
+			{
+				'$unwind' : '$department'
+			},
+			{
+				'$unwind' : '$doctor'
+			},
+			{
+				'$lookup' :
+				{
+					'from' : 'orders',
+					'localField' : 'doctor._id',
+					'foreignField' : 'doctor_id',
+					'as' : 'order'
+				}
+			},
+			{
+				'$unwind' : '$order'
+			},
+			{
+				'$lookup' :
+				{
+					'from' : 'patients',
+					'localField' : 'order.patient_id',
+					'foreignField' : '_id',
+					'as' : 'patient'
+				}
+			},
+			{
+				'$unwind' : '$patient'
+			},
+			{
+				'$match' : 
+				{
+					'patient.username' : username
+				}
+			},
+			{
+				'$group' :
+				{
+					'_id' :
+					{
+						'doctor' : '$doctor'
+					},
+					'count' :
+					{
+						'$sum' : 1
+					}
+				}
+			},
+			{
+				'$project' :
+				{
+					'doctor' : '$_id.doctor',
+					'count' : 1
+				}
+			},
+			{
+				'$sort' :
+				{
+					'count' : -1
+				}
+			},
+			{
+				'$project' :
+				{
+					'doctor_id': '$doctor._id',
+					'username' : '$doctor.username',
+					'doctor_name_title' : '$doctor.doctor_name_title',
+					'doctor_name' : '$doctor.doctor_name',
+					'doctor_surname' : '$doctor.doctor_surname',
+					'department_name' : '$department.department_name',
+					'doctor_img' : '$doctor.doctor_img',
+					#'working_time' : '$doctor.working_time',
+					#'gender' : '$doctor.gender',
+					'patient_username' : '$patient.username'
+				}
+			}])
+
+	def auto_find_doctors(self, package_id, username) :
+		doctors = self.auto_get_doctors_query(package_id, username)
+		result_doctors = []
+		result_name_doctors = []
+		for doctor in doctors :
+			doctor.pop('_id', None)
+			doctor['doctor_id'] = str(doctor['doctor_id'])
+			result_doctors.append(doctor)
+			result_name_doctors.append(doctor['username'])
+		print(result_name_doctors)
+		doctors = self.get_doctors_query(package_id)
+		for doctor in doctors :
+			if doctor['username'] not in result_name_doctors :
+				doctor.pop('_id', None)
+				doctor.pop('working_time', None)
+				doctor.pop('gender', None)
+				doctor['doctor_id'] = str(doctor['doctor_id'])
+				result_doctors.append(doctor)
+				result_name_doctors.append(doctor['username'])
+		return True, result_doctors

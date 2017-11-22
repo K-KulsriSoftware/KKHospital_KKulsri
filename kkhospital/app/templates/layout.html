@@ -3,7 +3,11 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{{ title }} - KKHospital</title>
+    {% if title %}
+        <title>{{ title }} - KKHospital</title>
+    {% else %}
+        <title>{% block title %}{% endblock %} - KKHospital</title>
+    {% endif %}
     {% load staticfiles %}
     <link rel="shortcut icon" type="image/png" href="{% static 'app/images/KKULSRI_Logo.png' %}"/>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Cookie">
@@ -25,33 +29,59 @@
                     <button data-toggle="collapse" data-target="#navbar-collapse" class="navbar-toggle collapsed"><span class="sr-only">Toggle navigation</span><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span></button>
                 {% endif %}
             </div>
-            {% if not NO_NAV %}
-                <div class="collapse navbar-collapse" id="navbar-collapse">
-                    <ul class="nav navbar-nav links">
+            <div class="collapse navbar-collapse" id="navbar-collapse">
+                <ul class="nav navbar-nav links">
+                    {% if not only_logout %}
                         <li role="presentation"><a href="/departments">แพ็กเกจ</a></li>
                         <li role="presentation"><a href="/doctor">แพทย์</a></li>
                         {% if not user.is_authenticated %}
-                            <li role="presentation"><a href="/accounts/signup">สมัครสมาชิก</a></li>
                             <li role="presentation"><a href="/accounts/login">เข้าสู่ระบบ</a></li>
                         {% else %}
-                            <li role="presentation"><a href="/accounts/member">ข้อมูลสมาชิก</a></li>
-                            <li role="presentation"><a href="/accounts/logout">ออกจากระบบ</a></li>
+                            {% if user.groups.all.0.name == 'doctor' %}
+                                <li role="presentation"><a href="/doctor-profile">ข้อมูลแพทย์</a></li>
+                            {% elif user.groups.all.0.name != 'staff' and not user.is_superuser %}
+                                <li role="presentation"><a href="/member">ข้อมูลสมาชิก</a></li>
+                            {% endif %}
+                            <li role="presentation"><a href="#" id="logout">ออกจากระบบ</a></li>
                         {% endif %}
-                    </ul>
-                </div>
-            {% endif %}
+                    {% else %}
+                        {% if user.is_authenticated %}
+                            <li role="presentation"><a href="#" id="logout">ออกจากระบบ</a></li>
+                        {% endif %}
+                    {% endif %}
+                </ul>
+                <form id="logout" action="/accounts/logout/" method="POST">
+                    {% csrf_token %}
+                </form>
+            </div>
         </div>
     </nav>
     <div class="container body-content">
 {% block content %}{% endblock %}
     </div>
+    <div id="get-info-popup" style="position: fixed; top: -50px; width: 100%; z-index: 100; transition: all 0.4s ease;">
+        <div class="row">
+            <div class="col-md-4 col-md-offset-4">
+                <div style="background-color: white; text-align: center; border: 3px solid #8dd9ca; border-bottom-left-radius: 5px; border-bottom-right-radius: 5px; border-top: 0px; box-shadow: 0px 0px 3px rgba(0,0,0,0.4);">
+                    <a href="/register"><span style="line-height: 40px;">กรอกข้อมูลส่วนตัวสำหรับใช้ในการรักษา</span></a>
+                </div>
+            </div>
+        </div>
+    </div>
     <footer>
         <p>Copyright 2017 K.KULSRI Co., Ltd. All rights reserved.</p>
     </footer>
-
+    <script>
+        var user = '{{ user }}';
+        var group = '{{ user.groups.all.0 }}';
+    </script>
     <script src="{% static 'app/scripts/jquery-1.10.2.js' %}"></script>
     <script src="{% static 'app/scripts/bootstrap.js' %}"></script>
     <script src="{% static 'app/scripts/respond.js' %}"></script>
+    <script src="{% static 'app/scripts/logout.js' %}"></script>
+    {% if not REGISTER_PAGE and not user.is_superuser and user.group.all.0 != 'staff' and user.group.all.0 != 'doctor' %}
+        <script src="{% static 'app/scripts/check-user-information.js' %}"></script>
+    {% endif %}
 {% block scripts %}{% endblock %}
 
 </body>
