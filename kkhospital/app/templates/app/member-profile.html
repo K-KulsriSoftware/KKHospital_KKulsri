@@ -24,44 +24,38 @@
                     <div class="col-xs-4"><span>อีเมล </span></div>
                     <div class="col-xs-8"><span>{{ member_detail.email }}</span></div>
                 </div>
-            </div>
-            <div class="change-info-wrapper">
-                <a href="/member/edit/" style="color: inherit"></ar><button class="btn change-info-btn" type="button">แก้ไขข้อมูลส่วนตัว</button></a>
+                <div class="row">
+                    <div class="col-xs-4"><span>โรคประจำตัว </span></div>
+                    <div class="col-xs-8"><span>
+                        {% if member_detail.congenital_disease|length > 0 %}
+                            {{ member_detail.congenital_disease|join:"," }}
+                        {% else %}
+                            -
+                        {% endif %}
+                    </span></div>
+                </div>
             </div>
         </div>
     </div>
     <div class="row">
         <div class="col-md-12">
-            <h3>รายการแพ็กเกจของฉัน </h3></div>
+            <h3>รายละเอียดการรักษา </h3>
+        </div>
     </div>
-    <div class="row schedule-container round-border row-top-margin">
-        <div class="col-xs-12">
-            <div class="table-responsive">
-                <table class="table">
-                    <thead>
-                        <tr>
-                            <th>ชื่อแพ็กเกจ </th>
-                            <th>แพทย์ที่เข้าพบ </th>
-                            <th>วันที่นัดหมาย </th>
-                            <th>ข้อมูลบันทึกการรักษา </th>
-                            <th>ปุ่มยืนยัน </th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {% if orders %}
-                            {% for order in orders %}
-                                <tr>
-                                    <td><!-- ชื่อแพคเกจ --></td>
-                                    <td><!-- ชื่อแพทย์ที่เข้าพบ --></td>
-                                    <td><!-- วันที่เข้าพบ --></td>
-                                    <td><!-- ตรงนี้จะให้หมอกรอกข้อมูล --></td>
-                                    <td></td>
-                                </tr>
-                            {% endfor %}
-                        {% endif %}
-                    </tbody>
-                </table>
-            </div>
+    <div class="row">
+        <div class="col-md-12">
+            <form action="" method="post">
+                {% csrf_token %}
+                <div class="form-group">
+                    <style>
+                        textarea[name="treating-detail"] {
+                            max-width: 100%;
+                        }
+                    </style>
+                    <textarea class="form-control" rows="5" name="treating-detail">{{ note }}</textarea>
+                </div> 
+                <button class="btn btn-default">บันทึก</button>
+            </form>
         </div>
     </div>
 {% endblock %}

@@ -2,53 +2,18 @@
 
 {% block content %}
     {% load staticfiles %}
-    <link rel="stylesheet" type="text/css" href="{% static 'app/css/Bootstrap-Payment-Form.css' %}" />
-    <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" />
-    <div class="row .payment-dialog-row">
-        <div class="col-md-4 col-md-offset-4 col-xs-12">
-            <div class="panel panel-default credit-card-box">
-                <div class="panel-heading">
-                    <h3 class="panel-title"><span class="panel-title-text">Payment Details </span><img class="img-responsive panel-title-image" src="{% static 'app/images/accepted_cards.png' %}"></h3></div>
-                <div class="panel-body">
-                    <form id="payment-form">
-                        <div class="row">
-                            <div class="col-xs-12">
-                                <div class="form-group">
-                                    <label class="control-label" for="cardNumber">Card number </label>
-                                    <input class="form-control" type="tel" required="" placeholder="Valid Card Number" id="cardNumber">
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-xs-7">
-                                <div class="form-group">
-                                    <label class="control-label" for="cardExpiry"><span class="hidden-xs">expiration </span><span class="visible-xs-inline">EXP </span> date</label>
-                                    <input class="form-control" type="tel" required="" placeholder="MM / YY" id="cardExpiry">
-                                </div>
-                            </div>
-                            <div class="col-xs-5 pull-right">
-                                <div class="form-group">
-                                    <label class="control-label" for="cardCVC">cv code</label>
-                                    <input class="form-control" type="tel" required="" placeholder="CVC" id="cardCVC">
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-xs-12">
-                                <div class="form-group">
-                                    <label class="control-label" for="couponCode">coupon code</label>
-                                    <input class="form-control" type="text" id="couponCode">
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-xs-12">
-                                <button class="btn btn-success btn-block btn-lg" type="submit">Start Subscription</button>
-                            </div>
-                        </div>
-                    </form>
-                </div>
-            </div>
+    <link rel="stylesheet" type="text/css" href="{% static 'app/css/payment.css' %}" />
+    <div class="row">
+        <div class="col-md-12">
+            <h3>เลือกวิธีการชำระเงิน</h3>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 payment_type-wrapper">
+            <ul class="payment_type">
+                <a href="/payment/card/"><li>บัตรเครดิต</li></a>
+                <a href="/payment/bank/"><li>โอนผ่านธนาคาร</li></a>
+            </ul>    
         </div>
     </div>
 {% endblock %}

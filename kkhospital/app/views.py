@@ -1,5 +1,6 @@
 from django.shortcuts import render
 from django.http import HttpRequest, Http404, JsonResponse
+from django.core.exceptions import PermissionDenied
 from django.shortcuts import redirect
 from django.contrib.auth.decorators import login_required
 from django.contrib.admin.views.decorators import staff_member_required
@@ -12,6 +13,21 @@ import json
 from .API.API import API
 api = API()
 
+import omise
+
+try:
+   from config import OMISE_SECRET_KEY, OMISE_PUBLIC_KEY, OMISE_API_VERSION
+except ImportError:
+   pass
+
+
+omise.api_secret = OMISE_SECRET_KEY
+omise.api_public = OMISE_PUBLIC_KEY
+omise.api_version = OMISE_API_VERSION
+
+blood_abo = ['-', 'A', 'B', 'O', 'AB']
+blood_rh = ['', 'RH-', 'RH+']
+
 @register.filter
 def get_item(dictionary, key):
     return dictionary.get(key)
@@ -23,6 +39,9 @@ def home(request):
     """Renders the home page."""
     assert isinstance(request, HttpRequest)
     return redirect('/departments')
+
+def check_user_information(request):
+    return JsonResponse({'hasInfo': api.get_patient_id(request.GET.get('username'))[0]})
 
 def departments(request):
     """Renders the about page."""
@@ -71,6 +90,15 @@ def contact(request):
         }
     )
 
+def check_reserved_time(request):
+    doctor = api.show_doctor_detail(request.session['selected_doctor'])[1]
+    free = True
+    for reservation in doctor['reserved']:
+        if reservation.hour == int(request.GET.get('hour')) and reservation.day == int(request.GET.get('day')) and reservation.month == int(request.GET.get('month')) and reservation.year == int(request.GET.get('year')):
+            free = False
+            break
+    return JsonResponse({'free': free})
+
 def doctor_detail(request):
     """Renders the about page."""
     if 'selected_package' not in request.session or 'selected_doctor' not in request.session:
@@ -108,41 +136,29 @@ def doctor_detail(request):
 
 def doctor_profile(request):
     """Renders the about page."""
-    status, doctor = api.show_doctor_detail("59d8a8902b116cf11562a135")
-    if status:
-        status, package = api.show_special_package_info(
-            "59d892817434c9e2a98088eb")
-        working_times = {}
-        for day in doctor['working_time']:
-            if doctor['working_time'][day] != []:
-                working_times[day] = []
-                for time in doctor['working_time'][day]:
-                    for i in range(int(time['start']), int(time['finish'])):
-                        working_times[day].append(
-                            {'start': i, 'finish': i + 1})
-        print(working_times)
-        return render(
-            request,
-            'app/doctor-profile.html',
-            {
-                'title': 'ข้อมูลแพทย์',
-                'doctor': doctor,
-                'selected_package': package,
-                'working_time': working_times,
-            }
-        )
-    else:
-        raise Http404("No doctor found")
+    if not check_user_group('doctor', request.user):
+        raise PermissionDenied
+    doctor_id = api.get_doctor_id(request.user.username)[1]
+    status, doctor = api.show_doctor_detail(doctor_id)
+    status, orders = api.get_doctor_orders(doctor_id)
+    return render(
+        request,
+        'app/doctor-profile.html',
+        {
+            'title': 'ข้อมูลแพทย์',
+            'doctor': doctor,
+            'orders': orders,
+        }
+    )
 
 @login_required(login_url='/accounts/login')
-def member(request, member_name):
+def member(request):
+    global blood_abo, blood_rh
     assert isinstance(request, HttpRequest)
-    blood_abo = ['-', 'A', 'B', 'O', 'AB']
-    blood_rh = ['', 'RH ลบ', 'RH บวก']
+    if not api.get_patient_id(request.user.username)[0] or len(request.user.groups.all()) > 0:
+        return redirect('/register')
     status, patient_id = api.get_patient_id(request.user.username)
-    status, member_detail = api.get_patients_detail(patient_id)
-    member_detail['blood_group_abo'] = blood_abo[member_detail['blood_group_abo']]
-    member_detail['blood_group_rh'] = blood_rh[member_detail['blood_group_rh']]
+    status, member_detail = api.get_patient_detail(patient_id)
     status, orders = api.get_patient_orders(request.user.username)
     return render(
         request,
@@ -156,57 +172,57 @@ def member(request, member_name):
     )
 
 @login_required(login_url='/accounts/login')
-def member_profile(request):
+def treat(request, order_id):
+    if not check_user_group('doctor', request.user):
+        raise PermissionDenied
+    global blood_abo, blood_rh
+    if request.method == 'POST':
+        status, result = api.insert_note(order_id, request.POST.get('treating-detail'))
+        if status:
+            return redirect('/doctor-profile')
     assert isinstance(request, HttpRequest)
-    blood_abo = ['-', 'A', 'B', 'O', 'AB']
-    blood_rh = ['', 'RH ลบ', 'RH บวก']
-    status, member_detail = api.get_patients_detail(
-        request.session['user']['username'])
-    member_detail['blood_group_abo'] = blood_abo[member_detail['blood_group_abo']]
-    member_detail['blood_group_rh'] = blood_rh[member_detail['blood_group_rh']]
-    status, orders = api.get_patient_orders(member_id)
+    order_detail = api.get_order_detail(order_id)[1]
+    status, patient_detail = api.get_patient_detail(order_detail['patient_id'])
+    # member_detail['blood_group_abo'] = blood_abo[member_detail['blood_group_abo']]
+    # member_detail['blood_group_rh'] = blood_rh[member_detail['blood_group_rh']]
     return render(
         request,
         'app/member-profile.html',
         {
-            'title': 'ข้อมูลสมาชิก',
-            'member_detail': member_detail,
-            'orders': orders,
+            'title': 'การรักษา',
+            'member_detail': patient_detail,
+            'note': order_detail['note']
         }
     )
 
 @login_required(login_url='/accounts/login')
-def edit_member_info(request, member_name):
+def edit_member_info(request):
+    if len(request.user.groups.all()) > 0 :
+        raise PermissionDenied
+    elif not api.get_patient_id(request.user.username):
+        return redirect('/register')
     assert isinstance(request, HttpRequest)
     if request.method == 'POST':
         email = request.POST['email']
-        status = request.POST['status']
+        # status = request.POST['status']
         telephone_number = request.POST['telephone_number']
         emergency_phone = request.POST['emergency_phone']
         status, patient_id = api.get_patient_id(request.user.username)
-        status, member_detail = api.get_patients_detail(patient_id)
+        status, member_detail = api.get_patient_detail(patient_id)
 
         # เอาค่า email, status ..... เอาไปใส่ใน field ของ dict member_detail แล้วเอา member_detail แต่ละ field ไปแทนใน paramenter ใน function ข้างล่าง
         member_detail['email'] = email
-        member_detail['status'] = status
+        # member_detail['status'] = status
         member_detail['telephone_number'] = telephone_number
         member_detail['emergency_phone'] = emergency_phone
-        query_status, result = api.update_patient_profile(member_detail['username'], member_detail['patient_name_title'], member_detail['patient_name'],
-                                                          member_detail['patient_surname'], member_detail[
-                                                              'patient_img'], member_detail['id_card_number'], member_detail['gender'],
-                                                          member_detail['birthday'].year, member_detail[
-                                                              'birthday'].month, member_detail['birthday'].day,
-                                                          member_detail['blood_group_abo'], member_detail[
-                                                              'blood_group_rh'], member_detail['race'], member_detail['nationality'],
-                                                          member_detail['religion'], member_detail['status'], member_detail[
-                                                              'patient_address'], member_detail['occupy'], member_detail['telephone_number'],
-                                                          member_detail['father_name'], member_detail[
-                                                              'mother_name'], member_detail['emergency_name'],
-                                                          member_detail['emergency_phone'], member_detail['emergency_address'], member_detail['email'], member_detail['congenital_disease'])
+        member_detail['birthday'] = {'day': member_detail['birthday'].day, 'month': member_detail['birthday'].month, 'year': member_detail['birthday'].year}
+        query_status, result = api.update_patient(patient_id, member_detail)
+        if query_status:
+            return redirect('..')
     blood_abo = ['-', 'A', 'B', 'O', 'AB']
     blood_rh = ['', 'RH ลบ', 'RH บวก']
     status, patient_id = api.get_patient_id(request.user.username)
-    status, member_detail = api.get_patients_detail(patient_id)
+    status, member_detail = api.get_patient_detail(patient_id)
     member_detail['gender'] = 'ชาย' if member_detail['gender'] else 'หญิง'
     member_detail['blood_group_abo'] = blood_abo[member_detail['blood_group_abo']]
     member_detail['blood_group_rh'] = blood_rh[member_detail['blood_group_rh']]
@@ -322,13 +338,14 @@ def doctor(request):
 def confirm(request):
     """Renders the about page."""
     assert isinstance(request, HttpRequest)
+    if len(request.user.groups.all()) > 0:
+        raise PermissionDenied
+    elif not api.get_patient_id(request.user.username):
+        return redirect('/register')
     if 'selected_package' not in request.session or 'selected_doctor' not in request.session or 'selected_date' not in request.session:
         return redirect('/doctor-detail/')
     if request.method == 'POST':
-        status, result = api.create_order(request.session['selected_package'], request.session['selected_doctor'],
-                                          request.user.username, '-', request.session['selected_date'])
-        if status:
-            return redirect('/')
+        return redirect('/payment')
     # print(request.session['selected_date'])
     status, package = api.show_special_package_info(
         request.session['selected_package'])
@@ -363,25 +380,112 @@ def confirm(request):
         }
     )
 
-
-@login_required(login_url='accounts/login')
+@login_required(login_url='/accounts/login')
 def payment(request):
-    """Renders the about page."""
-    if not check_logged_in(request):
-        return redirect('/login/?next=/payment/')
-    assert isinstance(request, HttpRequest)
     return render(
         request,
         'app/payment.html',
         {
-            'title': 'ชำระค่าบริการ',
-            'logged_user': request.session.get('user')
+            'title': 'เลือกวิธีชำระค่าบริการ',
         }
     )
 
 
-@staff_member_required(login_url='/accounts/login')
+@login_required(login_url='/accounts/login')
+def payment_card(request):
+    """Renders the about page."""
+    assert isinstance(request, HttpRequest)
+    if len(request.user.groups.all()) > 0:
+        raise PermissionDenied
+    elif not api.get_patient_id(request.user.username):
+        return redirect('/register')
+    if request.method == 'POST':
+        patient_id = api.get_patient_id(request.user.username)[1]
+        patient_detail = api.get_patient_detail(patient_id)[1]
+        package_detail = api.show_special_package_info(request.session['selected_package'])[1]
+        name = patient_detail['patient_name'] + ' ' + patient_detail['patient_surname']
+        number = request.POST.get('cardNumber')
+        card_expiration = request.POST.get('cardExpiry').split('/')
+        expiration_month = int(card_expiration[0])
+        expiration_year = int(str(datetime.now().year)[:2] + card_expiration[1])
+        security_code = int(request.POST.get('cardCVC'))
+        price = package_detail['package_cost'] * 100
+
+        token = omise.Token.create(
+            name=name,
+            number=number,
+            expiration_month=expiration_month,
+            expiration_year=expiration_year,
+            security_code=security_code
+        )
+
+        charge = omise.Charge.create(
+            amount=int(price),
+            currency="thb",
+            card=token.id
+        )        
+
+        if charge.paid and charge.authorized:
+            status, result = api.create_order(request.session['selected_package'], request.session['selected_doctor'],
+                                            request.user.username, '-', request.session['selected_date'], charge.id)
+            if status:
+                return redirect("/")
+    return render(
+        request,
+        'app/payment_card.html',
+        {
+            'title': 'ชำระค่าบริการ',
+        }
+    )
+
+@login_required(login_url='/accounts/login')
+def payment_bank(request):
+    if request.method == 'POST':
+        package_detail = api.show_special_package_info(request.session['selected_package'])[1]
+        price = package_detail['package_cost'] * 100
+        bank = request.POST.get('bank')
+        source = omise.Source.create(
+            amount=int(price),
+            currency='thb',
+            type=bank
+        )
+        charge = omise.Charge.create(
+            amount=int(price) ,
+            currency="thb",
+            return_uri= "http://localhost:8000/payment/bank",
+            source=source.id
+        )
+        request.session['charge_token'] = charge.id
+        return redirect(charge.authorize_uri)   
+    
+    if 'charge_token' in request.session:
+        charge = omise.Charge.retrieve(request.session['charge_token'])
+        if charge and charge.paid and charge.authorized:
+            # print(vars(charge))
+            status, result = api.create_order(request.session['selected_package'], request.session['selected_doctor'],
+                                            request.user.username, '-', request.session['selected_date'], charge.id)
+            if status:
+                del request.session['charge_token']
+                return redirect("/")
+
+    return render(
+        request,
+        'app/payment_bank.html',
+        {
+            'title': 'ชำระค่าบริการ',
+        }
+    )
+
+def check_user_group(group_name, user):
+    groups = user.groups.all()
+    print(groups)
+    return len(groups) > 0 and groups[0].name == group_name
+
+
+@login_required(login_url='/accounts/login')
 def admin_mongo(request):
+    if not check_user_group('staff', request.user) and not request.user.is_superuser:
+        raise PermissionDenied
     assert isinstance(request, HttpRequest)
     status, result = api.get_all_collections_name()
     result.sort()
@@ -395,7 +499,7 @@ def admin_mongo(request):
             'DATABASE': True,
             'logo_link': '/admin-mongo',
             'logged_user': request.session.get('user'),
-            'NO_NAV': True
+            'only_logout': True
         }
     )
 
@@ -409,13 +513,18 @@ def decode_data(data):
             data[k] = api.decode_thai_value(k, v)[1]
 
 
-@staff_member_required(login_url='/accounts/login')
+@login_required(login_url='/accounts/login')
 def admin_mongo_collection(request, collection_name):
+    if not check_user_group('staff', request.user) and not request.user.is_superuser:
+        raise PermissionDenied
     assert isinstance(request, HttpRequest)
     permissions = {}
-    permissions['insert'] = 1 if api.get_collection_permission(collection_name, 'insert')[0] else 0
-    permissions['delete'] = 1 if api.get_collection_permission(collection_name, 'delete')[0] else 0
-    permissions['update'] = 1 if api.get_collection_permission(collection_name, 'update')[0] else 0
+    if request.user.is_superuser:
+        permissions = {'insert': 1, 'delete': 1, 'update': 1}
+    else:
+        permissions['insert'] = 1 if api.get_collection_permission(collection_name, 'insert')[0] else 0
+        permissions['delete'] = 1 if api.get_collection_permission(collection_name, 'delete')[0] else 0
+        permissions['update'] = 1 if api.get_collection_permission(collection_name, 'update')[0] else 0
     # print(collection_name)
     # print(permissions)
     status, data = api.admin_get_all_documents(collection_name)
@@ -439,9 +548,9 @@ def admin_mongo_collection(request, collection_name):
             'data': result,
             'COLLECTION': True,
             'toolbar': True,
-            'logo_link': '/admin-mongo',
+            'logo_link': '/staff',
             'logged_user': request.session.get('user'),
-            'NO_NAV': True
+            'only_logout': True
         }
     )
 
@@ -460,8 +569,10 @@ def clean_field(org, res, name=''):
                 this_field['value'] = field['value']
             res.append(this_field)
 
-@staff_member_required(login_url='/accounts/login')
+@login_required(login_url='/accounts/login')
 def admin_mongo_add(request, collection_name):
+    if not check_user_group('staff', request.user) and not request.user.is_superuser:
+        raise PermissionDenied
     if request.method == 'POST':
         tmp = dict(request.POST)
         for key in tmp:
@@ -492,8 +603,8 @@ def admin_mongo_add(request, collection_name):
             'header_title': 'mongoDB Admin',
             'collection_name': collection_name,
             'fields': json.dumps(fields),
-            'logo_link': '/admin-mongo',
-            'NO_NAV': True
+            'logo_link': '/staff',
+            'only_logout': True
         }
     )
 
@@ -525,8 +636,10 @@ def fill_field(fields, data):
                 'day': tmp[2]
             }
 
-@staff_member_required(login_url='/accounts/login')
+@login_required(login_url='/accounts/login')
 def admin_mongo_edit(request, collection_name, object_id):
+    if not check_user_group('staff', request.user) and not request.user.is_superuser:
+        raise PermissionDenied
     if request.method == 'POST':
         tmp = dict(request.POST)
         for key in tmp:
@@ -561,13 +674,15 @@ def admin_mongo_edit(request, collection_name, object_id):
             'collection_name': collection_name,
             'fields': json.dumps(fields).replace('"', '\\"').replace("'", "\\'"),
             'data': json.dumps(data).replace('"', '\\"').replace("'", "\\'"),
-            'logo_link': '/admin-mongo',
-            'NO_NAV': True
+            'logo_link': '/staff',
+            'only_logout': True
         }
     )
 
-@staff_member_required(login_url='/accounts/login')
+@login_required(login_url='/accounts/login')
 def admin_mongo_delete(request, collection_name, object_id):
+    if not check_user_group('staff', request.user) and not request.user.is_superuser:
+        raise PermissionDenied
     if request.method == 'POST':
         status, result = api.admin_delete_document(collection_name, object_id)
         respose = {'ok': 1 if status else 0}
@@ -613,15 +728,10 @@ def login(request):
         }
     )
 
-
-def logout(request):
-    assert isinstance(request, HttpRequest)
-    request.session['user'] = {'is_authenticated': False}
-    # print(request.session['user'])
-    return redirect('/')
-
-
+@login_required(login_url="/accounts/login")
 def register(request):
+    if len(request.user.groups.all()) > 0:
+        raise PermissionDenied
     """Renders the about page."""
     if request.method == 'POST':
         patient_name_title = request.POST['patient_name_title']
@@ -633,19 +743,14 @@ def register(request):
         birthday_year = int(request.POST['birthday_year'])
         birthday_month = int(request.POST['birthday_month'])
         birthday_day = int(request.POST['birthday_day'])
-        blood_abo = ['-', 'A', 'B', 'O', 'AB']
-        blood_rh = ['', '-', '+']
-        blood_group_abo = blood_abo.index(
-            request.POST['blood_group_abo']) if request.POST['blood_group_abo'] in blood_abo else 0
-        blood_group_rh = blood_rh.index(
-            request.POST['blood_group_rh']) if request.POST['blood_group_rh'] in blood_rh else 0
+        blood_group_abo = int(request.POST['blood_group_abo'])
         race = request.POST['race']
         nationallity = request.POST['nationallity']
-        Religion = request.POST['religion']
-        Status = int(request.POST['Status'])
-        pateint_address = request.POST['pateint_address']
+        religion = request.POST['religion']
+        Status = int(request.POST['status'])
+        patient_address = request.POST['patient_address']
         occupy = request.POST['occupy']
-        telphone_number = request.POST['telphone_number']
+        telephone_number = request.POST['telephone_number']
         father_name = request.POST['father_name']
         mother_name = request.POST['mother_name']
         emergency_name = request.POST['emergency_name']
@@ -655,22 +760,21 @@ def register(request):
         congenital_disease = request.POST['congenital_disease'].split(',')
         # เติมให้ครบ
 
-        status, result = api.update_patient_profile(request.session['user']['username'], patient_name_title, patient_name, patient_surname, '',
+        status, result = api.register(request.user.username, patient_name_title, patient_name, patient_surname, '',
                                                     id_card_number, gender, birthday_year, birthday_month, birthday_day,
-                                                    blood_group_abo, blood_group_rh, race, nationallity, Religion, Status,
-                                                    pateint_address, occupy, telphone_number, father_name, mother_name, emergency_name,
-                                                    emergency_phone, emergency_addr, email, congenital_disease)
+                                                    blood_group_abo, 0, race, nationallity, religion, Status,
+                                                    patient_address, occupy, telephone_number, father_name, mother_name, emergency_name,
+                                                    emergency_phone, emergency_addr, email, congenital_disease, True)
         if status:
-            del request.session['just_regis']
-            # print(request.session['user'])
             return redirect('/')
         else:
             return render(
                 request,
                 'app/register.html',
                 {
-                    'title': 'สมัครสมาชิก',
-                    'logged_user': request.session.get('user')
+                    'title': 'ข้อมูลผู้ป่วย',
+                    'logged_user': request.user.username,
+                    'REGISTER_PAGE': True
                 }
             )
     else:
@@ -678,7 +782,8 @@ def register(request):
             request,
             'app/register.html',
             {
-                'title': 'สมัครสมาชิก',
-                'logged_user': request.session.get('user')
+                'title': 'ข้อมูลผู้ป่วย',
+                'logged_user': request.user.username,
+                'REGISTER_PAGE': True
             }
         )

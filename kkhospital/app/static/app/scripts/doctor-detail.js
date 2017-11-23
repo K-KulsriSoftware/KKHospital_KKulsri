@@ -1,3 +1,8 @@
+ function loadSchedule() {
+    $('.schedule-container').addClass('hide');
+    $('.loader').removeClass('hide');
+ }
+
 var month = [
     'มกราคม' ,
     'กุมภาพันธ์' ,
@@ -31,13 +36,42 @@ var start_nextWeek = new Date(timestamp + (1000 * 60 * 60 * 24 * 7));
 var isThisWeek = true;
 var isInit = false;
 
+function checkReservation(hour, day, month, year) {
+    return new Promise(resolve => {
+        $.get('/check-reservation', {hour: hour, day: day, month: month, year: year}, function(data) {
+            resolve(data.free);
+        });
+    })
+}
+
 function getDateForDay() {
+    var processes = [];
     $('.schedule .panel-title').each(function() {
         var old_text = $(this).text().replace(/[\ \n]/g, '');
         old_text = old_text.substring(0, old_text.match(/[1234567890]/) ? old_text.match(/[1234567890]/).index : old_text.length);
         var date = isThisWeek ? start_thisWeek : start_nextWeek;
         date = new Date(date.getTime() + (1000 * 60 * 60 * 24 * day.indexOf(old_text)))
         $(this).text(old_text + ' ' + new Date(date).getDate() + ' ' + month[new Date(date).getMonth()] + ' ' + new Date(date).getFullYear());
+
+        $(this).closest('.panel').find('ul.time li').each(function() {
+            processes.push((function(today, $timeButton) {
+                var hour = $timeButton.text().substring(0, $timeButton.text().indexOf(':'));
+                return new Promise(resolve => {
+                    checkReservation(hour, today.getDate(), today.getMonth() + 1, today.getFullYear()).then(function(status) {
+                        if (status) {
+                            $timeButton.removeClass('hide');
+                        } else {
+                            $timeButton.addClass('hide');
+                        }
+                        resolve();
+                    });
+                });
+            })(date, $(this)));
+        });
+    });
+    Promise.all(processes).then(function() {
+        $('.loader').addClass('hide');
+        $('.schedule-container').removeClass('hide');
     });
 }
 
@@ -61,6 +95,7 @@ $('.schedule-container .pager li').click(function() {
     $(this).addClass('disabled');
     if($(this).hasClass('previous')) {
         if(!isThisWeek) {
+            loadSchedule();
             $('ul.time li').removeClass('selected')
             $('div.appointment-detail').addClass('hide');
             $('.schedule-container .pager li.next').removeClass('disabled');
@@ -69,6 +104,7 @@ $('.schedule-container .pager li').click(function() {
         }
     } else if($(this).hasClass('next')) {
         if(isThisWeek) {
+            loadSchedule();
             $('ul.time li').removeClass('selected')
             $('div.appointment-detail').addClass('hide');
             $('.schedule-container .pager li.previous').removeClass('disabled');

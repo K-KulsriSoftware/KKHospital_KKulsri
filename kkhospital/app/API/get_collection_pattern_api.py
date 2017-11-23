@@ -9,7 +9,8 @@ class get_collection_pattern_api :
 		self.name_title_list = ['none', 'นาย', 'นาง', 'นางสาว']
 		self.doctor_title_list = ['none', 'นายแพทย์', 'นายแพทย์หญิง']
 		self.gender_list = ['none', 'ชาย', 'หญิง']
-		self.hour_list = list(range(7, 23))
+		self.hour_list = list(range(0, 24))
+		self.minute_list = list(range(0, 60))
 		self.blood_abo_list = ['none', 'A', 'B', 'O', 'AB']
 		self.blood_rh_list = ['none', 'RH+', 'RH-']
 		self.status_list = ['none', 'โสด', 'แต่งงาน', 'หย่าร้าง', 'หม้าย', 'แยกกันอยู่']
@@ -120,7 +121,7 @@ class get_collection_pattern_api :
 			{
 				'field_name' : 'doctor_name_title',
 				'field_type' : 'string',
-				'note' : self.doctor_title_list
+				#'note' : self.doctor_title_list
 			},
 			{
 				'field_name' : 'doctor_name',
@@ -138,7 +139,7 @@ class get_collection_pattern_api :
 			{
 				'field_name' : 'birthday',
 				'field_type' : 'date',
-				'note' : 'without hour'
+				#'note' : 'without hour'
 			},
 			{
 				'field_name' : 'office_phone_number',
@@ -318,7 +319,7 @@ class get_collection_pattern_api :
 			{
 				'field_name' : 'patient_name_title',
 				'field_type' : 'string',
-				'note' : self.name_title_list
+				#'note' : self.name_title_list
 			},
 			{
 				'field_name' : 'patient_name',
@@ -344,7 +345,7 @@ class get_collection_pattern_api :
 			{
 				'field_name' : 'birthday',
 				'field_type' : 'date',
-				'note' : 'without hour'
+				#'note' : 'without hour'
 			},
 			{
 				'field_name' : 'blood_group_abo',
@@ -382,7 +383,7 @@ class get_collection_pattern_api :
 				'field_type' : 'string'
 			},
 			{
-				'field_name' : 'telphone_number',
+				'field_name' : 'telephone_number',
 				'field_type' : 'string'
 			},
 			{
@@ -439,30 +440,106 @@ class get_collection_pattern_api :
 				'field_type' : 'double'
 			},
 			{
-				'field_name' : 'time',
-				'field_type' : 'dict',
-				'dict' : 
-				[
-					{
-						'field_name' : 'start',
-						'field_type' : 'date',
-						'note' : 'with hour'
-					},
-					{
-						'field_name' : 'finish',
-						'field_type' : 'date',
-						'note' : 'with hour'
-					}
-				]
+				'field_name' : 'start_time',
+			 	'field_type' : 'dict',
+			 	'dict' : 
+			 	[
+			 		{
+			 			'field_name' : 'day',
+			 			'field_type' : 'date'
+			 			#'note' : 'with hour'
+			 		},
+			 		{
+			 			'field_name' : 'hour',
+			 			'field_type' : 'int',
+			 			'note' : self.hour_list
+			 			#'note' : 'with hour'
+			 		}
+			 	]
+			},
+			{
+				'field_name' : 'finish_time',
+			 	'field_type' : 'dict',
+			 	'dict' : 
+			 	[
+			 		{
+			 			'field_name' : 'day',
+			 			'field_type' : 'date'
+			 			#'note' : 'with hour'
+			 		},
+			 		{
+			 			'field_name' : 'hour',
+			 			'field_type' : 'int',
+			 			'note' : self.hour_list
+			 			#'note' : 'with hour'
+			 		}
+			 	]
 			},
 			{
 				'field_name' : 'bought_time',
-				'field_type' : 'date',
-				'note' : 'with hour,min'
+			 	'field_type' : 'dict',
+			 	'dict' : 
+			 	[
+			 		{
+			 			'field_name' : 'day',
+			 			'field_type' : 'date'
+			 			#'note' : 'with hour'
+			 		},
+			 		{
+			 			'field_name' : 'hour',
+			 			'field_type' : 'int',
+			 			'note' : self.hour_list
+			 			#'note' : 'with hour'
+			 		},
+			 		{
+			 			'field_name' : 'minute',
+			 			'field_type' : 'int',
+			 			'note' : self.minute_list
+			 			#'note' : 'with hour'
+			 		}
+			 	]
 			},
+			# {
+			# 	'field_name' : 'time',
+			# 	'field_type' : 'dict',
+			# 	'dict' : 
+			# 	[
+			# 		{
+			# 			'field_name' : 'start',
+			# 			'field_type' : 'date',
+			# 			#'note' : 'with hour'
+			# 		},
+			# 		{
+			# 			'field_name' : 'start_hour',
+			# 			'field_type' : 'int',
+			# 			'note' : self.hour_list
+			# 			#'note' : 'with hour'
+			# 		},
+			# 		{
+			# 			'field_name' : 'finish',
+			# 			'field_type' : 'date',
+			# 			'note' : 'with hour'
+			# 		},
+			# 		{
+			# 			'field_name' : 'finish_hour',
+			# 			'field_type' : 'int',
+			# 			'note' : self.hour_list
+			# 			#'note' : 'with hour'
+			# 		}
+			# 	]
+			# },
+			# {
+			#	'field_name' : 'bought_time',
+			#	'field_type' : 'date',
+			#	#'note' : 'with hour,min'
+			# },
 			{
 				'field_name' : 'notice',
 				'field_type' : 'string'
+			},
+			{
+				'field_name' : 'note',
+				'field_type' : 'string'	
 			}
 		]
 
@@ -553,6 +630,7 @@ class get_collection_pattern_api :
 		elif type(index) == type(1) :
 			return False, str(index)
 		return False, index
+
 	def decode_thai_value(self, domain, code) :
 		if type(code) == type('') and code.isdigit() :
 			code = int(code)

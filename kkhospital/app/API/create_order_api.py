@@ -51,15 +51,15 @@ class create_order_api :
             },
         ])
         for temp in cursor:
-            return True, temp['patient_id']
+            return True, str(temp['patient_id'])
         return False, 'patient error'
     
-    def insert_query(self, package_id, doctor_id, patient_id, package_cost, notice, time, bought_time) :
+    def insert_query(self, package_id, doctor_id, patient_id, package_cost, notice, time, bought_time, payment_token) :
         self.db.orders.insert_one(
             {
                 'package_id' : ObjectId(package_id),
                 'doctor_id' : ObjectId(doctor_id),
-                'patient_id' : patient_id,
+                'patient_id' : ObjectId(patient_id),
                 'cost' : package_cost,
                 'time' : 
                 {
@@ -67,16 +67,18 @@ class create_order_api :
                     'finish' : datetime(time['year'], time['month'], time['date'], time['finish_hr'], 0)
                 },
                 'bought_time' : datetime(bought_time['year'], bought_time['month'], bought_time['date'], bought_time['hr'], bought_time['min']),
-                'notice' : notice
+                'notice' : notice,
+                'note' : '',
+                'payment_token' : payment_token
             }
         )
 
-    def create_order(self, package_id, doctor_id, patient_username, notice, time) :
+    def create_order(self, package_id, doctor_id, patient_username, notice, time, payment_token) :
         bought_time = self.find_bought_time()
         check_patient, patient_id = self.get_patient_id(patient_username)
         check_package, package_cost = self.get_package_cost(package_id)
         if check_package and check_patient :
-            self.insert_query(package_id, doctor_id, patient_id, package_cost, notice, time, bought_time)
+            self.insert_query(package_id, doctor_id, patient_id, package_cost, notice, time, bought_time,payment_token)
             return True, 'Successfully Added'
         else :
             return False, 'No patient or package'

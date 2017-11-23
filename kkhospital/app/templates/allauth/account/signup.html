@@ -4,16 +4,18 @@
 
 {% block head_title %}{% trans "Signup" %}{% endblock %}
 
+{% block title%}สมัครสมาชิก{% endblock %}
+
 {% load staticfiles %} {% block content %}
 
 <h1>ลงทะเบียนใช้งาน</h1>
 
-<p>{% blocktrans %}Already have an account? Then please <a href="{{ login_url }}">sign in</a>.{% endblocktrans %}</p>
+<p>{% blocktrans %}หากมีบัญชีผู้ใช้แล้วสามารถเข้าสู่ระบบได้ <a href="{{ login_url }}">ที่นี่</a>{% endblocktrans %}</p>
 
 <form class="signup" id="signup_form" method="post" action="{% url 'account_signup' %}">
   {% csrf_token %}
   <div class="form-group">
-    <label class="control-label  " for="id_username">Username</label>
+    <label class="control-label  " for="id_username">Username <span style="color: red;">*</span></label>
     <div class=" ">
       {{ form.username }}
       <p class="help-block">
@@ -36,7 +38,7 @@
     </div>
   </div>  
   <div class="form-group">
-    <label class="control-label  " for="id_password1">Password</label>
+    <label class="control-label  " for="id_password1">Password <span style="color: red;">*</span></label>
     <div class=" ">
       {{ form.password1 }}
       <p class="help-block">
@@ -47,7 +49,7 @@
     </div>
   </div>
   <div class="form-group">
-    <label class="control-label  " for="id_password2">Password confirmation</label>
+    <label class="control-label  " for="id_password2">Password confirmation <span style="color: red;">*</span></label>
     <div class=" ">
       {{ form.password2 }}
       <p class="help-block">
@@ -61,7 +63,7 @@
   <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
   {% endif %}
   <div class="form-actions">
-    <button class="btn btn-primary" type="submit">{% trans "Sign Up" %} &raquo;</button>
+    <button class="btn btn-default" type="submit">{% trans "Sign Up" %} &raquo;</button>
   </div>
 </form>
 

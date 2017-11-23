@@ -1,0 +1,49 @@
+{% extends "layout.html" %}
+
+{% block content %}
+    {% load staticfiles %}
+    
+    <div class="row">
+        
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+            <h3>เลือกธนาคาร</h3>
+        </div>
+        
+    </div>
+
+    
+    <div class="row">
+        
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+            <form action="" method="POST">
+                {% csrf_token %}
+                <div class="form-group radio">
+                    <label for="bank1">
+                        <input type="radio" name="bank" id="bank1" value="internet_banking_bbl"> ธนาคารบัวหลวง
+                    </label>
+                </div>
+                <div class="form-group radio">
+                    <label for="bank2">
+                        <input type="radio" name="bank" id="bank2" value="internet_banking_ktb"> ธนาคารกรุงไทย
+                    </label>
+                </div>
+                <div class="form-group radio">
+                    <label for="bank3">
+                        <input type="radio" name="bank" id="bank3" value="internet_banking_bay"> ธนาคารกรุงศรีอยุธยา
+                    </label>
+                </div>
+                <div class="form-group radio">
+                    <label for="bank4">
+                        <input type="radio" name="bank" id="bank4" value="internet_banking_scb"> ธนาคารไทยพาณิชย์
+                    </label>
+                </div>
+                <div class="form-group">
+                    <input type="submit" value="เลือก" class="btn btn-default">
+                </div>
+            </form>
+        </div>
+        
+    </div>
+    
+    
+{% endblock %}

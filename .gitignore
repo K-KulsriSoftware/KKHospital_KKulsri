@@ -56,11 +56,11 @@ docs/_build/
 
 # PyBuilder
 target/
+
+config.py
+kkhospital/kkhospital/config.py
 kkhospital/config.py
-<<<<<<< HEAD
 KKulsri_Hospital/
 .vscode/settings.json
-=======
->>>>>>> master
 *.pyc
 *.pyc

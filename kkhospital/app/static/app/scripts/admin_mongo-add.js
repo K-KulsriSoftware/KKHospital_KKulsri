@@ -30,12 +30,23 @@ function extractFields($input, parent, fields, level, isInList) {
             `);
             fieldInfo[parent + '[' + fields[i].field_name + ']'] = fields[i];
         } else {
-            $input.find('.panel-body:eq('+level+')').append(`
+            var $tmp = $(`
                 <div class="form-group">
                     <label for="` + fields[i].field_name + `">` + fields[i].field_name + `</label>
-                    <input type="` + type_map[fields[i].field_type] + `" class="form-control" id="` + parent + '[' + fields[i].field_name + `]" name="` + parent + '[' + fields[i].field_name + `]">
                 </div>
             `);
+            if (fields[i].note && Array.isArray(fields[i].note)) {
+                var $select = $(`<select class="form-control" name="` + parent + '[' + fields[i].field_name + `]"></select>`);
+                var note = fields[i].note;
+                for (var j = 0; j < note.length; j++) {
+                    $select.append(`<option value="` + note[j] + `">` + note[j] + `</option>`);
+                }
+                $tmp.append($select);
+                $input.find('.panel-body:eq('+level+')').append($tmp);
+            } else {
+                $tmp.append(`<input type="` + type_map[fields[i].field_type] + `" class="form-control" id="` + parent + '[' + fields[i].field_name + `]" name="` + parent + '[' + fields[i].field_name + `]">`);
+                $input.find('.panel-body:eq('+level+')').append($tmp);
+            }
         }
     }
 }
@@ -69,9 +80,22 @@ if (fields) {
             $input = $(`
                 <div class="form-group">
                     <label for="` + fields[i].field_name + `">` + fields[i].field_name + `</label>
-                    <input type="` + type_map[fields[i].field_type] + `" class="form-control" id="` + fields[i].field_name + `" name="` + fields[i].field_name + `">
                 </div>
             `);
+            if (fields[i].note && Array.isArray(fields[i].note)) {
+                var $select = $(`<select class="form-control" name="` + fields[i].field_name + `">` + `</select>`);
+                var note = fields[i].note;
+                for (var j = 0; j < note.length; j++) {
+                    $select.append(`<option value="` + note[j] + `">` + note[j] + `</option>`);
+                }
+                $input.append($select);
+            } else {
+                var type = type_map[fields[i].field_type];
+                if (fields[i].field_name === 'email') {
+                    type = 'email';
+                }
+                $input.append(`<input type="` + type + `" class="form-control" id="` + fields[i].field_name + `" name="` + fields[i].field_name + `">`);
+            }
         }
         $form.find('.input-wrapper').append($input);
     }
