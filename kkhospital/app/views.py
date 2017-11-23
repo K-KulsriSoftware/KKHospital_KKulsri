@@ -213,19 +213,23 @@ def edit_member_info(request):
         # เอาค่า email, status ..... เอาไปใส่ใน field ของ dict member_detail แล้วเอา member_detail แต่ละ field ไปแทนใน paramenter ใน function ข้างล่าง
         member_detail['email'] = email
         # member_detail['status'] = status
+        member_detail['blood_group_rh'] = 'none' if member_detail['blood_group_rh'] in [None, 'None'] else member_detail['blood_group_rh']
         member_detail['telephone_number'] = telephone_number
         member_detail['emergency_phone'] = emergency_phone
-        member_detail['birthday'] = {'day': member_detail['birthday'].day, 'month': member_detail['birthday'].month, 'year': member_detail['birthday'].year}
+        print(member_detail)
+        # member_detail['birthday'] = {'day': member_detail['birthday'].day, 'month': member_detail['birthday'].month, 'year': member_detail['birthday'].year}
         query_status, result = api.update_patient(patient_id, member_detail)
         if query_status:
             return redirect('..')
     blood_abo = ['-', 'A', 'B', 'O', 'AB']
-    blood_rh = ['', 'RH ลบ', 'RH บวก']
+    blood_rh = ['', 'RH-', 'RH+']
     status, patient_id = api.get_patient_id(request.user.username)
     status, member_detail = api.get_patient_detail(patient_id)
-    member_detail['gender'] = 'ชาย' if member_detail['gender'] else 'หญิง'
-    member_detail['blood_group_abo'] = blood_abo[member_detail['blood_group_abo']]
-    member_detail['blood_group_rh'] = blood_rh[member_detail['blood_group_rh']]
+    # member_detail['gender'] = 'ชาย' if member_detail['gender'] else 'หญิง'
+    # member_detail['blood_group_abo'] = blood_abo[member_detail['blood_group_abo']]
+    # member_detail['blood_group_rh'] = blood_rh[member_detail['blood_group_rh']]
+    birthday_list = str(member_detail['birthday']).split('-')
+    member_detail['birthday'] = {'day': birthday_list[2], 'month': birthday_list[1], 'year': birthday_list[0]}
     member_detail['congenital_disease'] = ', '.join(member_detail['congenital_disease'])
     return render(
         request,
