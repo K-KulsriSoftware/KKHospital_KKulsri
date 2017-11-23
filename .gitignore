@@ -20,6 +20,9 @@ lib64/
 parts/
 sdist/
 var/
+__pycache__/
+.vscode/
+
 *.egg-info/
 .installed.cfg
 *.egg
@@ -62,5 +65,4 @@ kkhospital/kkhospital/config.py
 kkhospital/config.py
 KKulsri_Hospital/
 .vscode/settings.json
-*.pyc
 *.pyc
