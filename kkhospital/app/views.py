@@ -8,6 +8,7 @@ from datetime import datetime
 from django.template.defaulttags import register
 from html_json_forms import parse_json_form
 from bson.objectid import ObjectId
+import re
 import json
 # Create your views here.
 from .API.API import API
@@ -417,6 +418,8 @@ def payment_card(request):
         package_detail = api.show_special_package_info(request.session['selected_package'])[1]
         name = patient_detail['patient_name'] + ' ' + patient_detail['patient_surname']
         number = request.POST.get('cardNumber')
+        if len(number) != 16 or not re.search('\w\w/\w\w', request.POST.get('cardExpiry')) or request.POST.get('cardCVC') == '000':
+            return redirect('/payment/card')
         card_expiration = request.POST.get('cardExpiry').split('/')
         expiration_month = int(card_expiration[0])
         expiration_year = int(str(datetime.now().year)[:2] + card_expiration[1])
