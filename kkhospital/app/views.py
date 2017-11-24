@@ -100,6 +100,7 @@ def check_reserved_time(request):
             break
     return JsonResponse({'free': free})
 
+@login_required(login_url='/accounts/login')
 def doctor_detail(request):
     """Renders the about page."""
     if 'selected_package' not in request.session or 'selected_doctor' not in request.session:
@@ -135,6 +136,7 @@ def doctor_detail(request):
     else:
         raise Http404("No doctor found")
 
+@login_required(login_url='/accounts/login')
 def doctor_profile(request):
     """Renders the about page."""
     if not check_user_group('doctor', request.user):
@@ -301,7 +303,7 @@ def search_for_doctor(request):
         }
     )
 
-
+@login_required(login_url='/accounts/login')
 def doctor_search_api(request):
     package_id = request.session['selected_package']
     days = request.GET.get('days').split(
@@ -315,7 +317,7 @@ def doctor_search_api(request):
         package_id, days, time, doctor_firstname, doctor_lastname, gender)
     return JsonResponse({'status': status, 'result': result})
 
-
+@login_required(login_url='/accounts/login')
 def doctor_auto_search_api(request):
     package_id = request.session['selected_package']
     status, result = api.auto_find_doctors(package_id)
