@@ -382,6 +382,12 @@ def confirm(request):
 
 @login_required(login_url='/accounts/login')
 def payment(request):
+    if len(request.user.groups.all()) > 0:
+        raise PermissionDenied
+    elif not api.get_patient_id(request.user.username):
+        return redirect('/register')
+    if 'selected_package' not in request.session or 'selected_doctor' not in request.session or 'selected_date' not in request.session:
+        return redirect('/doctor-detail/')
     return render(
         request,
         'app/payment.html',
@@ -393,6 +399,12 @@ def payment(request):
 
 @login_required(login_url='/accounts/login')
 def payment_card(request):
+    if len(request.user.groups.all()) > 0:
+        raise PermissionDenied
+    elif not api.get_patient_id(request.user.username):
+        return redirect('/register')
+    if 'selected_package' not in request.session or 'selected_doctor' not in request.session or 'selected_date' not in request.session:
+        return redirect('/doctor-detail/')
     """Renders the about page."""
     assert isinstance(request, HttpRequest)
     if len(request.user.groups.all()) > 0:
@@ -440,6 +452,12 @@ def payment_card(request):
 
 @login_required(login_url='/accounts/login')
 def payment_bank(request):
+    if len(request.user.groups.all()) > 0:
+        raise PermissionDenied
+    elif not api.get_patient_id(request.user.username):
+        return redirect('/register')
+    if 'selected_package' not in request.session or 'selected_doctor' not in request.session or 'selected_date' not in request.session:
+        return redirect('/doctor-detail/')
     if request.method == 'POST':
         package_detail = api.show_special_package_info(request.session['selected_package'])[1]
         price = package_detail['package_cost'] * 100
