@@ -233,7 +233,7 @@ def edit_member_info(request):
     # member_detail['blood_group_rh'] = blood_rh[member_detail['blood_group_rh']]
     birthday_list = str(member_detail['birthday']).split('-')
     member_detail['birthday'] = {'day': birthday_list[2], 'month': birthday_list[1], 'year': birthday_list[0]}
-    member_detail['congenital_disease'] = ', '.join(member_detail['congenital_disease'])
+    member_detail['congenital_disease'] = ', '.join(member_detail['congenital_disease']) if type(member_detail['congenital_disease']) == type([]) else ''
     return render(
         request,
         'app/edit-member.html',
