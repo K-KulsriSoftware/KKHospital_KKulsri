@@ -284,7 +284,7 @@ def special_packages(request, package_id):
         }
     )
 
-
+@login_required(login_url='/accounts/login')
 def search_for_doctor(request):
     """Renders the about page."""
     if 'selected_package' not in request.session:
