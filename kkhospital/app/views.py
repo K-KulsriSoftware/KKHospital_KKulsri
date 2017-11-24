@@ -214,6 +214,8 @@ def edit_member_info(request):
         member_detail['email'] = email
         # member_detail['status'] = status
         member_detail['blood_group_rh'] = 'none' if member_detail['blood_group_rh'] in [None, 'None'] else member_detail['blood_group_rh']
+        member_detail['blood_group_abo'] = 'none' if member_detail['blood_group_abo'] in [None, 'None'] else member_detail['blood_group_abo']
+        member_detail['status'] = 'none' if member_detail['status'] in [None, 'None'] else member_detail['status']
         member_detail['telephone_number'] = telephone_number
         member_detail['emergency_phone'] = emergency_phone
         # print(member_detail)
