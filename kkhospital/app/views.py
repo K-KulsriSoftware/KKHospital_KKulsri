@@ -216,7 +216,7 @@ def edit_member_info(request):
         member_detail['blood_group_rh'] = 'none' if member_detail['blood_group_rh'] in [None, 'None'] else member_detail['blood_group_rh']
         member_detail['telephone_number'] = telephone_number
         member_detail['emergency_phone'] = emergency_phone
-        print(member_detail)
+        # print(member_detail)
         # member_detail['birthday'] = {'day': member_detail['birthday'].day, 'month': member_detail['birthday'].month, 'year': member_detail['birthday'].year}
         query_status, result = api.update_patient(patient_id, member_detail)
         if query_status:
