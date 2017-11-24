@@ -744,9 +744,10 @@ def register(request):
         # patient_img = request.POST['patient_img']
         id_card_number = request.POST['id_card_number']
         gender = request.POST['gender'] == 'ชาย'
-        birthday_year = int(request.POST['birthday_year'])
-        birthday_month = int(request.POST['birthday_month'])
-        birthday_day = int(request.POST['birthday_day'])
+        birthday = request.POST['birthday'].split('-')
+        birthday_day = int(birthday[2])
+        birthday_month = int(birthday[1])
+        birthday_year = int(birthday[0])
         blood_group_abo = int(request.POST['blood_group_abo'])
         race = request.POST['race']
         nationallity = request.POST['nationallity']
@@ -763,12 +764,12 @@ def register(request):
         email = request.POST['email']
         congenital_disease = request.POST['congenital_disease'].split(',')
         # เติมให้ครบ
-
         status, result = api.register(request.user.username, patient_name_title, patient_name, patient_surname, '',
                                                     id_card_number, gender, birthday_year, birthday_month, birthday_day,
                                                     blood_group_abo, 0, race, nationallity, religion, Status,
                                                     patient_address, occupy, telephone_number, father_name, mother_name, emergency_name,
                                                     emergency_phone, emergency_addr, email, congenital_disease, True)
+        print(result)
         if status:
             return redirect('/')
         else:
