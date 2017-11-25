@@ -179,5 +179,4 @@ ACCOUNT_USERNAME_MIN_LENGTH = 3
 ACCOUNT_FORMS = {
     'login': 'app.forms.Login_Mod',
     'signup': 'app.forms.Signup_Mod',
-    # 'passwordchange': 'app.forms.PasswordChange_Mod',
 }
