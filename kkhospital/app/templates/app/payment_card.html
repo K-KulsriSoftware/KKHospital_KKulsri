@@ -53,3 +53,14 @@
         </div>
     </div>
 {% endblock %}
+
+{% block scripts %}
+    <script>
+        {% if form_error %}
+            alert('กรอกข้อมูลไม่ถูกต้อง');
+        {% endif %}
+        {% if payment_error %}
+            alert('ไม่สามารถทำรายการได้ กรุณาลองใหม่อีกครั้ง');
+        {% endif %}
+    </script>
+{% endblock %}

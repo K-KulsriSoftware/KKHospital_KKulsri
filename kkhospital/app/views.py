@@ -416,6 +416,8 @@ def payment_card(request):
         return redirect('/doctor-detail/')
     """Renders the about page."""
     assert isinstance(request, HttpRequest)
+    payment_error = False
+    form_error = False
     if request.method == 'POST':
         patient_id = api.get_patient_id(request.user.username)[1]
         patient_detail = api.get_patient_detail(patient_id)[1]
@@ -423,37 +425,48 @@ def payment_card(request):
         name = patient_detail['patient_name'] + ' ' + patient_detail['patient_surname']
         number = request.POST.get('cardNumber')
         if len(number) != 16 or not re.search('\w\w/\w\w', request.POST.get('cardExpiry')) or request.POST.get('cardCVC') == '000':
-            return redirect('/payment/card')
-        card_expiration = request.POST.get('cardExpiry').split('/')
-        expiration_month = int(card_expiration[0])
-        expiration_year = int(str(datetime.now().year)[:2] + card_expiration[1])
-        security_code = int(request.POST.get('cardCVC'))
-        price = package_detail['package_cost'] * 100
+            form_error = True
+        else:
+            card_expiration = request.POST.get('cardExpiry').split('/')
+            expiration_month = int(card_expiration[0])
+            expiration_year = int(str(datetime.now().year)[:2] + card_expiration[1])
+            security_code = int(request.POST.get('cardCVC'))
+            price = package_detail['package_cost'] * 100
 
-        token = omise.Token.create(
-            name=name,
-            number=number,
-            expiration_month=expiration_month,
-            expiration_year=expiration_year,
-            security_code=security_code
-        )
+            try:
+                token = omise.Token.create(
+                    name=name,
+                    number=number,
+                    expiration_month=expiration_month,
+                    expiration_year=expiration_year,
+                    security_code=security_code
+                )
 
-        charge = omise.Charge.create(
-            amount=int(price),
-            currency="thb",
-            card=token.id
-        )        
+                charge = omise.Charge.create(
+                    amount=int(price),
+                    currency="thb",
+                    card=token.id
+                )
 
-        if charge.paid and charge.authorized:
-            status, result = api.create_order(request.session['selected_package'], request.session['selected_doctor'],
-                                            request.user.username, '-', request.session['selected_date'], charge.id)
-            if status:
-                return redirect("/")
+
+                if charge.paid and charge.authorized and not charge.failure_code:
+                    status, result = api.create_order(request.session['selected_package'], request.session['selected_doctor'],
+                                                    request.user.username, '-', request.session['selected_date'], charge.id)
+                    if status:
+                        return redirect("/")
+                    else:
+                        payment_error = True
+                else:
+                    payment_error = True
+            except Exception:
+                payment_error = True
     return render(
         request,
         'app/payment_card.html',
         {
             'title': 'ชำระค่าบริการ',
+            'payment_error': payment_error,
+            'form_error': form_error
         }
     )
 
