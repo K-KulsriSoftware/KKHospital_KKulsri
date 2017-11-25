@@ -202,7 +202,7 @@ def treat(request, order_id):
 def edit_member_info(request):
     if len(request.user.groups.all()) > 0 :
         raise PermissionDenied
-    elif not api.get_patient_id(request.user.username):
+    elif not api.get_patient_id(request.user.username)[0]:
         return redirect('/register')
     assert isinstance(request, HttpRequest)
     if request.method == 'POST':
@@ -349,7 +349,7 @@ def confirm(request):
     assert isinstance(request, HttpRequest)
     if len(request.user.groups.all()) > 0:
         raise PermissionDenied
-    elif not api.get_patient_id(request.user.username):
+    elif not api.get_patient_id(request.user.username)[0]:
         return redirect('/register')
     if 'selected_package' not in request.session or 'selected_doctor' not in request.session or 'selected_date' not in request.session:
         return redirect('/doctor-detail/')
@@ -393,7 +393,7 @@ def confirm(request):
 def payment(request):
     if len(request.user.groups.all()) > 0:
         raise PermissionDenied
-    elif not api.get_patient_id(request.user.username):
+    elif not api.get_patient_id(request.user.username)[0]:
         return redirect('/register')
     if 'selected_package' not in request.session or 'selected_doctor' not in request.session or 'selected_date' not in request.session:
         return redirect('/doctor-detail/')
@@ -410,16 +410,12 @@ def payment(request):
 def payment_card(request):
     if len(request.user.groups.all()) > 0:
         raise PermissionDenied
-    elif not api.get_patient_id(request.user.username):
+    elif not api.get_patient_id(request.user.username)[0]:
         return redirect('/register')
     if 'selected_package' not in request.session or 'selected_doctor' not in request.session or 'selected_date' not in request.session:
         return redirect('/doctor-detail/')
     """Renders the about page."""
     assert isinstance(request, HttpRequest)
-    if len(request.user.groups.all()) > 0:
-        raise PermissionDenied
-    elif not api.get_patient_id(request.user.username):
-        return redirect('/register')
     if request.method == 'POST':
         patient_id = api.get_patient_id(request.user.username)[1]
         patient_detail = api.get_patient_detail(patient_id)[1]
@@ -465,7 +461,7 @@ def payment_card(request):
 def payment_bank(request):
     if len(request.user.groups.all()) > 0:
         raise PermissionDenied
-    elif not api.get_patient_id(request.user.username):
+    elif not api.get_patient_id(request.user.username)[0]:
         return redirect('/register')
     if 'selected_package' not in request.session or 'selected_doctor' not in request.session or 'selected_date' not in request.session:
         return redirect('/doctor-detail/')
