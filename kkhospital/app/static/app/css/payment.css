@@ -1,3 +1,4 @@
 ul.payment_type li {
-    display: inline-block;
+    list-style: none;
+    margin-bottom: 20px;
 }
