@@ -15,7 +15,7 @@
 <form class="signup" id="signup_form" method="post" action="{% url 'account_signup' %}">
   {% csrf_token %}
   <div class="form-group">
-    <label class="control-label  " for="id_username">Username <span style="color: red;">*</span></label>
+    <label class="control-label  " for="id_username">Username</label>
     <div class=" ">
       {{ form.username }}
       <p class="help-block">
@@ -27,18 +27,7 @@
     </div>
   </div>
   <div class="form-group">
-    <label class="control-label  " for="id_email">Email</label>
-    <div class=" ">
-      {{ form.email }}
-      <p class="help-block">
-        {% if form.email.help_text %}
-          <sup>{{ form.email.help_text }}</sup>
-        {% endif %} {{form.email.errors}}
-      </p>
-    </div>
-  </div>  
-  <div class="form-group">
-    <label class="control-label  " for="id_password1">Password <span style="color: red;">*</span></label>
+    <label class="control-label  " for="id_password1">Password</label>
     <div class=" ">
       {{ form.password1 }}
       <p class="help-block">
@@ -49,7 +38,7 @@
     </div>
   </div>
   <div class="form-group">
-    <label class="control-label  " for="id_password2">Password confirmation <span style="color: red;">*</span></label>
+    <label class="control-label  " for="id_password2">Password confirmation</label>
     <div class=" ">
       {{ form.password2 }}
       <p class="help-block">
